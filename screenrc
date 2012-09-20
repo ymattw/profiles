@@ -1,0 +1,7 @@
+autodetach on
+vbell off
+defscrollback 9000
+nonblock on
+hardstatus alwayslastline '%-Lw%{= BW}%50>%n%f* %t%{-}%+Lw%<'
+bindkey -k kP copy
+bind s
