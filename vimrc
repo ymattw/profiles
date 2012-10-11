@@ -10,7 +10,7 @@ set fo=tcroqnmMB
 set isf-==
 filetype plugin indent on
 au BufNewFile,BufRead * set et sts=4 sw=4
-au BufNewFile,BufRead [mM]akefile*,*.mak,make.* set noet sts=8 sw=8
+au BufNewFile,BufRead [mM]akefile*,*.mak,*.make,[mM]ake.* set noet sts=8 sw=8
 
 " highlight trailing spaces
 hi TrailingSpace ctermbg=7 guibg=Grey
