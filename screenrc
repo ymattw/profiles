@@ -8,7 +8,7 @@ nonblock on
 vbell off
 
 # %-12= keeps the time, weekday name and date string align right
-hardstatus alwayslastline '%-Lw%{= bW}%50>%n%f* %t%{-}%+Lw%< %-12=%c %D %d'
+hardstatus alwayslastline '%-Lw%{= bW}%50>%n%f* %t%{-}%+Lw%< %-12=%{kG}%c %D %d'
 
 bindkey -k kP copy
 bind s
