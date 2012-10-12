@@ -5,3 +5,4 @@ My dot files
 - bashrc-y: bashrc for Y! environment
 - screenrc: config file for GNU screen (date/time in status line)
 - vimrc: essential
+- putty-dark-theme.reg: reg file for putty dark theme
