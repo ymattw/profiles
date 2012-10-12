@@ -12,12 +12,11 @@ filetype plugin indent on
 au BufNewFile,BufRead * set et sts=4 sw=4
 au BufNewFile,BufRead [mM]akefile*,*.mak,*.make,[mM]ake.* set noet sts=8 sw=8
 
-" highlight trailing spaces
-hi TrailingSpace ctermbg=7 guibg=Grey
-au BufNewFile,BufRead,BufEnter,FileType * syn match TrailingSpace / \+$/
-" highlight anything past 80 column
-"au BufNewFile,BufRead,BufEnter,FileType * syn match Col80 /\%>80v.\+/
-"hi Col80 ctermbg=7 guibg=Grey
+" highlight trailing blank
+au BufNewFile,BufRead,BufEnter,FileType * syn match TrailingBlank /[ \t]\+$/
+hi! link TrailingBlank Visual
+" reset highlight color for Comment, by default it's same to Identifier
+hi! Comment ctermfg=6 guifg=#80a0aa
 
 "
 " Key maps
@@ -47,5 +46,5 @@ endif
 
 if version >= 703
     set colorcolumn=+1
-    hi ColorColumn ctermbg=3 ctermfg=1
+    hi! link ColorColumn Search
 endif
