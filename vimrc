@@ -21,6 +21,8 @@ hi! Comment ctermfg=6 guifg=#80a0aa
 "
 " Key maps
 "
+nmap <Space> :set hls!<CR>
+nmap <CR> :set spell!<CR>
 nmap <F8> /\%>80v.\+\\| \+$<CR>
 nmap \ %
 nmap ,c I/* <ESC>A */<ESC>
