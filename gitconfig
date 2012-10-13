@@ -1,0 +1,13 @@
+[user]
+	email = FIXME
+	name = Matthew Wang
+[alias]
+	st = status
+	ci = commit
+	info = remote -v
+	br = branch
+	co = checkout
+[core]
+	editor = vim
+[color]
+	ui = true
