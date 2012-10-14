@@ -13,22 +13,28 @@ au BufNewFile,BufRead * set et sts=4 sw=4
 au BufNewFile,BufRead [mM]akefile*,*.mak,*.make,[mM]ake.* set noet sts=8 sw=8
 
 " highlight trailing blank
-au BufNewFile,BufRead,BufEnter,FileType * syn match TrailingBlank /[ \t]\+$/
 hi! link TrailingBlank Visual
+match TrailingBlank /[ \t]\+$/
+
+" highlight char at column 81, instead of using 'cc' which confuses :sp
+hi! link CharAtCol81 WarningMsg
+match CharAtCol81 /\%81v/
+
 " reset highlight color for Comment, by default it's same to Identifier
 hi! Comment ctermfg=6 guifg=#80a0aa
 
 "
 " Key maps
 "
-nmap <Space> :set hls!<CR>
-nmap <CR> :set spell!<CR>
-nmap <F8> /\%>80v.\+\\| \+$<CR>
-nmap \ %
-nmap ,c I/* <ESC>A */<ESC>
-nmap ,u 0f*h3x$xxx
-imap jj <ESC>
-nmap <F12> :set paste!<CR>
+nmap <Space>    :set nu!<CR>
+nmap <CR>       :set spell!<CR>
+nmap <BS>       :set hls!<CR>
+nmap +          :set paste<CR>o
+nmap -          :set nopaste<CR>
+imap jj         <ESC>
+nmap \          %
+nmap ,c         I/* <ESC>A */<ESC>
+nmap ,u         0f*h3x$xxx
 
 "
 " Misc
@@ -43,10 +49,11 @@ au BufReadPost *
 " Version specific
 "
 if version >= 700
+    "set cul
     let loaded_matchparen=0
 endif
 
 if version >= 703
-    set colorcolumn=+1
+    "set cc=+1
     hi! link ColorColumn Search
 endif
