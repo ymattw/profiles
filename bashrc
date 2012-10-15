@@ -42,12 +42,12 @@ function vif() {
 }
 
 # Grep a string in currently dir by file pattern quickly
-function g() {                                                                   
-    file_pat=$1                                                                  
-    string_pat=${2:?"Usage: g 'file-pattern' 'string-pattern' [grep options]"}   
-    shift 2                                                                      
-    find . -type f -name "$file_pat" -print0 \                                   
-        | xargs -0 -n1 -P0 grep -H "$string_pat" "$@"                            
+function g() {
+    file_pat=$1
+    string_pat=${2:?"Usage: g 'file-pattern' 'string-pattern' [grep options]"}
+    shift 2
+    find . -type f -name "$file_pat" -print0 \
+        | xargs -0 -n1 -P0 grep -H "$string_pat" "$@"
 }
 
 # Auto complete unset from exported variables

@@ -27,15 +27,21 @@ hi! link LineNr Comment
 "
 " Key maps, '_' and '|' are put in version specific part
 "
-nmap <Space>    :set hls!<CR>
-nmap <CR>       :set spell!<CR>
-nmap <C-N>      :set nu!<CR>
-nmap +          :set paste<CR>o
-nmap -          :set nopaste<CR>
+nmap <Space>    :set hls!<CR>|      " toggle highlight search
+nmap <CR>       :set spell!<CR>|    " toggle spell
+nmap <BS>       :redraw<CR>|        " backspace to redraw
+nmap <C-N>      :set nu!<CR>|       " ctrl-n to toggle :set number
+nmap <C-H>      /[ \t]\+$/<CR>|     " ctrl-h to highlight trailing blank
+nmap <C-K>      :%s/[ \t]\+$//g<CR>|" remove trailing blank
+imap <C-J>      <ESC>kJA|           " join to previous line (to workaround :fo)
+nmap +          :set paste<CR>o|    " get ready to paste
+nmap -          :set nopaste<CR>|   " turn off paste mode
 imap jj         <ESC>
 nmap \          %
-nmap ,c         I/* <ESC>A */<ESC>
-nmap ,u         0f*h3x$xxx
+nmap ,c         I/* <ESC>A */<ESC>| " comment out current line with /* */
+nmap ,u         0f*h3x$xxx|         " uncomment out /* */
+nmap _          :set cul!<CR>|                  " for 7.0+
+nmap \|         :call ToggleColorColumn()<CR>   " for 7.3+
 
 "
 " Misc
@@ -51,12 +57,10 @@ au BufReadPost *
 "
 if version >= 700
     let loaded_matchparen=0
-    nmap _          :set cul!<CR>
 endif
 
 if version >= 703
     hi! link ColorColumn Search
-    nmap \|         :call ToggleColorColumn()<CR>
 endif
 
 "
