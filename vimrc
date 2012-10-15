@@ -24,7 +24,7 @@ match CharAtCol81 /\%81v/
 hi! Comment ctermfg=6 guifg=#80a0aa
 
 "
-" Key maps
+" Key maps, '_' and '|' are put in version specific part
 "
 nmap <Space>    :set nu!<CR>
 nmap <CR>       :set spell!<CR>
@@ -49,11 +49,24 @@ au BufReadPost *
 " Version specific
 "
 if version >= 700
-    "set cul
     let loaded_matchparen=0
+    nmap _          :set cul!<CR>
 endif
 
 if version >= 703
-    "set cc=+1
     hi! link ColorColumn Search
+    nmap \|         :call ToggleColorColumn()<CR>
 endif
+
+"
+" Helper functions
+"
+function! ToggleColorColumn()
+    if &cc == ""
+        set cc=+1
+    else
+        set cc=
+    endif
+endfunction
+
+" EOF
