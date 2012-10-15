@@ -22,13 +22,14 @@ match CharAtCol81 /\%81v/
 
 " reset highlight color for Comment, by default it's same to Identifier
 hi! Comment ctermfg=6 guifg=#80a0aa
+hi! link LineNr Comment
 
 "
 " Key maps, '_' and '|' are put in version specific part
 "
-nmap <Space>    :set nu!<CR>
+nmap <Space>    :set hls!<CR>
 nmap <CR>       :set spell!<CR>
-nmap <BS>       :set hls!<CR>
+nmap <C-N>      :set nu!<CR>
 nmap +          :set paste<CR>o
 nmap -          :set nopaste<CR>
 imap jj         <ESC>
