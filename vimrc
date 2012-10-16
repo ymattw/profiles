@@ -6,10 +6,8 @@ set fo=tcroqnmMB
 set isf-==
 syn on
 filetype plugin indent on
-au! FileType make set noet sts=8 sw=8
-au! FileType python let python_space_error_highlight=1
 au! BufEnter * set et sts=4 sw=4
-au! BufEnter *[Mm]akefile*,[Mm]ake.*,*.mak,*.make set ft=make
+au! BufEnter *[Mm]akefile*,[Mm]ake.*,*.mak,*.make set ft=make noet sts=8 sw=8
 
 "
 " Colors, suitable for evening backgroud (#333)
@@ -71,6 +69,7 @@ nmap \|         :call ToggleColorColumn()<CR>|  " for 7.3+
 " Misc
 "
 let loaded_matchparen=0
+let python_space_error_highlight=1
 
 " Remember last cursor postion, :h last-position-jump
 set viminfo='100,<50,s10,%,h,f10
