@@ -10,7 +10,7 @@ syn on
 filetype plugin indent on
 
 "
-" Colors
+" Colors, suitable for evening backgroud (#333)
 "
 set bg=dark
 hi! link TrailingBlank Visual
@@ -21,22 +21,28 @@ hi! Comment ctermfg=darkcyan guifg=#80a0aa  " by default it's same to Identifier
 hi! link LineNr Comment
 
 "
-" Powerful statusline
+" Powerful statusline, color group: 1-blue, 2-magenta, 3-red
 "
-set noru ls=2                       " no ruler, always show status line
-set stl=
-set stl+=\ %n                       " buffer number
-set stl+=\ %F                       " full pathname
-set stl+=\ %{&ff=='dos'?'[DOS]':''} " dos format flag
-set stl+=\ %m                       " modified flag
-set stl+=\ %H                       " help flag
-set stl+=\ %{&hls?'H':''}           " highlight search flag
-set stl+=\ %{&ic?'':'C'}            " case sensitive flag
-set stl+=\ %{&paste?'[PASTE]':''}   " paste mode flag
-set stl+=\ %=                       " start to align right
-set stl+=\ %4l,%-2v                 " line and column info
-set stl+=\ %3p%%                    " line percentage
-hi! StatusLine cterm=bold,reverse ctermfg=blue ctermbg=white
+set noru ls=2                           " no ruler, always show status line
+set stl=                                " reset
+set stl+=\ %0*%n%*                      " buffer number
+set stl+=\ %0*%F%*                      " full pathname
+set stl+=\ %3*%m%*                      " modified flag
+set stl+=\ %1*[%{&ft}]%*                " file type
+set stl+=\ %1*%{&enc}%*                 " file encoding
+set stl+=\ %3*%{&ff=='dos'?'dos':''}%*  " dos format flag
+set stl+=\ %2*%{&et?'et':'noet'}%*      " expandtab
+set stl+=\ %2*%{&hls?'hls':''}%*        " highlight search flag
+set stl+=\ %3*%{&ic?'ic':'noic'}%*      " ignorecase flag
+set stl+=\ %3*%{&paste?'paste':''}%*    " paste mode flag
+set stl+=\ %0*%=%*                      " start to align right
+set stl+=\ %0*%4l,%-2v%*                " line and column info
+set stl+=\ %0*%3p%%%*                   " line percentage
+hi! StatusLine cterm=bold ctermfg=black ctermbg=white
+hi! StatusLineNC cterm=bold ctermfg=white ctermbg=black
+hi! User1 cterm=bold ctermfg=blue ctermbg=white
+hi! User2 cterm=bold ctermfg=magenta ctermbg=white
+hi! User3 cterm=bold ctermfg=red ctermbg=white
 
 "
 " Key maps, '_' and '|' are put in version specific part
