@@ -4,10 +4,12 @@
 set nocp noswf nobk is si ic scs hls sm sta sr mat=2 bs=2 tw=80
 set fo=tcroqnmMB
 set isf-==
-au! BufEnter * set et sts=4 sw=4
-au! BufEnter [Mm]akefile*,[Mm]ake.*,*.mak,*.make set noet sts=8 sw=8
 syn on
 filetype plugin indent on
+au! FileType make set noet sts=8 sw=8
+au! FileType python let python_space_error_highlight=1
+au! BufEnter * set et sts=4 sw=4
+au! BufEnter *[Mm]akefile*,[Mm]ake.*,*.mak,*.make set ft=make
 
 "
 " Colors, suitable for evening backgroud (#333)
@@ -15,10 +17,11 @@ filetype plugin indent on
 set bg=dark
 hi! link TrailingBlank Visual
 mat TrailingBlank /[ \t]\+$/                " note below C-K nmap
-hi! link CharAtCol81 WarningMsg             " using 'cc' which confuses :sp
+hi! link CharAtCol81 WarningMsg             " note 'set cc=+1' confuses :vsp
 mat CharAtCol81 /\%81v/
 hi! Comment ctermfg=darkcyan guifg=#80a0aa  " by default it's same to Identifier
 hi! link LineNr Comment
+hi! link ColorColumn Search                 " for 7.3+
 
 "
 " Powerful statusline, color group: 1-blue, 2-magenta, 3-red
@@ -62,37 +65,26 @@ nmap ,c         I/* <ESC>A */<ESC>| " comment out current line with /* */
 nmap ,u         0f*h3x$xxx|         " uncomment out /* */
 nmap q:         :q                  " q: is boring
 nmap _          :set cul!<CR>|                  " for 7.0+
-nmap \|         :call ToggleColorColumn()<CR>   " for 7.3+
+nmap \|         :call ToggleColorColumn()<CR>|  " for 7.3+
 
 "
 " Misc
 "
-set viminfo='100,<50,s10,%,h,f10    " Remember last cussor postion
-au BufReadPost *
+let loaded_matchparen=0
+
+" Remember last cursor postion, :h last-position-jump
+set viminfo='100,<50,s10,%,h,f10
+au! BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-    \   exe "normal g`\"" |
+    \     exe "normal! g`\"" |
     \ endif
-
-"
-" Version specific
-"
-if version >= 700
-    let loaded_matchparen=0
-endif
-
-if version >= 703
-    hi! link ColorColumn Search
-endif
 
 "
 " Helper functions
 "
 function! ToggleColorColumn()
-    if &cc == ""
-        set cc=+1
-    else
-        set cc=
-    endif
+    let l:expr = &cc ? "set cc=" : "set cc=+1"
+    exe l:expr
 endfunction
 
 " EOF
