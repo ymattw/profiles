@@ -32,18 +32,18 @@ set stl+=\ %3*%m%*                      " modified flag
 set stl+=\ %1*[%{&ft}]%*                " file type
 set stl+=\ %1*%{&enc}%*                 " file encoding
 set stl+=\ %3*%{&ff=='dos'?'dos':''}%*  " dos format flag
+set stl+=\ %3*%{&ic?'ic':'noic'}%*      " ignorecase flag
 set stl+=\ %2*%{&et?'et':'noet'}%*      " expandtab
 set stl+=\ %2*%{&hls?'hls':''}%*        " highlight search flag
-set stl+=\ %3*%{&ic?'ic':'noic'}%*      " ignorecase flag
 set stl+=\ %3*%{&paste?'paste':''}%*    " paste mode flag
 set stl+=\ %0*%=%*                      " start to align right
 set stl+=\ %0*%4l,%-2v%*                " line and column info
 set stl+=\ %0*%3p%%%*                   " line percentage
 hi! StatusLine cterm=bold ctermfg=black ctermbg=white
-hi! StatusLineNC cterm=bold ctermfg=white ctermbg=black
-hi! User1 cterm=bold ctermfg=blue ctermbg=white
-hi! User2 cterm=bold ctermfg=magenta ctermbg=white
-hi! User3 cterm=bold ctermfg=red ctermbg=white
+hi! StatusLineNC cterm=bold ctermfg=grey ctermbg=black
+hi! User1 cterm=bold ctermfg=darkblue ctermbg=white
+hi! User2 cterm=bold ctermfg=darkmagenta ctermbg=white
+hi! User3 cterm=bold ctermfg=darkred ctermbg=white
 
 "
 " Key maps, '_' and '|' are put in version specific part
@@ -82,7 +82,7 @@ au! BufReadPost *
 " Helper functions
 "
 function! ToggleColorColumn()
-    let l:expr = &cc ? "set cc=" : "set cc=+1"
+    let l:expr = len(&cc) ? "set cc=" : "set cc=+1"
     exe l:expr
 endfunction
 
