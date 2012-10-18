@@ -1,4 +1,4 @@
-" Matthew Wang's vimrc for evening background and color term (#333)
+" Matthew Wang's vimrc for text term with evening background (#333).
 
 "
 " Basic settings
@@ -12,7 +12,7 @@ set isf-==                              " misc: '=' is not part of filename
 set mps+=<:>                            " misc: '%' can match <> pair (for html)
 syn on
 filet plugin indent on
-au! BufEnter * set et sts=4 sw=4
+au! BufEnter * set et sts=4 sw=4        " 4-space soft tab except makefile
 au! BufEnter *[Mm]akefile*,[Mm]ake.*,*.mak,*.make set ft=make noet sts=8 sw=8
 
 "
@@ -103,15 +103,11 @@ function! FoldText()
 endfunction
 
 " Execute current file and pipe output to new window below, window height will
-" be 10 minimum if possible
+" be 1/3 of the vim window size
 "
 function! ExecuteMe()
     let file = expand("%:p")
-    if &lines > 20
-        botright 10new
-    else
-        botright new
-    endif
+    exe "botright " . (&lines / 3) . " new"
     exe ".!" .  file
 endfunction
 
