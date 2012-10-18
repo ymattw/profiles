@@ -102,9 +102,16 @@ function! FoldText()
     return '+' . line[1:]
 endfunction
 
+" Execute current file and pipe output to new window below, window height will
+" be 10 minimum if possible
+"
 function! ExecuteMe()
     let file = expand("%:p")
-    new
+    if &lines > 20
+        botright 10new
+    else
+        botright new
+    endif
     exe ".!" .  file
 endfunction
 
