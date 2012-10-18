@@ -15,7 +15,8 @@ PS1="$PS1"':\w '                                                # cwd
 PS1="$PS1"'\[$([[ -z $(jobs) ]] || echo -e "\e[7;31m")\]'       # reverse jobs
 PS1="$PS1"'\$\[\e[0m\] '                                        # $, end color
 export PS1
-
+export EDITOR=vim
+export TERM=linux
 export GREP_OPTIONS="--color=auto"
 
 # Shortcuts (Aliases, function, auto completion etc.)

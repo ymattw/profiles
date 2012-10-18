@@ -1,25 +1,31 @@
+" Matthew Wang's vimrc for evening background and color term (#333)
+
 "
 " Basic settings
 "
-set nocp noswf nobk is si ic scs hls sm sta sr mat=2 bs=2 tw=80
-set fo=tcroqnmMB
-set isf-==
+set nocp noswf nobk bg=dark             " general
+set is ic scs hls sm mat=2              " interface
+set si sta sr bs=2 tw=80 fo=tcroqnmMB   " editing
+set nofen fdm=indent fdl=2 fdn=4        " folding
+set fdt=FoldText() fcs=vert:\|,fold:.   " folding
+set isf-==                              " misc: '=' is not part of filename
+set mps+=<:>                            " misc: '%' can match <> pair (for html)
 syn on
-filetype plugin indent on
+filet plugin indent on
 au! BufEnter * set et sts=4 sw=4
 au! BufEnter *[Mm]akefile*,[Mm]ake.*,*.mak,*.make set ft=make noet sts=8 sw=8
 
 "
 " Colors, suitable for evening backgroud (#333)
 "
-set bg=dark
 hi! link TrailingBlank Visual
-mat TrailingBlank /[ \t]\+$/                " note below C-K nmap
-hi! link CharAtCol81 WarningMsg             " note 'set cc=+1' confuses :vsp
+mat TrailingBlank /[ \t]\+$/            " note below C-K nmap
+hi! link CharAtCol81 WarningMsg         " note 'set cc=+1' confuses :vsp
 mat CharAtCol81 /\%81v/
-hi! Comment ctermfg=darkcyan guifg=#80a0aa  " by default it's same to Identifier
+hi! Comment ctermfg=darkcyan            " by default it's same to Identifier
 hi! link LineNr Comment
-hi! link ColorColumn Search                 " for 7.3+
+hi! link ColorColumn Search
+hi! link Folded Comment
 
 "
 " Powerful statusline, color group: 1-blue, 2-magenta, 3-red
@@ -46,30 +52,34 @@ hi! User2 cterm=bold ctermfg=darkmagenta ctermbg=white
 hi! User3 cterm=bold ctermfg=darkred ctermbg=white
 
 "
-" Key maps, '_' and '|' are put in version specific part
+" Key maps
 "
-nmap <Space>    :set hls!<CR>|      " toggle highlight search
-nmap <CR>       :set spell!<CR>|    " toggle spell
-nmap <BS>       :set ic!<CR>|       " toggle ignore case
-nmap <C-N>      :set nu!<CR>|       " ctrl-n to toggle :set number
-nmap <C-P>      :set paste!<CR>|    " ctrl-p to toggle paste mode
-nmap <C-H>      /[ \t]\+$/<CR>|     " ctrl-h to highlight trailing blank
-nmap <C-K>      :%s/[ \t]\+$//g<CR>|" remove trailing blank
-imap <C-J>      <ESC>kJA|           " join to previous line (to workaround 'fo')
-nmap +          <C-W>+|             " window height increase
-nmap -          <C-W>-|             " window height decrease
-nmap \          %
-nmap ,c         I/* <ESC>A */<ESC>| " comment out current line with /* */
-nmap ,u         0f*h3x$xxx|         " uncomment out /* */
-nmap q:         :q                  " q: is boring
-nmap _          :set cul!<CR>|                  " for 7.0+
+nmap <Space>    :set hls!<CR>|          " toggle highlight search
+nmap <CR>       :set spell!<CR>|        " toggle spell
+nmap <BS>       :set ic!<CR>|           " toggle ignore case
+nmap <C-N>      :set nu!<CR>|           " ctrl-n to toggle :set number
+nmap <C-P>      :set paste!<CR>|        " ctrl-p to toggle paste mode
+nmap <C-H>      /[ \t]\+$/<CR>|         " ctrl-h to highlight trailing blank
+nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " remove trailing blank
+imap <C-J>      <ESC>kJA|               " join to previous line (undo auto wrap)
+nmap <Left>     zc|                     " collapse fold
+nmap <Right>    zo|                     " open fold
+nmap <Up>       zk|                     " jump to next fold
+nmap <Down>     zj|                     " jump to previous fold
+nmap -          zN|                     " collapse all folds
+nmap +          zn|                     " open all folds
+nmap \          %|                      " jump to match
+nmap ,c         I/* <ESC>A */<ESC>|     " comment out current line with /* */
+nmap ,u         0f*h3x$xxx|             " uncomment out /* */
+nmap q:         :q|                     " q: is boring
+nmap _          :set cul!<CR>|          " for 7.0+
 nmap \|         :call ToggleColorColumn()<CR>|  " for 7.3+
 
 "
 " Misc
 "
 let loaded_matchparen=0
-let python_space_error_highlight=1
+let python_highlight_all=1
 
 " Remember last cursor postion, :h last-position-jump
 set viminfo='100,<50,s10,%,h,f10
@@ -84,6 +94,11 @@ au! BufReadPost *
 function! ToggleColorColumn()
     let l:expr = len(&cc) ? "set cc=" : "set cc=+1"
     exe l:expr
+endfunction
+
+function! FoldText()
+    let line = getline(v:foldstart)
+    return '+' . line[1:]
 endfunction
 
 " EOF

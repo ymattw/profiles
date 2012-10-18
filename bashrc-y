@@ -68,23 +68,13 @@ PS1="$PS1"':\w '                                                # cwd, new line
 PS1="$PS1"'\[$([[ -z $(jobs) ]] || echo -e "\e[7;31m")\]'       # reverse jobs
 PS1="$PS1"'\$\[\e[0m\] '                                        # $, end color
 export PS1
-
-
-########################################################################
-#
-#           Shortcuts (Aliases, function, auto completion etc.)
-#
-########################################################################
-
-if which vim >& /dev/null; then
-    alias vi='vim -Xn'
-    export EDITOR=vim
-else
-    export EDITOR=vi
-fi
-
+export EDITOR=vim
+export TERM=linux
 export GREP_OPTIONS="--color=auto"
 
+
+# Shortcuts (Aliases, function, auto completion etc.)
+#
 if [[ $(uname -s) == Linux ]]; then
     alias ls='/bin/ls -F --color=auto'
     alias l='/bin/ls -lF --color=auto'
