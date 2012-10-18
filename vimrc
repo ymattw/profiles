@@ -68,12 +68,13 @@ nmap <Up>       zk|                     " jump to next fold
 nmap <Down>     zj|                     " jump to previous fold
 nmap -          zN|                     " collapse all folds
 nmap +          zn|                     " open all folds
-nmap \          %|                      " jump to match
 nmap ,c         I/* <ESC>A */<ESC>|     " comment out current line with /* */
 nmap ,u         0f*h3x$xxx|             " uncomment out /* */
 nmap q:         :q|                     " q: is boring
 nmap _          :set cul!<CR>|          " for 7.0+
 nmap \|         :call ToggleColorColumn()<CR>|  " for 7.3+
+nmap \\         :call ExecuteMe()<CR>|  " execute current file and pipe output to new window
+nmap !!         :q!<CR>|                " quit without saving
 
 "
 " Misc
@@ -99,6 +100,12 @@ endfunction
 function! FoldText()
     let line = getline(v:foldstart)
     return '+' . line[1:]
+endfunction
+
+function! ExecuteMe()
+    let file = expand("%:p")
+    new
+    exe ".!" .  file
 endfunction
 
 " EOF
