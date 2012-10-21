@@ -28,7 +28,7 @@ hi! link ColorColumn Search
 hi! link Folded Comment
 
 "
-" Powerful statusline, color group: 1-blue, 2-magenta, 3-red
+" Powerful statusline, color group: 1-darkblue, 2-darkmagenta, 3-darkred
 "
 set noru ls=2                           " no ruler, always show status line
 set stl=                                " reset
@@ -52,7 +52,7 @@ hi! User2 cterm=bold ctermfg=darkmagenta ctermbg=white
 hi! User3 cterm=bold ctermfg=darkred ctermbg=white
 
 "
-" Key maps
+" Key maps. Make sure <BS> and <C-H> are different in your terminal setting!
 "
 nmap <Space>    :set hls!<CR>|          " toggle highlight search
 nmap <CR>       :set spell!<CR>|        " toggle spell
@@ -73,7 +73,7 @@ nmap ,u         0f*h3x$xxx|             " uncomment out /* */
 nmap q:         :q|                     " q: is boring
 nmap _          :set cul!<CR>|          " for 7.0+
 nmap \|         :call ToggleColorColumn()<CR>|  " for 7.3+
-nmap \\         :call ExecuteMe()<CR>|  " execute current file and pipe output to new window
+nmap \\         :call ExecuteMe()<CR>|  " execute current file
 nmap !!         :q!<CR>|                " quit without saving
 
 "
@@ -93,8 +93,8 @@ au! BufReadPost *
 " Helper functions
 "
 function! ToggleColorColumn()
-    let l:expr = len(&cc) ? "set cc=" : "set cc=+1"
-    exe l:expr
+    let expr = len(&cc) ? "set cc=" : "set cc=+1"
+    exe expr
 endfunction
 
 function! FoldText()
