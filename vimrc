@@ -35,6 +35,7 @@ set stl=                                " reset
 set stl+=\ %0*%n%*                      " buffer number
 set stl+=\ %0*%F%*                      " full pathname
 set stl+=\ %3*%m%*                      " modified flag
+set stl+=\ %3*%r%*                      " readonly flag
 set stl+=\ %1*[%{&ft}]%*                " file type
 set stl+=\ %1*%{&enc}%*                 " file encoding
 set stl+=\ %3*%{&ff=='dos'?'dos':''}%*  " dos format flag
