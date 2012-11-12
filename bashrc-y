@@ -89,7 +89,7 @@ fi
 function f() {
     local pat=${1?'Usage: f pattern [path...]'}
     shift
-    find $@ -regex '.*\.\(idea\|svn\).*' \
+    find $@ -regex '.*\.\(idea\|svn\|git\).*' \
         -prune -o -print | grep -i "$pat"
 }
 

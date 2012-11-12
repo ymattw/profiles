@@ -1,4 +1,4 @@
-# Matthew Wang's Bash Profile for general Linux
+# Matthew Wang's Bash Profile for general Linux/Unix
 #
 # Suggestion: ln -sf .bashrc .bash_profile
 #
@@ -19,18 +19,34 @@ export EDITOR=vim
 export TERM=linux
 export GREP_OPTIONS="--color=auto"
 
+# To start a global ssh-agent: ssh-agent | sed /^echo/d > ~/.ssh-agent.rc
+[[ ! -r ~/.ssh-agent.rc ]] || source ~/.ssh-agent.rc
+
 # Shortcuts (Aliases, function, auto completion etc.)
 #
-alias ls='/bin/ls -F --color=auto'
-alias l='/bin/ls -lF --color=auto'
-alias lsps='ps -ef f | grep -vw grep | grep -i'
-alias vi='vim -Xn'
+case $(uname -s) in
+    Linux)
+        alias ls='/bin/ls -F --color=auto'
+        alias l='/bin/ls -lF --color=auto'
+        alias lsps='ps -ef f | grep -vw grep | grep -i'
+        ;;
+    Darwin)
+        alias ls='/bin/ls -F'
+        alias l='/bin/ls -lF'
+        alias lsps='ps -ax -o user,pid,ppid,%cpu,%mem,start,comm | grep -vw grep | grep -i'
+        ;;
+    *)
+        alias ls='/bin/ls -F'
+        alias l='/bin/ls -lF'
+        alias lsps='ps -auf | grep -vw grep | grep -i'
+        ;;
+esac
 
 # Find a File by pattern
 function f() {
     local pat=${1?'Usage: f pattern [path...]'}
     shift
-    find $@ -regex '.*\.\(idea\|svn\).*' \
+    find ${@:-.} -regex '.*\.\(idea\|svn\|git\).*' \
         -prune -o -print | grep -i "$pat"
 }
 
@@ -48,7 +64,7 @@ function g() {
     string_pat=${2:?"Usage: g 'file-pattern' 'string-pattern' [grep options]"}
     shift 2
     find . -type f -name "$file_pat" -print0 \
-        | xargs -0 -n1 -P0 grep -H "$string_pat" "$@"
+        | xargs -0 -n1 -P128 grep -H "$string_pat" "$@"
 }
 
 # Auto complete unset from exported variables
