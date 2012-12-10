@@ -16,7 +16,7 @@ function pathmunge() {
         echo $PATH | grep -Eq "(^|:)$x($|:)" || PATH=$x:$PATH
     done
 }
-pathmunge ~/bin /usr/local/bin /home/y/bin64 /home/y/bin /usr/bin /bin \
+pathmunge ~/bin /usr/local/bin /home/y/bin /home/y/bin64 /usr/bin /bin \
           /usr/local/sbin /usr/sbin /sbin
 unset pathmunge
 export PATH
