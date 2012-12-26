@@ -33,7 +33,7 @@ case $(uname -s) in
     Darwin)
         alias ls='/bin/ls -F'
         alias l='/bin/ls -lF'
-        alias lsps='ps -ax -o user,pid,ppid,%cpu,%mem,start,comm | grep -vw grep | grep -i'
+        alias lsps='ps -ef | grep -vw grep | grep -i'
         ;;
     *)
         alias ls='/bin/ls -F'
