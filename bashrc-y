@@ -134,7 +134,6 @@ function _yroot_complete ()
 }
 complete -F _yroot_complete yroot
 
-
 # Don't tab-expand hidden files
 bind 'set match-hidden-files off'
 

@@ -70,4 +70,7 @@ function g() {
 # Auto complete unset from exported variables
 complete -A export unset
 
+# Don't tab-expand hidden files
+bind 'set match-hidden-files off'
+
 # vim:set et sts=4 sw=4 ft=sh:
