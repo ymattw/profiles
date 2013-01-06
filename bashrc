@@ -19,6 +19,10 @@ export EDITOR=vim
 export TERM=linux
 export GREP_OPTIONS="--color=auto"
 
+# Locale matters for ls and sort
+# http://joyus.org/blog/2013/01/ls-does-not-sort.html
+export LC_COLLATE=C
+
 # To start a global ssh-agent: ssh-agent | sed /^echo/d > ~/.ssh-agent.rc
 [[ ! -r ~/.ssh-agent.rc ]] || source ~/.ssh-agent.rc
 
@@ -33,7 +37,7 @@ case $(uname -s) in
     Darwin)
         alias ls='/bin/ls -F'
         alias l='/bin/ls -lF'
-        alias lsps='ps -ef | grep -vw grep | grep -i'
+        alias lsps='ps -ax -o user,pid,ppid,stime,tty,time,comm | grep -vw grep | grep -i'
         ;;
     *)
         alias ls='/bin/ls -F'
