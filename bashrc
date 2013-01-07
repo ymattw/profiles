@@ -20,7 +20,7 @@ export TERM=linux
 export GREP_OPTIONS="--color=auto"
 
 # Locale matters for ls and sort
-# http://joyus.org/blog/2013/01/ls-does-not-sort.html
+# www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
 export LC_COLLATE=C
 
 # To start a global ssh-agent: ssh-agent | sed /^echo/d > ~/.ssh-agent.rc
@@ -75,6 +75,6 @@ function g() {
 complete -A export unset
 
 # Don't tab-expand hidden files
-bind 'set match-hidden-files off'
+bind 'set match-hidden-files off' >& /dev/null
 
 # vim:set et sts=4 sw=4 ft=sh:

@@ -72,6 +72,9 @@ export EDITOR=vim
 export TERM=linux
 export GREP_OPTIONS="--color=auto"
 
+# Locale matters for ls and sort
+# www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
+export LC_COLLATE=C
 
 # Shortcuts (Aliases, function, auto completion etc.)
 #
@@ -135,6 +138,6 @@ function _yroot_complete ()
 complete -F _yroot_complete yroot
 
 # Don't tab-expand hidden files
-bind 'set match-hidden-files off'
+bind 'set match-hidden-files off' >& /dev/null
 
 # vim:set et sts=4 sw=4 ft=sh:
