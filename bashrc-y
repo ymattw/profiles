@@ -13,11 +13,11 @@
 function pathmunge() {
     local x
     for x in "$@"; do
-        echo $PATH | grep -Eq "(^|:)$x($|:)" || PATH=$x:$PATH
+        [[ :$PATH: == *:$x: ]] || PATH=$PATH:$x
     done
 }
-pathmunge ~/bin /usr/local/bin /home/y/bin /home/y/bin64 /usr/bin /bin \
-          /usr/local/sbin /usr/sbin /sbin
+pathmunge /bin /usr/bin /sbin /usr/sbin /usr/local/bin /usr/local/sbin \
+          /home/y/bin /home/y/bin64 ~/bin
 unset pathmunge
 export PATH
 
