@@ -33,7 +33,7 @@ hi! link Folded Comment
 set noru ls=2                           " no ruler, always show status line
 set stl=                                " reset
 set stl+=\ %0*%n%*                      " buffer number
-set stl+=\ %0*%F%*                      " full pathname
+set stl+=\ %0*%f%*                      " short pathname
 set stl+=\ %3*%m%*                      " modified flag
 set stl+=\ %3*%r%*                      " readonly flag
 set stl+=\ %1*[%{&ft}]%*                " file type
