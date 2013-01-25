@@ -47,7 +47,7 @@ set stl+=\ %0*%=%*                      " start to align right
 set stl+=\ %0*%4l,%-2v%*                " line and column info
 set stl+=\ %0*%3p%%%*                   " line percentage
 hi! StatusLine cterm=bold ctermfg=black ctermbg=white
-hi! StatusLineNC cterm=bold ctermfg=grey ctermbg=black
+hi! StatusLineNC cterm=underline ctermfg=grey ctermbg=black
 hi! User1 cterm=bold ctermfg=darkblue ctermbg=white
 hi! User2 cterm=bold ctermfg=darkmagenta ctermbg=white
 hi! User3 cterm=bold ctermfg=darkred ctermbg=white
