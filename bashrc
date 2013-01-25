@@ -31,7 +31,7 @@ PS1="${PS1} \w "                                    # cwd
 PS1="${PS1}${_LY}\$(__git_active_branch)${_NC}"     # yellow git branch
 PS1="${PS1}\$([[ -z \$(jobs) ]] || echo '$_RR')"    # reverse bg job indicator
 PS1="${PS1}\\\$${_NC} "                             # $
-unset  _LR _LG _LY _LB _HU _RR _NC
+unset _LR _LG _LY _LB _HU _RR _NC
 
 export PS1
 export EDITOR=vim
