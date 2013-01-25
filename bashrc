@@ -3,16 +3,24 @@
 # Suggestion: ln -sf .bashrc .bash_profile
 #
 
+export PATH=$PATH:$HOME/bin
+
+function __git_active_branch() {
+    local branch=$(git symbolic-ref HEAD 2>/dev/null)
+    [[ -z $branch ]] || echo "(${branch##refs/heads/})"
+}
+
 # Fancy PS1, prompt the '$' in red when we have background jobs, '\[' and '\]'
 # is to mark ansi colors to allow shell to calculate prompt string length
 # correctly
 #
-PS1='\[\e[1;4m\]'                                               # ansi hi & ul
-PS1="$PS1"'\[\e[31m\]'                                          # red
-PS1="$PS1"'\h'                                                  # short hostname
+PS1='\[$([[ $? == 0 ]] && echo "\e[1;32m✔\e[0m" || echo "\e[1;31m✘\e[0m"\]) '
+PS1="$PS1"'\[\e[1;4m\]'                                         # ansi hi & ul
+PS1="$PS1"'\[\e[34m\h\]'                                        # blue hostname
 PS1="$PS1"'\[\e[0;1;4m\]'                                       # reset color
 PS1="$PS1"':\w '                                                # cwd
-PS1="$PS1"'\[$([[ -z $(jobs) ]] || echo -e "\e[7;31m")\]'       # reverse jobs
+PS1="$PS1"'\[\e[33m$(__git_active_branch)\e[0m\]'               # yellow branch
+PS1="$PS1"'\[$([[ -z $(jobs) ]] || echo "\e[7;31m")\]'          # reverse jobs
 PS1="$PS1"'\$\[\e[0m\] '                                        # $, end color
 export PS1
 export EDITOR=vim

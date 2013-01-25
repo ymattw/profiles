@@ -28,6 +28,11 @@ export PATH
     export M2_HOME=/home/y/libexec/maven
 export MAVEN_OPTS="-Xmx1024m"
 
+function __git_active_branch() {
+    local branch=$(git symbolic-ref HEAD 2>/dev/null)
+    [[ -z $branch ]] || echo "(${branch##refs/heads/})"
+}
+
 # Tip: start a global ssh-agent for yourself in /etc/rc.d/rc.local like this:
 #   U=wangyl
 #   rm -f /home/$U/.ssh-agent.sock
@@ -35,11 +40,13 @@ export MAVEN_OPTS="-Xmx1024m"
 #      | sed '/^echo/d' > /home/$U/.ssh-agent.rc"
 # You will need to ssh-add your identity manually once
 #
+PS1='\[$([[ $? == 0 ]] && echo "\e[1;32m✔\e[0m" || echo "\e[1;31m✘\e[0m"\]) '
+
 if [[ -f ~/.ssh-agent.rc ]]; then
     # I am on my own machine, set initial PS1 to ansi hi and ul (default to
     # black) and try load ssh-agent related environments
     #
-    PS1='\[\e[1;4m\]' # ansi hi & ul
+    PS1="$PS1"'\[\e[1;4m\]' # ansi hi & ul
 
     . ~/.ssh-agent.rc
     if [[ -d /proc/${SSH_AGENT_PID:-0} ]]; then
@@ -53,7 +60,7 @@ if [[ -f ~/.ssh-agent.rc ]]; then
     fi
 else
     # Otherwise assume I am on other's box, highlight PS1 in red as well
-    PS1='\[\e[1;4;31m\]'  # ansi hi, ui and red
+    PS1="$PS1"'\[\e[1;4;31m\]'  # ansi hi, ui and red
 fi
 
 # Fancy PS1, prompt current yroot, also prompt the '$' in red when we have
@@ -65,7 +72,8 @@ PS1="$PS1"'\[\e[32m\]'                                          # green
 PS1="$PS1"'$([[ -z $YROOT_NAME ]] || echo "{$YROOT_NAME}")'     # {yroot}
 PS1="$PS1"'\[\e[0;1;4m\]'                                       # reset color
 PS1="$PS1"':\w '                                                # cwd, new line
-PS1="$PS1"'\[$([[ -z $(jobs) ]] || echo -e "\e[7;31m")\]'       # reverse jobs
+PS1="$PS1"'\[\e[33m$(__git_active_branch)\e[0m\]'               # yellow branch
+PS1="$PS1"'\[$([[ -z $(jobs) ]] || echo "\e[7;31m")\]'          # reverse jobs
 PS1="$PS1"'\$\[\e[0m\] '                                        # $, end color
 export PS1
 export EDITOR=vim
