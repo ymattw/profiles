@@ -14,14 +14,25 @@ function __git_active_branch() {
 # is to mark ansi colors to allow shell to calculate prompt string length
 # correctly
 #
-PS1='\[$([[ $? == 0 ]] && echo "\e[1;32m✔\e[0m" || echo "\e[1;31m✘\e[0m"\]) '
-PS1="$PS1"'\[\e[1;4m\]'                                         # ansi hi & ul
-PS1="$PS1"'\[\e[34m\h\]'                                        # blue hostname
-PS1="$PS1"'\[\e[0;1;4m\]'                                       # reset color
-PS1="$PS1"':\w '                                                # cwd
-PS1="$PS1"'\[\e[33m$(__git_active_branch)\e[0m\]'               # yellow branch
-PS1="$PS1"'\[$([[ -z $(jobs) ]] || echo "\e[7;31m")\]'          # reverse jobs
-PS1="$PS1"'\$\[\e[0m\] '                                        # $, end color
+_LR="\[\e[1;31m\]"      # light red
+_LG="\[\e[1;32m\]"      # light green
+_LY="\[\e[1;33m\]"      # light yellow
+_LB="\[\e[1;34m\]"      # light blue
+_HU="\[\e[0;1;4m\]"     # hilight, underline
+_RR="\[\e[7;31m\]"      # reverse red
+_NC="\[\e[0m\]"         # no color
+
+# Start from exit status of last command
+PS1="\$([[ \$? == 0 ]] && echo '${_LG}✔${_NC}' || echo '${_LR}✘${_NC}') "
+PS1="${PS1}${_HU}"                                  # then init to hi/ul
+PS1="${PS1}${_LB}\h"                                # blue hostname
+PS1="${PS1}${_HU}"                                  # reset back to hi/ul
+PS1="${PS1} \w "                                    # cwd
+PS1="${PS1}${_LY}\$(__git_active_branch)${_NC}"     # yellow git branch
+PS1="${PS1}\$([[ -z \$(jobs) ]] || echo '$_RR')"    # reverse bg job indicator
+PS1="${PS1}\\\$${_NC} "                             # $
+unset  _LR _LG _LY _LB _HU _RR _NC
+
 export PS1
 export EDITOR=vim
 export TERM=linux
