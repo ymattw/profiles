@@ -13,11 +13,11 @@
 function pathmunge() {
     local x
     for x in "$@"; do
-        [[ :$PATH: == *:$x: ]] || PATH=$PATH:$x
+        [[ :$PATH: == *:$x: ]] || PATH=$x:$PATH
     done
 }
 pathmunge /bin /usr/bin /sbin /usr/sbin /usr/local/bin /usr/local/sbin \
-          /home/y/bin /home/y/bin64 ~/bin
+          /home/y/bin64 /home/y/bin ~/bin
 unset pathmunge
 export PATH
 
@@ -26,7 +26,7 @@ export PATH
     export JAVA_HOME=/home/y/libexec/java
 [[ -d /home/y/libexec/maven ]] && \
     export M2_HOME=/home/y/libexec/maven
-export MAVEN_OPTS="-Xmx1024m"
+#export MAVEN_OPTS="-Xmx1024m"
 
 function __git_active_branch() {
     local branch=$(git symbolic-ref HEAD 2>/dev/null)
