@@ -10,6 +10,7 @@ set nofen fdm=indent fdl=2 fdn=4        " folding
 set fdt=FoldText() fcs=vert:\|,fold:.   " folding
 set isf-==                              " misc: '=' is not part of filename
 set mps+=<:>                            " misc: '%' can match <> pair (for html)
+set cul
 syn on
 filet plugin indent on
 au! BufEnter * set et sts=4 sw=4        " 4-space soft tab except makefile
@@ -84,11 +85,16 @@ let loaded_matchparen=0
 let python_highlight_all=1
 
 " Remember last cursor postion, :h last-position-jump
-set viminfo='100,<50,s10,%,h,f10
+set viminfo='10,\"10,<50,s10,%,h,f10
 au! BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
     \     exe "normal! g`\"" |
     \ endif
+
+augroup ActiveBuffer
+    au! WinEnter * set cul
+    au! WinLeave * set nocul
+augroup END
 
 "
 " Helper functions
