@@ -48,8 +48,14 @@ _HU="\[\e[0;1;4m\]"     # hilight, underline
 _RR="\[\e[7;31m\]"      # reverse red
 _NC="\[\e[0m\]"         # no color
 
-# Start from exit status of last command
-PS1="\$([[ \$? == 0 ]] && echo '${_LG}✔${_NC}' || echo '${_LR}✘${_NC}') "
+# Start from exit status of last command, note bash < 3.2 has problem dealing
+# with wide chars
+#
+if [[ ${BASH_VERSINFO[0]} > 4 ]] || [[ $BASH_VERSION > 3.1 ]]; then
+    PS1="\$([[ \$? == 0 ]] && echo '${_LG}✔${_NC}' || echo '${_LR}✘${_NC}') "
+else
+    PS1="\$([[ \$? == 0 ]] && echo '${_LG}^${_NC}' || echo '${_LR}!${_NC}') "
+fi
 PS1="${PS1}${_HU}"                                  # then init to hi/ul
 
 if [[ -f ~/.ssh-agent.rc ]]; then
