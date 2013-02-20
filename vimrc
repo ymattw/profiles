@@ -27,9 +27,10 @@ hi! Comment ctermfg=darkcyan            " by default it's same to Identifier
 hi! link LineNr Comment
 hi! link ColorColumn Search
 hi! link Folded Comment
+hi! CursorLine cterm=bold ctermbg=black
 
 "
-" Powerful statusline, color group: 1-darkblue, 2-darkmagenta, 3-darkred
+" Powerful statusline, underlined status line looks better with cursor line
 "
 set noru ls=2                           " no ruler, always show status line
 set stl=                                " reset
@@ -47,11 +48,11 @@ set stl+=\ %3*%{&paste?'paste':''}%*    " paste mode flag
 set stl+=\ %0*%=%*                      " start to align right
 set stl+=\ %0*%4l,%-2v%*                " line and column info
 set stl+=\ %0*%3p%%%*                   " line percentage
-hi! StatusLine cterm=bold ctermfg=black ctermbg=white
-hi! StatusLineNC cterm=underline ctermfg=grey ctermbg=black
-hi! User1 cterm=bold ctermfg=darkblue ctermbg=white
-hi! User2 cterm=bold ctermfg=darkmagenta ctermbg=white
-hi! User3 cterm=bold ctermfg=darkred ctermbg=white
+hi! User1 cterm=underline ctermfg=white
+hi! User2 cterm=underline ctermfg=magenta
+hi! User3 cterm=underline ctermfg=red
+hi! StatusLine cterm=underline ctermfg=blue
+hi! StatusLineNC cterm=underline ctermfg=grey
 
 "
 " Key maps. Make sure <BS> and <C-H> are different in your terminal setting!
