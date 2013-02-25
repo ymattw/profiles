@@ -5,12 +5,11 @@
 "
 set nocp noswf nobk bg=dark             " general
 set is ic scs hls sm mat=2              " interface
-set si sta sr bs=2 tw=80 fo=tcroqnmMB   " editing
+set si sta sr bs=2 tw=79 fo=tcroqnmMB   " editing
 set nofen fdm=indent fdl=2 fdn=4        " folding
 set fdt=FoldText() fcs=vert:\|,fold:.   " folding
 set isf-==                              " misc: '=' is not part of filename
 set mps+=<:>                            " misc: '%' can match <> pair (for html)
-set cul
 syn on
 filet plugin indent on
 au! BufEnter * set et sts=4 sw=4        " 4-space soft tab except makefile
@@ -21,8 +20,8 @@ au! BufEnter *[Mm]akefile*,[Mm]ake.*,*.mak,*.make set ft=make noet sts=8 sw=8
 "
 hi! link TrailingBlank Visual
 mat TrailingBlank /[ \t]\+$/            " note below C-K nmap
-hi! link CharAtCol81 WarningMsg         " note 'set cc=+1' confuses :vsp
-mat CharAtCol81 /\%81v/
+hi! link CharAtCol80 WarningMsg         " note 'set cc=+1' confuses :vsp
+mat CharAtCol80 /\%80v/
 hi! Comment ctermfg=darkcyan            " by default it's same to Identifier
 hi! link LineNr Comment
 hi! link ColorColumn Search
@@ -64,7 +63,7 @@ nmap <C-N>      :set nu!<CR>|           " ctrl-n to toggle :set number
 nmap <C-P>      :set paste!<CR>|        " ctrl-p to toggle paste mode
 nmap <C-H>      /[ \t]\+$/<CR>|         " ctrl-h to highlight trailing blank
 nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " remove trailing blank
-imap <C-J>      <ESC>kJA|               " join to previous line (undo auto wrap)
+imap <C-J>      <ESC>kJA|               " join to prev line (undo auto wrap)
 nmap <Left>     zc|                     " collapse fold
 nmap <Right>    zo|                     " open fold
 nmap <Up>       zk|                     " jump to next fold
@@ -74,10 +73,16 @@ nmap +          zn|                     " open all folds
 nmap ,c         I/* <ESC>A */<ESC>|     " comment out current line with /* */
 nmap ,u         0f*h3x$xxx|             " uncomment out /* */
 nmap q:         :q|                     " q: is boring
-nmap _          :set cul!<CR>|          " for 7.0+
-nmap \|         :call ToggleColorColumn()<CR>|  " for 7.3+
 nmap \\         :call ExecuteMe()<CR>|  " execute current file
 nmap !!         :q!<CR>|                " quit without saving
+
+if version >= 700
+    nmap _      :set cul!<CR>|          " for 7.0+
+endif
+
+if version >= 703
+    nmap \|     :call ToggleColorColumn()<CR>|  " for 7.3+
+endif
 
 "
 " Misc
@@ -92,10 +97,13 @@ au! BufReadPost *
     \     exe "normal! g`\"" |
     \ endif
 
-augroup ActiveBuffer
-    au! WinEnter * set cul
-    au! WinLeave * set nocul
-augroup END
+if version >= 700
+    set cul
+    augroup ActiveBuffer
+        au! WinEnter * set cul
+        au! WinLeave * set nocul
+    augroup END
+endif
 
 "
 " Helper functions
