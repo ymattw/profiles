@@ -14,6 +14,7 @@ syn on
 filet plugin indent on
 au! BufEnter * set et sts=4 sw=4        " 4-space soft tab except makefile
 au! BufEnter *[Mm]akefile*,[Mm]ake.*,*.mak,*.make set ft=make noet sts=8 sw=8
+au! BufEnter *.md,*.markdown set ft=markdown
 
 "
 " Colors, suitable for evening backgroud (#333)
