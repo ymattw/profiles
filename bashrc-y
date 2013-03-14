@@ -30,7 +30,7 @@ export PATH
 
 function __git_active_branch() {
     local branch=$(git symbolic-ref HEAD 2>/dev/null)
-    [[ -z $branch ]] || echo "(${branch##refs/heads/})"
+    [[ -z $branch ]] || echo " (${branch##refs/heads/})"
 }
 
 # Tip: start a global ssh-agent for yourself in /etc/rc.d/rc.local like this:
@@ -48,18 +48,16 @@ _HU="\[\e[0;1;4m\]"     # hilight, underline
 _RR="\[\e[7;31m\]"      # reverse red
 _NC="\[\e[0m\]"         # no color
 
-# Start from exit status of last command, note bash < 3.2 has problem dealing
-# with wide chars
+# Fancy PS1, prompt current hostname, yroot, time, cwd and git branch, also
+# prompt the '$' in red when we have background jobs, '\[' and '\]' is to mark
+# ansi colors to allow shell to calculate prompt string length correctly
 #
-if [[ ${BASH_VERSINFO[0]} > 4 ]] || [[ $BASH_VERSION > 3.1 ]]; then
-    PS1="\$([[ \$? == 0 ]] && echo '${_LG}✔${_NC}' || echo '${_LR}✘${_NC}') "
-else
-    PS1="\$([[ \$? == 0 ]] && echo '${_LG}^${_NC}' || echo '${_LR}!${_NC}') "
-fi
+PS1="\$([[ \$? == 0 ]] && echo '${_LG}✔${_NC}' || echo '${_LR}✘${_NC}') "
 PS1="${PS1}${_HU}"                                  # then init to hi/ul
 
 if [[ -f ~/.ssh-agent.rc ]]; then
     # I am on my own machine, try load ssh-agent related environments
+    PS1="${PS1}${_LB}"                              # blue hostname
     . ~/.ssh-agent.rc
     if [[ -d /proc/${SSH_AGENT_PID:-0} ]]; then
         if ! ssh-add -l >& /dev/null; then
@@ -72,19 +70,16 @@ if [[ -f ~/.ssh-agent.rc ]]; then
     fi
 else
     # Otherwise assume I am on other's box, highlight hostname in red
-    PS1="${PS1}${_LR}"
+    PS1="${PS1}${_LR}"                              # red hostname
 fi
 
-# Fancy PS1, prompt current yroot, also prompt the '$' in red when we have
-# background jobs, '\[' and '\]' is to mark ansi colors to allow shell to
-# calculate prompt string length correctly
-#
 PS1="${PS1}$(_H=${HOSTNAME%.yahoo.*}; echo ${_H%.peking.corp})"
 PS1="${PS1}${_LG}"                                  # then green {yroot}
 PS1="${PS1}"'$([[ -z $YROOT_NAME ]] || echo "{$YROOT_NAME}")'
 PS1="${PS1}${_HU}"                                  # reset back to hi/ul
-PS1="${PS1} \w "                                    # cwd
+PS1="${PS1} \t \w"                                  # timestamp, cwd
 PS1="${PS1}${_LY}\$(__git_active_branch)${_NC}"     # yellow git branch
+PS1="${PS1} ⤾\n"                                    # wrap char, newline
 PS1="${PS1}\$([[ -z \$(jobs) ]] || echo '$_RR')"    # reverse bg job indicator
 PS1="${PS1}\\\$${_NC} "                             # $
 unset _LR _LG _LY _LB _HU _RR _NC

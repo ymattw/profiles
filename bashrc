@@ -7,10 +7,9 @@ export PATH=$PATH:$HOME/bin
 
 function __git_active_branch() {
     local branch=$(git symbolic-ref HEAD 2>/dev/null)
-    [[ -z $branch ]] || echo "(${branch##refs/heads/})"
+    [[ -z $branch ]] || echo " (${branch##refs/heads/})"
 }
 
-# Fancy PS1, prompt the '$' in red when we have background jobs, '\[' and '\]'
 # is to mark ansi colors to allow shell to calculate prompt string length
 # correctly
 #
@@ -22,19 +21,18 @@ _HU="\[\e[0;1;4m\]"     # hilight, underline
 _RR="\[\e[7;31m\]"      # reverse red
 _NC="\[\e[0m\]"         # no color
 
-# Start from exit status of last command, note bash < 3.2 has problem dealing
-# with wide chars
+# Fancy PS1, prompt exit status of last command, current hostname, time, cwd
+# and git branch, also prompt the '$' in red when we have background jobs, '\['
+# and '\]' is to mark ansi colors to allow shell to calculate prompt string
+# length correctly
 #
-if [[ ${BASH_VERSINFO[0]} > 4 ]] || [[ $BASH_VERSION > 3.1 ]]; then
-    PS1="\$([[ \$? == 0 ]] && echo '${_LG}✔${_NC}' || echo '${_LR}✘${_NC}') "
-else
-    PS1="\$([[ \$? == 0 ]] && echo '${_LG}^${_NC}' || echo '${_LR}!${_NC}') "
-fi
+PS1="\$([[ \$? == 0 ]] && echo '${_LG}✔${_NC}' || echo '${_LR}✘${_NC}') "
 PS1="${PS1}${_HU}"                                  # then init to hi/ul
 PS1="${PS1}${_LB}\h"                                # blue hostname
 PS1="${PS1}${_HU}"                                  # reset back to hi/ul
-PS1="${PS1} \w "                                    # cwd
+PS1="${PS1} \t \w"                                  # timestamp, cwd
 PS1="${PS1}${_LY}\$(__git_active_branch)${_NC}"     # yellow git branch
+PS1="${PS1} ⤾\n"                                    # wrap char, newline
 PS1="${PS1}\$([[ -z \$(jobs) ]] || echo '$_RR')"    # reverse bg job indicator
 PS1="${PS1}\\\$${_NC} "                             # $
 unset _LR _LG _LY _LB _HU _RR _NC
