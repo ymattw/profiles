@@ -5,9 +5,18 @@
 
 export PATH=$PATH:$HOME/bin
 
+function __git_status_color() {
+    git symbolic-ref HEAD >& /dev/null || return 0
+    if [[ -n $(git status -s 2>/dev/null) ]]; then
+        echo -e "\033[1;31m"        # red status
+    else
+        echo -e "\033[1;32m"        # green status
+    fi
+}
+
 function __git_active_branch() {
     local branch=$(git symbolic-ref HEAD 2>/dev/null)
-    [[ -z $branch ]] || echo " (${branch##refs/heads/})"
+    [[ -z $branch ]] || echo "(${branch##refs/heads/})"
 }
 
 # is to mark ansi colors to allow shell to calculate prompt string length
@@ -17,25 +26,26 @@ _LR="\[\e[1;31m\]"      # light red
 _LG="\[\e[1;32m\]"      # light green
 _LY="\[\e[1;33m\]"      # light yellow
 _LB="\[\e[1;34m\]"      # light blue
-_HU="\[\e[0;1;4m\]"     # hilight, underline
+_LM="\[\e[1;35m\]"      # light magenta
+_LC="\[\e[1;36m\]"      # light cyan
 _RR="\[\e[7;31m\]"      # reverse red
 _NC="\[\e[0m\]"         # no color
 
-# Fancy PS1, prompt exit status of last command, current hostname, time, cwd
-# and git branch, also prompt the '$' in red when we have background jobs, '\['
-# and '\]' is to mark ansi colors to allow shell to calculate prompt string
-# length correctly
+# Fancy PS1, prompt current time, exit status of last command, hostname, cwd,
+# git status and branch, also prompt the '$' in red when we have background
+# jobs, '\[' and '\]' is to mark ansi colors to allow shell to calculate prompt
+# string length correctly
 #
-PS1="\$([[ \$? == 0 ]] && echo '${_LG}✔${_NC}' || echo '${_LR}✘${_NC}') "
-PS1="${PS1}${_HU}"                                  # then init to hi/ul
+PS1="${_LC}\t "
+PS1="${PS1}\$([[ \$? == 0 ]] && echo '${_LG}✔' || echo '${_LR}✘') "
 PS1="${PS1}${_LB}\h"                                # blue hostname
-PS1="${PS1}${_HU}"                                  # reset back to hi/ul
-PS1="${PS1} \t \w"                                  # timestamp, cwd
-PS1="${PS1}${_LY}\$(__git_active_branch)${_NC}"     # yellow git branch
-PS1="${PS1} ⤾\n"                                    # wrap char, newline
+PS1="${PS1} ${_LY}\w"                               # yellow cwd
+PS1="${PS1}\[\$(__git_status_color)\]"              # git status indicator
+PS1="${PS1}\$(__git_active_branch)"                 # git branch name
+PS1="${PS1}${_LM} ⤾${_NC}\n"                        # magenta wrap char, NL
 PS1="${PS1}\$([[ -z \$(jobs) ]] || echo '$_RR')"    # reverse bg job indicator
 PS1="${PS1}\\\$${_NC} "                             # $
-unset _LR _LG _LY _LB _HU _RR _NC
+unset _LR _LG _LY _LB _LM _LC _RR _NC
 
 export PS1
 export EDITOR=vim
