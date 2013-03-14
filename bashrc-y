@@ -86,7 +86,7 @@ fi
 
 PS1="${PS1}$(_H=${HOSTNAME%.yahoo.*}; echo ${_H%.peking.corp})"
 PS1="${PS1}${_LG}"                                  # then green {yroot}
-PS1="${PS1}"'$([[ -z $YROOT_NAME ]] || echo ":$YROOT_NAME")'
+PS1="${PS1}"'$([[ -z $YROOT_NAME ]] || echo "{$YROOT_NAME}")'
 PS1="${PS1} ${_LY}\w"                               # yellow cwd
 PS1="${PS1}\[\$(__git_status_color)\]"              # git status indicator
 PS1="${PS1}\$(__git_active_branch)"                 # git branch name
