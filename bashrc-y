@@ -13,7 +13,7 @@
 function pathmunge() {
     local x
     for x in "$@"; do
-        [[ :$PATH: == *:$x: ]] || PATH=$x:$PATH
+        [[ :$PATH: == *:$x:* ]] || PATH=$x:$PATH
     done
 }
 pathmunge /bin /usr/bin /sbin /usr/sbin /usr/local/bin /usr/local/sbin \

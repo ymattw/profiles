@@ -3,7 +3,18 @@
 # Suggestion: ln -sf .bashrc .bash_profile
 #
 
-export PATH=$PATH:$HOME/bin
+# Customized PATH
+#
+function pathmunge() {
+    local x
+    for x in "$@"; do
+        [[ :$PATH: == *:$x:* ]] || PATH=$x:$PATH
+    done
+}
+pathmunge /bin /usr/bin /sbin /usr/sbin /usr/local/bin /usr/local/sbin \
+          /usr/X11/bin ~/bin
+unset pathmunge
+export PATH
 
 function __git_status_color() {
     git symbolic-ref HEAD >& /dev/null || return 0
