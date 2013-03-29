@@ -27,7 +27,7 @@ function __git_status_color() {
 
 function __git_active_branch() {
     local branch=$(git symbolic-ref HEAD 2>/dev/null)
-    [[ -z $branch ]] || echo "(${branch##refs/heads/})"
+    [[ -z $branch ]] || echo " (${branch##refs/heads/})"
 }
 
 # is to mark ansi colors to allow shell to calculate prompt string length

@@ -39,7 +39,7 @@ function __git_status_color() {
 
 function __git_active_branch() {
     local branch=$(git symbolic-ref HEAD 2>/dev/null)
-    [[ -z $branch ]] || echo "(${branch##refs/heads/})"
+    [[ -z $branch ]] || echo " (${branch##refs/heads/})"
 }
 
 # Tip: start a global ssh-agent for yourself in /etc/rc.d/rc.local like this:
