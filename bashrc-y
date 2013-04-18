@@ -136,7 +136,7 @@ function vif() {
 function g() {
     local string_pat=${1:?"Usage: g ERE-pattern [file-glob] [grep options]"}
     local file_glob=${2:-"*"}
-    shift; [[ -z $2 ]] || shift
+    shift; [[ -z $1 ]] || shift
     find . \( -path '*/.svn' -o -path '*/.git' -o -path '*/.idea' \) -prune \
         -o -type f -name "$file_glob" -print0 \
         | xargs -0 -n1 -P64 grep -EH "$string_pat" "$@"
