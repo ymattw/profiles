@@ -90,11 +90,11 @@ case $(uname -s) in
         ;;
 esac
 
-# Find a File by pattern
+# Find a file which name matches given pattern (ERE)
 function f() {
-    local pat=${1?'Usage: f pattern [path...]'}
+    local pat=${1?'Usage: f ERE-pattern [path...]'}
     shift
-    find ${@:-.} -regex '.*\.\(idea\|svn\|git\).*' \
+    find ${@:-.} \( -path '*/.svn' -o -path '*/.git' -o -path '*/.idea' \) -prune \
         -prune -o -print | grep -i "$pat"
 }
 
@@ -106,13 +106,14 @@ function vif() {
     f "$@" > $tmpf && vi -c "/$1" $tmpf && rm -f $tmpf
 }
 
-# Grep a string in currently dir by file pattern quickly
+# Grep a pattern (ERE) in files that match given file glob in cwd
 function g() {
-    file_pat=$1
-    string_pat=${2:?"Usage: g 'file-pattern' 'string-pattern' [grep options]"}
-    shift 2
-    find . -type f -name "$file_pat" -print0 \
-        | xargs -0 -n1 -P128 grep -H "$string_pat" "$@"
+    local string_pat=${1:?"Usage: g ERE-pattern [file-glob] [grep options]"}
+    local file_glob=${2:-"*"}
+    shift; [[ -z $2 ]] || shift
+    find . \( -path '*/.svn' -o -path '*/.git' -o -path '*/.idea' \) -prune \
+        -o -type f -name "$file_glob" -print0 \
+        | xargs -0 -n1 -P64 grep -EH "$string_pat" "$@"
 }
 
 # Auto complete unset from exported variables
