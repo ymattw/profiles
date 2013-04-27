@@ -66,6 +66,7 @@ export GREP_OPTIONS="--color=auto"
 # Locale matters for ls and sort
 # www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
 export LC_COLLATE=C
+export LC_CTYPE=C
 
 # To start a global ssh-agent: ssh-agent | sed /^echo/d > ~/.ssh-agent.rc
 [[ ! -r ~/.ssh-agent.rc ]] || source ~/.ssh-agent.rc
