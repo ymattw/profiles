@@ -84,7 +84,7 @@ else
     PS1="${PS1}${_LR}"                              # red hostname
 fi
 
-PS1="${PS1}$(_H=${HOSTNAME%.yahoo.*}; echo ${_H%.peking.corp})"
+PS1="${PS1}${HOSTNAME%.yahoo.*}"
 PS1="${PS1}${_LG}"                                  # then green {yroot}
 PS1="${PS1}"'$([[ -z $YROOT_NAME ]] || echo "{$YROOT_NAME}")'
 PS1="${PS1} ${_LY}\w"                               # yellow cwd
@@ -149,7 +149,9 @@ function g() {
 function _host_complete()
 {
     local cur=${COMP_WORDS[COMP_CWORD]}
-    COMPREPLY=($(compgen -W "$(awk '!/^#/{print $1}' ~/HOSTS)" -- $cur))
+    local hosts=$( (sed -ne 's/[, ].*//p' ~/.ssh/known_hosts*;
+                    awk '!/^#/{print $1}' ~/HOSTS) 2>/dev/null | sort -u)
+    COMPREPLY=($(compgen -W "$hosts" -- $cur))
 }
 complete -F _host_complete ssh scp igor pogo host nc ping mssh scp-profile.sh
 
