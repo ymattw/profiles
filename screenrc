@@ -25,8 +25,11 @@ hardstatus alwayslastline '%{WB}%-w%{bW}%n %t%{-}%+w %-12=%c %D %d'
 # PgUp to scroll up
 bindkey -k kP copy
 bind s
-bind | split -v
+# bind | split -v
 bind j focus down
 bind k focus up
 bind x remove
 bind _ only
+
+screen -t dev           0 bash
+screen -t dev           1 bash
