@@ -4,9 +4,12 @@
 #
 
 # Source global definitions
-[[ -f /etc/profile ]] && . /etc/profile
-[[ -f /etc/bashrc ]] && . /etc/bashrc
-[[ -f ~/DIRS ]] && . ~/DIRS
+[[ ! -f /etc/profile ]] || . /etc/profile
+[[ ! -f /etc/bashrc ]] || . /etc/bashrc
+[[ ! -f ~/DIRS ]] || . ~/DIRS
+
+# https://raw.github.com/git/git/master/contrib/completion/git-completion.bash
+[[ ! -f ~/.git-completion.bash ]] || . ~/.git-completion.bash
 
 # Customized PATH
 #
