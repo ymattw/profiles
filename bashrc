@@ -57,13 +57,12 @@ _LC="\[\e[1;36m\]"      # light cyan
 _RR="\[\e[7;31m\]"      # reverse red
 _NC="\[\e[0m\]"         # no color
 
-# Fancy PS1, prompt current time, exit status of last command, hostname, yroot,
-# time, cwd, git status and branch, also prompt the '$' in red when we have
-# background jobs, '\[' and '\]' is to mark ansi colors to allow shell to
+# Fancy PS1, prompt exit status of last command, currenet time, hostname,
+# yroot, time, cwd, git status and branch, also prompt the '$' in red when we
+# have background jobs, '\[' and '\]' is to mark ansi colors to allow shell to
 # calculate prompt string length correctly
 #
-PS1="${_LC}\t "
-PS1="${PS1}\$([[ \$? == 0 ]] && echo '${_LG}✔' || echo '${_LR}✘') "
+PS1="\$([[ \$? == 0 ]] && echo '${_LG}✔' || echo '${_LR}✘') \t "
 
 if [[ -f ~/.ssh-agent.rc ]]; then
     # I am on my own machine, try load ssh-agent related environments
