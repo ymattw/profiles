@@ -11,6 +11,8 @@ git config --global alias.tail "log --oneline --decorate --graph -10"
 git config --global alias.loggrep "log --decorate --all-match -i --grep"
 git config --global alias.pick cherry-pick
 git config --global alias.up "pull --rebase"
+git config --global alias.ru "pull --rebase upstream"
+git config --global alias.pu "push upstream"
 git config --global alias.ff "merge --ff-only"
 git config --global alias.noff "merge --no-ff"
 
