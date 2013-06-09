@@ -29,7 +29,7 @@ export PATH
 function __git_status_color() {
     git symbolic-ref HEAD >& /dev/null || return 0
     if [[ -n $(git status -s 2>/dev/null) ]]; then
-        echo -e "\033[1;35m"        # magenta status
+        echo -e "\033[1;31m"        # red status
     else
         echo -e "\033[1;32m"        # green status
     fi
@@ -54,7 +54,7 @@ _LY="\[\e[1;33m\]"      # light yellow
 _LB="\[\e[1;34m\]"      # light blue
 _LM="\[\e[1;35m\]"      # light magenta
 _LC="\[\e[1;36m\]"      # light cyan
-_RR="\[\e[7;31m\]"      # reverse red
+_RV="\[\e[7m\]"         # reverse
 _NC="\[\e[0m\]"         # no color
 
 # Fancy PS1, prompt exit status of last command, currenet time, hostname,
@@ -78,7 +78,7 @@ if [[ -f ~/.ssh-agent.rc ]]; then
     fi
 else
     # Otherwise assume I am on other's box, highlight hostname in red
-    PS1="${PS1}${_LR}"                              # red hostname
+    PS1="${PS1}${_LM}"                              # magenta hostname
 fi
 
 PS1="${PS1}${HOSTNAME%.yahoo.*}"
@@ -87,10 +87,10 @@ PS1="${PS1}"'$([[ -z $YROOT_NAME ]] || echo "{$YROOT_NAME}")'
 PS1="${PS1} ${_LY}\w"                               # yellow cwd
 PS1="${PS1}\[\$(__git_status_color)\]"              # git status indicator
 PS1="${PS1}\$(__git_active_branch)"                 # git branch name
-PS1="${PS1}${_LC} ⤾${_NC}\n"                        # cyan wrap char, NL
-PS1="${PS1}\$([[ -z \$(jobs) ]] || echo '$_RR')"    # reverse bg job indicator
+PS1="${PS1}${_LC} ⤾\n"                              # cyan wrap char, NL
+PS1="${PS1}\$([[ -z \$(jobs) ]] || echo '$_RV')"    # reverse bg job indicator
 PS1="${PS1}\\\$${_NC} "                             # $
-unset _LR _LG _LY _LB _LM _LC _RR _NC
+unset _LR _LG _LY _LB _LM _LC _RV _NC
 
 export PS1
 export EDITOR=vim
