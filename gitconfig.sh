@@ -15,6 +15,8 @@ git config --global alias.ru "pull --rebase upstream"
 git config --global alias.pu "push upstream"
 git config --global alias.ff "merge --ff-only"
 git config --global alias.noff "merge --no-ff"
+git config --global alias.pp \
+    '!git_pp() { git pull --rebase $1 $2 && git push $1 $2; }; git_pp'
 
 git config --global core.editor vim
 git config --global color.ui true
