@@ -126,7 +126,7 @@ esac
 function f() {
     local pat=${1?'Usage: f ERE-pattern [path...]'}
     shift
-    find ${@:-.} \( -path '*/.svn' -o -path '*/.git' -o -path '*/.idea' \) -prune \
+    find -L ${@:-.} \( -path '*/.svn' -o -path '*/.git' -o -path '*/.idea' \) \
         -prune -o -print | grep -i "$pat"
 }
 
@@ -138,14 +138,25 @@ function vif() {
     f "$@" > $tmpf && vi -c "/$1" $tmpf && rm -f $tmpf
 }
 
-# Grep a pattern (ERE) in files that match given file glob in cwd
+# Grep a ERE pattern in files that match given file glob in cwd or given path
 function g() {
-    local string_pat=${1:?"Usage: g ERE-pattern [file-glob] [grep options]"}
-    local file_glob=${2:-"*"}
-    shift; [[ -z $1 ]] || shift
-    find . \( -path '*/.svn' -o -path '*/.git' -o -path '*/.idea' \) -prune \
-        -o -type f -name "$file_glob" -print0 \
-        | xargs -0 -n1 -P64 grep -EH "$string_pat" "$@"
+    local string_pat=${1:?"Usage: g ERE-pattern [file-glob] [grep opts] [path...]"}
+    shift
+    local file_glob grep_opts paths
+
+    while (( $# > 0 )); do
+        case "$1" in
+            *\**|*\?*|*\[*) file_glob="$1"; shift;;
+            -*) grep_opts="$grep_opts $1"; shift;;
+            *) paths="$paths $1"; shift;;
+        esac
+    done
+    [[ -n "$file_glob" ]] || file_glob="*"
+    [[ -n "$paths" ]] || paths="."
+
+    find -L $paths \( -path '*/.svn' -o -path '*/.git' -o -path '*/.idea' \) \
+        -prune -o -type f -name "$file_glob" -print0 \
+        | xargs -0 -P64 grep -EH $grep_opts "$string_pat"
 }
 
 # Auto complete hostnames for hostname related commands, note 'complete -A
