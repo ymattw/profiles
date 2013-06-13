@@ -13,17 +13,17 @@
 
 # Customized PATH
 #
-function pathmunge() {
+function path_prepend() {
     local x
     for x in "$@"; do
         [[ :$PATH: == *:$x:* ]] || PATH=$x:$PATH
     done
 }
-pathmunge /bin /usr/bin /sbin /usr/sbin /usr/local/bin /usr/local/sbin ~/bin
-[[ ! -d /opt/local/bin ]] || pathmunge /opt/local/bin
-[[ ! -d /home/y/bin64 ]] || pathmunge /home/y/bin64
-[[ ! -d /home/y/bin ]] || pathmunge /home/y/bin
-unset pathmunge
+path_prepend /bin /usr/bin /sbin /usr/sbin /usr/local/bin /usr/local/sbin ~/bin
+[[ ! -d /opt/local/bin ]] || path_prepend /opt/local/bin
+[[ ! -d /home/y/bin64 ]] || path_prepend /home/y/bin64
+[[ ! -d /home/y/bin ]] || path_prepend /home/y/bin
+unset path_prepend
 export PATH
 
 function __git_status_color() {
