@@ -156,7 +156,7 @@ function g() {
 
     find -L $paths \( -path '*/.svn' -o -path '*/.git' -o -path '*/.idea' \) \
         -prune -o -type f -name "$file_glob" -print0 \
-        | xargs -0 -P64 grep -EH $grep_opts "$string_pat"
+        | xargs -0 -P128 grep -EH $grep_opts "$string_pat"
 }
 
 # Auto complete hostnames for hostname related commands, note 'complete -A
