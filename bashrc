@@ -146,7 +146,7 @@ function g() {
 
     while (( $# > 0 )); do
         case "$1" in
-            *\**|*\?*|*\[*) file_glob="$1"; shift;;
+            *\**|*\?*|*\]*) file_glob="$1"; shift;;
             -*) grep_opts="$grep_opts $1"; shift;;
             *) paths="$paths $1"; shift;;
         esac
