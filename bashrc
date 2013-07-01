@@ -42,7 +42,7 @@ function __git_active_branch() {
 
 # Tip: start a global ssh-agent for yourself, for example, add this in
 # /etc/rc.d/rc.local (RHEL):
-#   U=wangyl
+#   U=ymattw
 #   rm -f /home/$U/.ssh-agent.sock
 #   /bin/su -m $U -c "/usr/bin/ssh-agent -s -a /home/$U/.ssh-agent.sock \
 #      | sed '/^echo/d' > /home/$U/.ssh-agent.rc"
