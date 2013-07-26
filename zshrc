@@ -79,7 +79,7 @@ fi
 
 PROMPT+="$(_H=$(hostname); echo ${_H%.yahoo.*})"
 PROMPT+='%{$fg[green]%}'                            # then green {yroot}
-PROMPT+="${YROOT_NAME+{$YROOT_NAME}}"
+PROMPT+="${YROOT_NAME+{$YROOT_NAME\}}"
 PROMPT+=' %{$fg[yellow]%}%~%{$reset_color%}'        # yellow cwd
 PROMPT+='$(__git_status_color)'                     # git status indicator
 PROMPT+='$(__git_active_branch)'                    # git branch name
