@@ -25,15 +25,12 @@ if version >= 700
     Bundle 'godlygeek/tabular'
     Bundle 'ymattw/TWiki-Syntax'
     Bundle 'vim-scripts/taglist.vim'
-    Bundle 'altercation/vim-colors-solarized'
 
     if has('gui_running')
         set background=light
         set columns=120
         set lines=40
 
-        "hi! Normal guifg=#cccccc guibg=#333333
-        hi! Comment guifg=#669999
         hi! User1 gui=underline guifg=white
         hi! User2 gui=underline guifg=magenta
         hi! User3 gui=underline guifg=red
@@ -45,12 +42,14 @@ if version >= 700
         elseif has('gui_gtk') || has('gui_gtk2')
             set guifont=Bitstream\ Vera\ Sans\ Mono\ 12
         endif
+
+        " Solarized only looks good for gvim to me
+        Bundle 'altercation/vim-colors-solarized'
+        let g:solarized_termcolors=256
+        colorscheme solarized
     else
         set background=dark
     endif
-
-    let g:solarized_termcolors=256
-    colorscheme solarized
 endif
 
 " Brief help
@@ -88,7 +87,7 @@ let Tlist_File_Fold_Auto_Close = 1
 
 " Basic settings
 "
-set noswf nobk bg=dark                  " general
+set noswf nobk                          " general
 set is ic scs hls sm mat=2              " interface
 set si sta sr bs=2 tw=79 fo=tcroqnmMB   " editing
 set nofen fdm=manual                    " folding
