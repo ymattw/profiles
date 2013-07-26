@@ -8,5 +8,5 @@ My dot files
 - screenrc: config file for GNU screen (date/time in status line)
 - gitconfig.sh: script to configure git perferences
 - vimrc/gvimrc: vim profile that use vundle to manage plugins.
-  Run `deploy-vimrc.sh [host...]` to deploy it
+  Run `deploy-vim.sh [host...]` to deploy it
 

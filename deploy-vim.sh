@@ -7,11 +7,10 @@ cd $SELF_DIR
 
 if [[ -n $1 ]]; then
     echo "Copying vim profile from $HOME to remote $1..."
-    (cd && rsync -az --exclude '.git' .vimrc .gvimrc .vim $1:)
+    (cd && rsync -az --exclude '.git' .vimrc .vim $1:)
 else
     echo "Initializing vim profile to $HOME..."
     cp vimrc ~/.vimrc
-    cp gvimrc ~/.gvimrc
     [[ -d ~/.vim/bundle/vundle ]] || {
         git clone git@github.com:gmarik/vundle.git ~/.vim/bundle/vundle
     }

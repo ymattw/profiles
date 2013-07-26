@@ -25,6 +25,32 @@ if version >= 700
     Bundle 'godlygeek/tabular'
     Bundle 'ymattw/TWiki-Syntax'
     Bundle 'vim-scripts/taglist.vim'
+    Bundle 'altercation/vim-colors-solarized'
+
+    if has('gui_running')
+        set background=light
+        set columns=120
+        set lines=40
+
+        "hi! Normal guifg=#cccccc guibg=#333333
+        hi! Comment guifg=#669999
+        hi! User1 gui=underline guifg=white
+        hi! User2 gui=underline guifg=magenta
+        hi! User3 gui=underline guifg=red
+        hi! StatusLine gui=underline guifg=#000099
+        hi! StatusLineNC gui=underline guifg=grey
+
+        if has('gui_mac') || has('gui_macvim')
+            set guifont=Monaco:h13
+        elseif has('gui_gtk') || has('gui_gtk2')
+            set guifont=Bitstream\ Vera\ Sans\ Mono\ 12
+        endif
+    else
+        set background=dark
+    endif
+
+    let g:solarized_termcolors=256
+    colorscheme solarized
 endif
 
 " Brief help
