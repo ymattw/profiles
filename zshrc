@@ -90,6 +90,7 @@ PROMPT+='%#%{$reset_color%} '                       # % or #
 
 export EDITOR=vim
 export GREP_OPTIONS="--color=auto"
+export LESS="-XFR"
 unsetopt nomatch
 
 # Locale matters for ls and sort
