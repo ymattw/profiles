@@ -89,8 +89,8 @@ PROMPT+='$([[ -z $(jobs) ]] || echo "\e[7m")'       # reverse bg job indicator
 PROMPT+='%#%{$reset_color%} '                       # % or #
 
 export EDITOR=vim
-export TERM=linux
 export GREP_OPTIONS="--color=auto"
+unsetopt nomatch
 
 # Locale matters for ls and sort
 # www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
