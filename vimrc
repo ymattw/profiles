@@ -20,6 +20,7 @@ if version >= 700
     Bundle 'gmarik/vundle'
     Bundle 'tpope/vim-pathogen'
     Bundle 'tpope/vim-fugitive'
+    Bundle 'tpope/vim-markdown'
     Bundle 'klen/python-mode'
     Bundle 'gregsexton/gitv'
     Bundle 'godlygeek/tabular'
