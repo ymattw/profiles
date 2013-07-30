@@ -7,6 +7,18 @@
 "   vim +BundleInstall +qall
 "
 
+" Default background, window and font tunings
+"
+if has('gui_running')
+    set background=light
+    set columns=120
+    set lines=40
+else
+    set background=dark
+    set t_Co=256
+    set t_ti= t_te=     " prevent clear screen after exit
+endif
+
 " Load vundle
 "
 set nocp
@@ -28,16 +40,6 @@ if version >= 700
     Bundle 'vim-scripts/taglist.vim'
 
     if has('gui_running')
-        set background=light
-        set columns=120
-        set lines=40
-
-        hi! User1 gui=underline guifg=white
-        hi! User2 gui=underline guifg=magenta
-        hi! User3 gui=underline guifg=red
-        hi! StatusLine gui=underline guifg=#000099
-        hi! StatusLineNC gui=underline guifg=grey
-
         if has('gui_mac') || has('gui_macvim')
             set guifont=Monaco:h13
         elseif has('gui_gtk') || has('gui_gtk2')
@@ -46,10 +48,7 @@ if version >= 700
 
         " Solarized only looks good for gvim to me
         Bundle 'altercation/vim-colors-solarized'
-        let g:solarized_termcolors=256
         colorscheme solarized
-    else
-        set background=dark
     endif
 endif
 
@@ -151,11 +150,11 @@ set stl+=\ %3*%{&paste?'paste':''}%*    " paste mode flag
 set stl+=\ %0*%=%*                      " start to align right
 set stl+=\ %0*%4l,%-2v%*                " line and column info
 set stl+=\ %0*%3p%%%*                   " line percentage
-hi! User1 cterm=underline ctermfg=white
-hi! User2 cterm=underline ctermfg=magenta
-hi! User3 cterm=underline ctermfg=red
-hi! StatusLine cterm=underline ctermfg=blue
-hi! StatusLineNC cterm=underline ctermfg=grey
+hi! User1 cterm=underline ctermfg=white gui=underline guibg=#ccc6b3 guifg=#fdf6e3
+hi! User2 cterm=underline ctermfg=magenta gui=underline guibg=#ccc6b3 guifg=magenta
+hi! User3 cterm=underline ctermfg=red gui=underline guibg=#ccc6b3 guifg=red
+hi! StatusLine cterm=underline ctermfg=blue gui=underline guibg=#ccc6b3
+hi! StatusLineNC cterm=underline ctermfg=grey gui=underline guibg=#eee8d5
 
 " Key maps. Make sure <BS> and <C-H> are different in your terminal setting!
 "
