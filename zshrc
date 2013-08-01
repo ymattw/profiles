@@ -83,8 +83,7 @@ PROMPT+="${YROOT_NAME+\{$YROOT_NAME\}}"
 PROMPT+=' %{$fg[yellow]%}%~%{$reset_color%}'        # yellow cwd
 PROMPT+='$(__git_status_color)'                     # git status indicator
 PROMPT+='$(__git_active_branch)'                    # git branch name
-PROMPT+=' %{$fg[cyan]%}⤾
-'                                                   # cyan wrap char, newline
+PROMPT+=$' %{$fg[cyan]%}⤾\n'                        # cyan wrap char, newline
 PROMPT+='$([[ -z $(jobs) ]] || echo "\e[7m")'       # reverse bg job indicator
 PROMPT+='%#%{$reset_color%} '                       # % or #
 
