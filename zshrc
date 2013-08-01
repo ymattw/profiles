@@ -1,10 +1,5 @@
 # Matthew Wang's Zsh Profile for general Linux/Unix with a little Y! flavor
 #
-# To initialize ~/.oh-my-zsh, clone from my fork:
-#
-#   git clone git://github.com/ymattw/oh-my-zsh.git ~/.oh-my-zsh
-#
-ZSH=$HOME/.oh-my-zsh
 
 # Customized PATH
 #
@@ -21,29 +16,51 @@ path_prepend /bin /usr/bin /sbin /usr/sbin /usr/local/bin /usr/local/sbin ~/bin
 unset path_prepend
 export PATH
 
-# Functions to customize my own git promote
+# Load oh-my-zsh and plugins if avilable, clone from my fork to initialize:
 #
-function __git_status_color() {
-    git symbolic-ref HEAD >& /dev/null || return 0
-    if [[ -n $(git status -s 2>/dev/null) ]]; then
-        echo -e "\033[1;31m"        # red status
-    else
-        echo -e "\033[1;32m"        # green status
+#   git clone git://github.com/ymattw/oh-my-zsh.git ~/.oh-my-zsh
+#
+ZSH=~/.oh-my-zsh
+if [[ -f $ZSH/oh-my-zsh.sh ]]; then
+    source $ZSH/oh-my-zsh.sh
+    DISABLE_AUTO_UPDATE="true"
+    DISABLE_CORRECTION="true"
+    plugins=(git ssh)
+fi
+
+setopt prompt_subst
+unsetopt nomatch
+
+_LR='%{%B%F{red}%}'     # light red
+_LG='%{%B%F{green}%}'   # light green
+_LY='%{%B%F{yellow}%}'  # light yellow
+_LB='%{%B%F{blue}%}'    # light blue
+_LM='%{%B%F{magenta}%}' # light magenta
+_LC='%{%B%F{cyan}%}'    # light cyan
+_RV='%{%S%}'            # reverse
+_NC='%{$reset_color%}'  # reset color
+
+# Functions to customize my own git promote.  FIXME: $_LR and $_LG won't get
+# expanded here
+#
+function __git_active_branch() {
+    local branch=$(git symbolic-ref HEAD 2>/dev/null)
+    branch=${branch##refs/heads/}
+
+    if [[ -n $branch ]]; then
+        if [[ -n $(git status -s 2>/dev/null) ]]; then
+            print -nP "%{%B%F{red}%} ($branch)"
+        else
+            print -nP "%{%B%F{green}%} ($branch)"
+        fi
     fi
 }
 
-function __git_active_branch() {
-    local branch=$(git symbolic-ref HEAD 2>/dev/null)
-    [[ -z $branch ]] || echo " (${branch##refs/heads/})"
-}
-
-# Load oh-my-zsh and plugins
+# Fancy PROMPT, prompt exit status of last command, currenet time, hostname,
+# yroot, time, cwd, git status and branch, also prompt the '%' in reverse color
+# when we have background jobs.
 #
-DISABLE_AUTO_UPDATE="true"
-DISABLE_CORRECTION="true"
-plugins=(git ssh)
-source $ZSH/oh-my-zsh.sh
-unalias g
+PROMPT="\$([[ \$? == 0 ]] && echo '${_LG}✔' || echo '${_LR}✘') %* "
 
 # Tip: start a global ssh-agent for yourself, for example, add this in
 # /etc/rc.d/rc.local (RHEL):
@@ -53,44 +70,36 @@ unalias g
 #      | sed '/^echo/d' > /home/$U/.ssh-agent.rc"
 # You will need to ssh-add your identity manually once
 #
-
-# Fancy PROMPT, prompt exit status of last command, currenet time, hostname,
-# yroot, time, cwd, git status and branch, also prompt the '%' in reverse color
-# when we have background jobs.
-#
-PROMPT="\$([[ \$? == 0 ]] && echo '\e[1;32m✔' || echo '\e[1;31m✘') %* "
-
 if [[ -f ~/.ssh-agent.rc ]]; then
     # I am on my own machine, try load ssh-agent related environments
-    PROMPT+='%{$fg[blue]%}'                         # blue hostname
-    . ~/.ssh-agent.rc
+    PROMPT+="${_LB}"                                # blue hostname
+    source ~/.ssh-agent.rc
     if ps -p ${SSH_AGENT_PID:-0} >& /dev/null; then
         if ! ssh-add -L | grep -q ^ssh-; then
-            echo -e "\033[1;31mWarning: No key is being held by ssh-agent," \
-                    "try 'ssh-add <your-ssh-private-key>'\x1b[0m" >&2
+            print -P "${_LR}Warning: No key is being held by ssh-agent," \
+                     "try 'ssh-add <your-ssh-private-key>'${_NC}" >&2
         fi
     else
-        echo -e "\033[1;31mWarning: No global ssh-agent process alive" >&2
+        print -P "${_LR}Warning: No global ssh-agent process alive${_NC}" >&2
     fi
 else
-    # Otherwise assume I am on other's box, highlight hostname in red
-    PROMPT+='%{$fg[magenta]%}'                      # magenta hostname
+    # Otherwise assume I am on other's box, highlight hostname in magenta
+    PROMPT+="${_LM}"                                # magenta hostname
 fi
 
 PROMPT+="$(_H=$(hostname); echo ${_H%.yahoo.*})"
-PROMPT+='%{$fg[green]%}'                            # then green {yroot}
-PROMPT+="${YROOT_NAME+\{$YROOT_NAME\}}"
-PROMPT+=' %{$fg[yellow]%}%~%{$reset_color%}'        # yellow cwd
-PROMPT+='$(__git_status_color)'                     # git status indicator
-PROMPT+='$(__git_active_branch)'                    # git branch name
-PROMPT+=$' %{$fg[cyan]%}⤾\n'                        # cyan wrap char, newline
-PROMPT+='$([[ -z $(jobs) ]] || echo "\e[7m")'       # reverse bg job indicator
-PROMPT+='%#%{$reset_color%} '                       # % or #
+PROMPT+=${_LG}                                      # then green {yroot}
+PROMPT+=${YROOT_NAME+"{$YROOT_NAME}"}
+PROMPT+=" ${_LY}%~${_NC}"                           # yellow cwd
+PROMPT+='$(__git_active_branch)'                    # colorful git branch name
+PROMPT+=" ${_LC}"$'⤾\n'                             # cyan wrap char, newline
+PROMPT+="\$([[ -z \$(jobs) ]] || echo '${_RV}')"    # reverse bg job indicator
+PROMPT+="%#${_NC} "                                 # % or #
+unset _LR _LG _LY _LB _LM _LC _RV _NC
 
 export EDITOR=vim
 export GREP_OPTIONS="--color=auto"
 export LESS="-XFR"
-unsetopt nomatch
 
 # Locale matters for ls and sort
 # www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
