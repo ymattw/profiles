@@ -44,14 +44,18 @@ _NC='%{$reset_color%}'  # reset color
 # expanded here
 #
 function __git_active_branch() {
-    local branch=$(git symbolic-ref HEAD 2>/dev/null)
-    branch=${branch##refs/heads/}
+    if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
+        local branch info age track
+        branch=$(git symbolic-ref HEAD 2>/dev/null)
+        branch=${branch##refs/heads/}
+        info=$(git status -s)
+        age=$(git log --pretty=format:'%cr' -1 $branch)
+        track=$(git status -s -b | head -1 | sed -n 's/.*\[\(.*\)\].*/, \1/p')
 
-    if [[ -n $branch ]]; then
-        if [[ -n $(git status -s 2>/dev/null) ]]; then
-            print -nP "%{%B%F{red}%} ($branch)"
+        if [[ -n $info ]]; then
+            print -nP "%{%b%F{red}%} ($branch) %{%b%F{cyan}%}[${age}${track}]"
         else
-            print -nP "%{%B%F{green}%} ($branch)"
+            print -nP "%{%b%F{green}%} ($branch) %{%b%F{cyan}%}[${age}${track}]"
         fi
     fi
 }
@@ -88,7 +92,7 @@ else
 fi
 
 PROMPT+="$(_H=$(hostname); echo ${_H%.yahoo.*})"
-PROMPT+=${_LG}                                      # then green {yroot}
+PROMPT+="${_LG}"                                    # then green {yroot}
 PROMPT+=${YROOT_NAME+"{$YROOT_NAME}"}
 PROMPT+=" ${_LY}%~${_NC}"                           # yellow cwd
 PROMPT+='$(__git_active_branch)'                    # colorful git branch name
