@@ -18,7 +18,7 @@ export PATH
 
 # Load oh-my-zsh and plugins if avilable, clone from my fork to initialize:
 #
-#   git clone git://github.com/ymattw/oh-my-zsh.git ~/.oh-my-zsh
+#   git clone https://github.com/ymattw/oh-my-zsh.git ~/.oh-my-zsh
 #
 ZSH=~/.oh-my-zsh
 if [[ -f $ZSH/oh-my-zsh.sh ]]; then
@@ -38,7 +38,7 @@ _LB='%{%B%F{blue}%}'    # light blue
 _LM='%{%B%F{magenta}%}' # light magenta
 _LC='%{%B%F{cyan}%}'    # light cyan
 _RV='%{%S%}'            # reverse
-_NC='%{$reset_color%}'  # reset color
+_NC='%{%b%s%F{gray}%}'  # reset color
 
 # Functions to customize my own git promote.  FIXME: $_LR and $_LG won't get
 # expanded here
