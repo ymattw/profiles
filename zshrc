@@ -25,11 +25,15 @@ if [[ -f $ZSH/oh-my-zsh.sh ]]; then
     source $ZSH/oh-my-zsh.sh
     DISABLE_AUTO_UPDATE="true"
     DISABLE_CORRECTION="true"
-    plugins=(git ssh)
+    plugins=(git)
 fi
 
 setopt prompt_subst
+setopt interactivecomments
+setopt nocaseglob
+setopt nocasematch
 unsetopt nomatch
+unsetopt correct
 
 _LR='%{%B%F{red}%}'     # light red
 _LG='%{%B%F{green}%}'   # light green
