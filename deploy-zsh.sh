@@ -7,11 +7,12 @@ cd $SELF_DIR
 
 if [[ -n $1 ]]; then
     echo "Copying zsh profile from $HOME to remote $1..."
-    (cd && rsync -az --exclude '.git' .oh-my-zsh .zshrc $1:)
+    (cd && rsync -az --exclude '.git' .zsh-completions .zshrc $1:)
 else
-    echo "Initializing oh-my-zsh to $HOME..."
-    [[ -d ~/.oh-my-zsh ]] || {
-        git clone git://github.com/ymattw/oh-my-zsh.git ~/.oh-my-zsh
+    echo "Initializing zsh-completions to $HOME..."
+    [[ -d ~/.zsh-completions ]] || {
+        git clone --branch y \
+            git://github.com/ymattw/zsh-completions.git ~/.zsh-completions
     }
     cp zshrc ~/.zshrc
 fi

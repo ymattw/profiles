@@ -16,25 +16,50 @@ path_prepend /bin /usr/bin /sbin /usr/sbin /usr/local/bin /usr/local/sbin ~/bin
 unset path_prepend
 export PATH
 
-# Load oh-my-zsh and plugins if avilable, clone from my fork to initialize:
+# Useful options
 #
-#   git clone https://github.com/ymattw/oh-my-zsh.git ~/.oh-my-zsh
-#
-ZSH=~/.oh-my-zsh
-if [[ -f $ZSH/oh-my-zsh.sh ]]; then
-    source $ZSH/oh-my-zsh.sh
-    DISABLE_AUTO_UPDATE="true"
-    DISABLE_CORRECTION="true"
-    plugins=(git)
-fi
-
-setopt prompt_subst
-setopt interactivecomments
-setopt nocaseglob
-setopt nocasematch
+setopt interactive_comments
+setopt nocase_glob
+setopt nocase_match
+setopt extended_history
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt hist_find_no_dups
+setopt hist_verify
+setopt share_history
 unsetopt nomatch
 unsetopt correct
 
+# Useful environments
+#
+export HISTFILE=~/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=10000
+export EDITOR=vim
+export GREP_OPTIONS="--color=auto"
+export LESS="-XFR"
+
+# Locale matters for ls and sort
+# www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
+export LC_COLLATE=C
+export LC_CTYPE=C
+
+# Load completions
+#
+[[ ! -d ~/.zsh-completions ]] || fpath=(~/.zsh-completions/src $fpath)
+autoload -U compinit && compinit
+zstyle ':completion:*' menu yes select
+zstyle ':completion:*' users off
+
+
+# Fix default host completion
+__hosts=($(sed -ne 's/[, ].*//p' ~/.ssh/known_hosts* 2>/dev/null))
+zstyle ':completion:*:hosts' hosts $__hosts
+
+# Customized theme (prompt)
+#
+setopt prompt_subst
 _LR='%{%B%F{red}%}'     # light red
 _LG='%{%B%F{green}%}'   # light green
 _LY='%{%B%F{yellow}%}'  # light yellow
@@ -44,9 +69,6 @@ _LC='%{%B%F{cyan}%}'    # light cyan
 _RV='%{%S%}'            # reverse
 _NC='%{%b%s%F{gray}%}'  # reset color
 
-# Functions to customize my own git promote.  FIXME: $_LR and $_LG won't get
-# expanded here
-#
 function __git_active_branch() {
     if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
         local branch info age track
@@ -56,6 +78,7 @@ function __git_active_branch() {
         age=$(git log --pretty=format:'%cr' -1 $branch 2>/dev/null)
         track=$(git status -s -b | head -1 | sed -n 's/.*\[\(.*\)\].*/, \1/p')
 
+        # FIXME: $_LR and $_LG won't get expanded here
         if [[ -n $info ]]; then
             print -nP "%{%b%F{red}%} ($branch) %{%b%F{cyan}%}[${age}${track}]"
         else
@@ -105,17 +128,16 @@ PROMPT+="\$([[ -z \$(jobs) ]] || echo '${_RV}')"    # reverse bg job indicator
 PROMPT+="%#${_NC} "                                 # % or #
 unset _LR _LG _LY _LB _LM _LC _RV _NC
 
-export EDITOR=vim
-export GREP_OPTIONS="--color=auto"
-export LESS="-XFR"
-
-# Locale matters for ls and sort
-# www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
-export LC_COLLATE=C
-export LC_CTYPE=C
-
 # Shortcuts (Aliases, function, auto completion etc.)
 #
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias 1='cd -'
+alias 2='cd -2'
+alias 3='cd -3'
+alias 4='cd -4'
+
 case $(uname -s) in
     Linux)
         alias ls='/bin/ls -F --color=auto'
@@ -134,6 +156,8 @@ case $(uname -s) in
         ;;
 esac
 
+# Utilities
+#
 # Find a file which name matches given pattern (ERE, case insensitive)
 function f() {
     local pat=${1?'Usage: f ERE-pattern [path...]'}
