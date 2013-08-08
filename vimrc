@@ -13,6 +13,12 @@ if has('gui_running')
     set background=light
     set columns=120
     set lines=40
+
+    if has('gui_mac') || has('gui_macvim')
+        set guifont=Monaco:h13
+    elseif has('gui_gtk') || has('gui_gtk2')
+        set guifont=Bitstream\ Vera\ Sans\ Mono\ 12
+    endif
 else
     set background=dark
     set t_Co=256
@@ -30,23 +36,44 @@ if version >= 700
 
     " vundle is required!
     Bundle 'gmarik/vundle'
-    Bundle 'tpope/vim-pathogen'
-    Bundle 'tpope/vim-fugitive'
-    Bundle 'tpope/vim-markdown'
+
     Bundle 'klen/python-mode'
+    " Disable rope and default options e.g 'setl nu' etc.
+    let g:pymode_rope = 0
+    let g:pymode_options = 0
+
+    " fugitive is required by gitv
+    Bundle 'tpope/vim-fugitive'
     Bundle 'gregsexton/gitv'
+
     Bundle 'godlygeek/tabular'
+
+    Bundle 'tpope/vim-markdown'
+
     Bundle 'ymattw/TWiki-Syntax'
+
     Bundle 'vim-scripts/taglist.vim'
-
-    if has('gui_running')
-        if has('gui_mac') || has('gui_macvim')
-            set guifont=Monaco:h13
-        elseif has('gui_gtk') || has('gui_gtk2')
-            set guifont=Bitstream\ Vera\ Sans\ Mono\ 12
+    let Tlist_Auto_Open = 0
+    let Tlist_Use_Right_Window = 1
+    let Tlist_Exit_OnlyWindow = 1
+    let Tlist_File_Fold_Auto_Close = 1
+    " For TagList on mac: sudo port install ctags
+    if has('unix')
+        if system('uname -s') =~ '^Darwin'
+            let Tlist_Ctags_Cmd = '/opt/local/bin/ctags'
         endif
+    endif
 
-        " Solarized only looks good for gvim to me
+    " 'Valloric/YouCompleteMe' might be better but its installation is too much
+    " heavy for me
+    Bundle 'ervandew/supertab'
+    let g:SuperTabDefaultCompletionType = "context"
+    let g:SuperTabContextDefaultCompletionType = "<c-n>"
+
+    Bundle 'vim-scripts/AutoComplPop'
+
+    " Solarized only looks good for gvim to me
+    if has('gui_running')
         Bundle 'altercation/vim-colors-solarized'
         colorscheme solarized
     endif
@@ -65,25 +92,6 @@ endif
 
 syntax on
 filetype plugin indent on
-
-" Post plugin tunes
-"
-
-" Disable rope and default options e.g 'setl nu' etc.
-let g:pymode_rope = 0
-let g:pymode_options = 0
-
-" For TagList on mac: sudo port install ctags
-if has('unix')
-    if system('uname -s') =~ '^Darwin'
-        let Tlist_Ctags_Cmd = '/opt/local/bin/ctags'
-    endif
-endif
-
-let Tlist_Auto_Open = 0
-let Tlist_Use_Right_Window = 1
-let Tlist_Exit_OnlyWindow = 1
-let Tlist_File_Fold_Auto_Close = 1
 
 " Basic settings
 "
