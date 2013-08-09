@@ -69,6 +69,7 @@ if version >= 700
     Bundle 'ervandew/supertab'
     let g:SuperTabDefaultCompletionType = "context"
     let g:SuperTabContextDefaultCompletionType = "<c-n>"
+    let g:SuperTabNoCompleteAfter = ['^', '\s', "'", '[~`!@#$%^&*()+={},</?\"\[\]\|-]', '[^-]>']
 
     Bundle 'vim-scripts/AutoComplPop'
 
