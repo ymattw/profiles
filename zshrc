@@ -53,7 +53,8 @@ export LC_CTYPE=C
 autoload -U compinit && compinit
 zstyle ':completion:*' menu yes select
 zstyle ':completion:*' users off
-
+zmodload zsh/complist
+bindkey -M menuselect '^M' .accept-line     # <Enter> only once to accept
 
 # Fix default host completion
 __hosts=($(sed -ne 's/[, ].*//p' ~/.ssh/known_hosts* 2>/dev/null))
