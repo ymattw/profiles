@@ -30,6 +30,8 @@ setopt hist_verify
 setopt share_history
 unsetopt nomatch
 unsetopt correct
+bindkey -e          # Reclaim C-a, C-e, C-r, M-., etc.
+stty stop undef     # Make 'C-s' to do fwd-i-search
 
 # Useful environments
 #
