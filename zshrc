@@ -20,7 +20,7 @@ export PATH
 #
 setopt interactive_comments
 setopt nocase_glob
-setopt nocase_match
+setopt nocase_match 2>/dev/null     # does not work for zsh < 4.3
 setopt extended_history
 setopt hist_expire_dups_first
 setopt hist_ignore_dups
@@ -63,14 +63,14 @@ zstyle ':completion:*:hosts' hosts $__hosts
 # Customized theme (prompt)
 #
 setopt prompt_subst
-_LR='%{%B%F{red}%}'     # light red
-_LG='%{%B%F{green}%}'   # light green
-_LY='%{%B%F{yellow}%}'  # light yellow
-_LB='%{%B%F{blue}%}'    # light blue
-_LM='%{%B%F{magenta}%}' # light magenta
-_LC='%{%B%F{cyan}%}'    # light cyan
-_RV='%{%S%}'            # reverse
-_NC='%{%b%s%F{gray}%}'  # reset color
+_LR=$'%{\e[1;31m%}'     # light red
+_LG=$'%{\e[1;32m%}'     # light green
+_LY=$'%{\e[1;33m%}'     # light yellow
+_LB=$'%{\e[1;34m%}'     # light blue
+_LM=$'%{\e[1;35m%}'     # light magenta
+_LC=$'%{\e[1;36m%}'     # light cyan
+_RV=$'%{\e[7m%}'        # reverse
+_NC=$'%{\e[0m%}'        # reset color
 
 function __git_active_branch() {
     if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
@@ -83,9 +83,9 @@ function __git_active_branch() {
 
         # FIXME: $_LR and $_LG won't get expanded here
         if [[ -n $info ]]; then
-            print -nP "%{%b%F{red}%} ($branch) %{%b%F{cyan}%}[${age}${track}]"
+            print -nP "%{\e[1;31m%} ($branch) %{\e[1;36m%}[${age}${track}]"
         else
-            print -nP "%{%b%F{green}%} ($branch) %{%b%F{cyan}%}[${age}${track}]"
+            print -nP "%{\e[1;32m%} ($branch) %{\e[1;36m%}[${age}${track}]"
         fi
     fi
 }
