@@ -61,6 +61,14 @@ ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;&|*?$'      # no space after, see zshparam(1)
 __hosts=($(sed -ne 's/[, ].*//p' ~/.ssh/known_hosts* 2>/dev/null))
 zstyle ':completion:*:hosts' hosts $__hosts
 
+# Customized yroot completion
+#
+function _yroot_completion() {
+  local dir="/home/y/var/yroots"
+  reply=($(/bin/ls $dir/*.conf |& sed -n "s#$dir/\(.*\).conf#\1#p"))
+}
+compctl -K _yroot_completion yroot
+
 # Customized theme (prompt)
 #
 setopt prompt_subst
