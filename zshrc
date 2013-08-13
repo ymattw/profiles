@@ -30,10 +30,13 @@ setopt hist_verify
 setopt share_history
 unsetopt nomatch
 unsetopt correct
-bindkey -e          # Reclaim C-a, C-e, C-r, M-., etc.
-stty stop undef     # Make 'C-s' to do fwd-i-search
+unsetopt auto_remove_slash
+bindkey -e                          # Reclaim C-a, C-e, C-r, M-., etc.
+stty stop undef                     # Make 'C-s' to do fwd-i-search
+bindkey "^U" backward-kill-line     # Keep the same behavior as in bash
 
-# Useful environments
+# Useful environments. Locale (LC_*) matters for ls and sort, see also
+# www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
 #
 export HISTFILE=~/.zsh_history
 export HISTSIZE=10000
@@ -41,9 +44,6 @@ export SAVEHIST=10000
 export EDITOR=vim
 export GREP_OPTIONS="--color=auto"
 export LESS="-XFR"
-
-# Locale matters for ls and sort
-# www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
 export LC_COLLATE=C
 export LC_CTYPE=C
 
@@ -55,6 +55,7 @@ zstyle ':completion:*' menu yes select
 zstyle ':completion:*' users off
 zmodload zsh/complist
 bindkey -M menuselect '^M' .accept-line     # <Enter> only once to accept
+ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;&|*?$'      # no space after, see zshparam(1)
 
 # Fix default host completion
 __hosts=($(sed -ne 's/[, ].*//p' ~/.ssh/known_hosts* 2>/dev/null))
@@ -81,7 +82,7 @@ function __git_active_branch() {
         age=$(git log --pretty=format:'%cr' -1 $branch 2>/dev/null)
         track=$(git status -s -b | head -1 | sed -n 's/.*\[\(.*\)\].*/, \1/p')
 
-        # FIXME: $_LR and $_LG won't get expanded here
+        # FIXME: $_LR and $_LG won't expand here
         if [[ -n $info ]]; then
             print -nP "%{\e[1;31m%} ($branch) %{\e[1;36m%}[${age}${track}]"
         else
