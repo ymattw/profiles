@@ -18,6 +18,7 @@ export PATH
 
 # Useful options
 #
+setopt prompt_subst
 setopt interactive_comments
 setopt nocase_glob
 setopt nocase_match 2>/dev/null     # does not work for zsh < 4.3
@@ -63,15 +64,14 @@ zstyle ':completion:*:hosts' hosts $__hosts
 
 # Customized yroot completion
 #
-function _yroot_completion() {
-  local dir="/home/y/var/yroots"
-  reply=($(/bin/ls $dir/*.conf |& sed -n "s#$dir/\(.*\).conf#\1#p"))
+function _yroot_complete() {
+    local dir="/home/y/var/yroots"
+    reply=($(/bin/ls $dir/*.conf |& sed -n "s#$dir/\(.*\).conf#\1#p"))
 }
-compctl -K _yroot_completion yroot
+compctl -K _yroot_complete yroot
 
 # Customized theme (prompt)
 #
-setopt prompt_subst
 _LR=$'%{\e[1;31m%}'     # light red
 _LG=$'%{\e[1;32m%}'     # light green
 _LY=$'%{\e[1;33m%}'     # light yellow
