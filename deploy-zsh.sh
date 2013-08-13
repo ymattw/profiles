@@ -11,9 +11,7 @@ if [[ -n $1 ]]; then
 else
     echo "Initializing zsh-completions to $HOME..."
     [[ -d ~/.zsh-completions ]] || {
-        git clone --branch y \
-            git://github.com/ymattw/zsh-completions.git ~/.zsh-completions
+        git clone git://github.com/zsh-users/zsh-completions.git ~/.zsh-completions
     }
-    (cd ~/.zsh-completions && git pull)
     cp zshrc ~/.zshrc
 fi
