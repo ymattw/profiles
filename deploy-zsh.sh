@@ -14,5 +14,6 @@ else
         git clone --branch y \
             git://github.com/ymattw/zsh-completions.git ~/.zsh-completions
     }
+    (cd ~/.zsh-completions && git pull)
     cp zshrc ~/.zshrc
 fi
