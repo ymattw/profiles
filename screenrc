@@ -4,7 +4,7 @@ startup_message off
 defscrollback 9000
 autodetach on
 altscreen off
-defshell zsh
+defshell /bin/zsh
 nonblock on
 vbell off
 
