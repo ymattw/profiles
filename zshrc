@@ -36,17 +36,19 @@ bindkey -e                          # Reclaim C-a, C-e, C-r, M-., etc.
 stty stop undef                     # Make 'C-s' to do fwd-i-search
 bindkey "^U" backward-kill-line     # Keep the same behavior as in bash
 
-# Useful environments. Locale (LC_*) matters for ls and sort, see also
+# Useful environments. Locale (LC_*) matters for ls and sort on Linux, see also
 # www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
 #
-export HISTFILE=~/.zsh_history
+export HISTFILE=~/.zhistory         # Prevent from ~/.zsh<tab> completion
 export HISTSIZE=10000
 export SAVEHIST=10000
 export EDITOR=vim
 export GREP_OPTIONS="--color=auto"
 export LESS="-XFR"
-export LC_COLLATE=C
-export LC_CTYPE=C
+if [[ $(uname -s) == Linux ]]; then
+    export LC_COLLATE=C
+    export LC_CTYPE=C
+fi
 
 # Load completions
 #
@@ -62,13 +64,15 @@ ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;&|*?$'      # no space after, see zshparam(1)
 __hosts=($(sed -ne 's/[, ].*//p' ~/.ssh/known_hosts* 2>/dev/null))
 zstyle ':completion:*:hosts' hosts $__hosts
 
-# Customized yroot completion
+# Customized yroot completion for Y! boxes
 #
-function _yroot_complete() {
-    local dir="/home/y/var/yroots"
-    reply=($(/bin/ls $dir/*.conf |& sed -n "s#$dir/\(.*\).conf#\1#p"))
-}
-compctl -K _yroot_complete yroot
+if [[ $(hostname -f) == *.yahoo.* ]]; then
+    function _yroot_complete() {
+        local d="/home/y/var/yroots"
+        reply=($(/bin/ls $d/*.conf |& sed -n "s#$d/\(.*\).conf#\1#p"))
+    }
+    compctl -K _yroot_complete yroot
+fi
 
 # Customized theme (prompt)
 #
@@ -130,7 +134,7 @@ else
     PROMPT+="${_LM}"                                # magenta hostname
 fi
 
-PROMPT+="$(_H=$(hostname); echo ${_H%.yahoo.*})"
+PROMPT+="$(_H=$(hostname -f); echo ${_H%.yahoo.*})"
 PROMPT+="${_LG}"                                    # then green {yroot}
 PROMPT+=${YROOT_NAME+"{$YROOT_NAME}"}
 PROMPT+=" ${_LY}%~${_NC}"                           # yellow cwd
