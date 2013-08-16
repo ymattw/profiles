@@ -106,6 +106,7 @@ set isf-==                              " misc: '=' is not part of filename
 set mps+=<:>                            " misc: '%' can match <> pair (for html)
 set et sts=4 sw=4 ts=8                  " default to 4-space soft tab
 set enc=utf-8                           " work with LC_COLLATE=C & LC_CTYPE=C
+set list listchars=tab:▸⋅,trail:▌      " highlight special chars, :h dig
 
 " File type detect
 "
@@ -131,8 +132,7 @@ au FileType twiki inoreabbrev <buffer> <a
 
 " Colors, suitable for evening backgroud (#333)
 "
-hi! link TrailingBlank Visual
-mat TrailingBlank /[ \t]\+$/            " note below C-K nmap
+hi! link SpecialKey Special
 hi! link CharAtCol80 WarningMsg         " note 'set cc=+1' confuses :vsp
 mat CharAtCol80 /\%80v/
 hi! Comment ctermfg=darkcyan            " by default it's same to Identifier
@@ -155,6 +155,7 @@ set stl+=\ %3*%{&ff=='dos'?'dos':''}%*  " dos format flag
 set stl+=\ %3*%{&ic?'ic':'noic'}%*      " ignorecase flag
 set stl+=\ %2*%{&et?'et':'noet'}%*      " expandtab
 set stl+=\ %2*%{&hls?'hls':''}%*        " highlight search flag
+set stl+=\ %2*%{&list?'list':''}%*      " list mode flag
 set stl+=\ %3*%{&paste?'paste':''}%*    " paste mode flag
 set stl+=\ %0*%=%*                      " start to align right
 set stl+=\ %0*%4l,%-2v%*                " line and column info
@@ -167,11 +168,12 @@ hi! StatusLineNC cterm=underline ctermfg=grey gui=underline guibg=#eee8d5
 
 " Key maps. Make sure <BS> and <C-H> are different in your terminal setting!
 "
-nmap <Space>    :set hls!<CR>|          " toggle highlight search
+nmap <Space>    :set list!<CR>|         " toggle list mode
 nmap <BS>       :set ic!<CR>|           " toggle ignore case
 nmap <C-N>      :set nu!<CR>|           " ctrl-n to toggle :set number
 nmap <C-P>      :set paste!<CR>|        " ctrl-p to toggle paste mode
-nmap <C-H>      /[ \t]\+$/<CR>|         " ctrl-h to highlight trailing blank
+nmap <C-H>      :set hls!<CR>|          " ctrl-h to toggle highlight search
+		"abc   
 nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " remove trailing blank
 imap <C-J>      <ESC>kJA|               " join to prev line (undo auto wrap)
 nmap ,c         I/* <ESC>A */<ESC>|     " comment out current line with /* */
