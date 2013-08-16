@@ -10,3 +10,6 @@ My dot files
 - vimrc/gvimrc: vim profile that use vundle to manage plugins.
   Run `deploy-vim.sh [host...]` to deploy it
 
+![iTerm2, screen, zsh and bash](https://raw.github.com/ymattw/profiles/gh-pages/img/term-screen-shell.png)
+
+![Vim autocompletion](https://raw.github.com/ymattw/profiles/gh-pages/img/vim.png)
