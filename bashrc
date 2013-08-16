@@ -1,4 +1,4 @@
-# Matthew Wang's Bash Profile for general Linux/Unix with a little Y! flavor
+# Matthew Wang's bash profile for general Linux/Unix with a little Y! flavor
 #
 # Suggestion: ln -sf .bashrc .bash_profile
 #
@@ -6,10 +6,6 @@
 # Source global definitions
 [[ ! -f /etc/profile ]] || . /etc/profile
 [[ ! -f /etc/bashrc ]] || . /etc/bashrc
-[[ ! -f ~/DIRS ]] || . ~/DIRS
-
-# https://raw.github.com/git/git/master/contrib/completion/git-completion.bash
-[[ ! -f ~/.git-completion.bash ]] || . ~/.git-completion.bash
 
 # Customized PATH
 #
@@ -26,27 +22,55 @@ path_prepend /bin /usr/bin /sbin /usr/sbin /usr/local/bin /usr/local/sbin ~/bin
 unset path_prepend
 export PATH
 
-function __git_status_color() {
-    git symbolic-ref HEAD >& /dev/null || return 0
-    if [[ -n $(git status -s 2>/dev/null) ]]; then
-        echo -e "\033[1;31m"        # red status
-    else
-        echo -e "\033[1;32m"        # green status
-    fi
-}
+# Useful options
+#
+bind 'set match-hidden-files off' >& /dev/null  # Don't tab-expand hidden files
+stty stop undef                                 # Make 'C-s' to do i-search
 
-function __git_active_branch() {
-    local branch=$(git symbolic-ref HEAD 2>/dev/null)
-    [[ -z $branch ]] || echo " (${branch##refs/heads/})"
-}
+# Useful environments. Locale (LC_*) matters for ls and sort on Linux, see also
+# www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
+#
+export HISTFILE=~/.bash_history     # In case switched from zsh temporally
+export HISTSIZE=10000
+export EDITOR=vim
+export GREP_OPTIONS="--color=auto"
+export LESS="-XFR"
+if [[ $(uname -s) == Linux ]]; then
+    export LC_COLLATE=C
+    export LC_CTYPE=C
+fi
 
-# Tip: start a global ssh-agent for yourself, for example, add this in
-# /etc/rc.d/rc.local (RHEL):
-#   U=ymattw
-#   rm -f /home/$U/.ssh-agent.sock
-#   /bin/su -m $U -c "/usr/bin/ssh-agent -s -a /home/$U/.ssh-agent.sock \
-#      | sed '/^echo/d' > /home/$U/.ssh-agent.rc"
-# You will need to ssh-add your identity manually once
+# Load completions
+#
+# https://raw.github.com/git/git/master/contrib/completion/git-completion.bash
+[[ ! -f ~/.git-completion.bash ]] || . ~/.git-completion.bash
+
+# Auto complete hostnames for hostname related commands, note 'complete -A
+# hostname' also works but it does not recognize new $HOSTFILE
+#
+function _host_complete() {
+    local cur=${COMP_WORDS[COMP_CWORD]}
+    local hosts=$(sed -ne 's/[, ].*//p' ~/.ssh/known_hosts* 2>/dev/null)
+    COMPREPLY=($(compgen -W "$hosts" -- $cur))
+}
+complete -F _host_complete ssh scp host nc ping telnet
+
+# Auto complete unset from exported variables
+complete -A export unset
+
+# Customized yroot completion for Y! boxes
+#
+if [[ $(hostname -f) == *.yahoo.* ]]; then
+    function _yroot_complete() {
+        local cur=${COMP_WORDS[COMP_CWORD]}
+        local d="/home/y/var/yroots"
+        local -a yroots=($(/bin/ls $d/*.conf |& sed -n "s#$d/\(.*\).conf#\1#p"))
+        COMPREPLY=($(compgen -W '${yroots[@]}' -- $cur ))
+    }
+    complete -F _yroot_complete yroot
+fi
+
+# Customized theme (prompt)
 #
 _LR="\[\e[1;31m\]"      # light red
 _LG="\[\e[1;32m\]"      # light green
@@ -57,53 +81,87 @@ _LC="\[\e[1;36m\]"      # light cyan
 _RV="\[\e[7m\]"         # reverse
 _NC="\[\e[0m\]"         # no color
 
+function __git_status_color() {
+    if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
+        if [[ -n $(git status -s 2>/dev/null) ]]; then
+            echo -ne "\033[1;31m"       # red status
+        else
+            echo -ne "\033[1;32m"       # green status
+        fi
+    fi
+}
+
+function __git_active_branch() {
+    if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
+        local branch=$(git symbolic-ref HEAD 2>/dev/null)
+        echo " (${branch##refs/heads/})"
+    fi
+}
+
+function __git_track_info() {
+    if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
+        local branch info age track
+        branch=$(git symbolic-ref HEAD 2>/dev/null)
+        branch=${branch##refs/heads/}
+        info=$(git status -s)
+        age=$(git log --pretty=format:'%cr' -1 $branch 2>/dev/null)
+        track=$(git status -sb 2>/dev/null | head -1 | sed -n 's/.*\[\(.*\)\].*/, \1/p')
+        echo " [${age}${track}]"
+    fi
+}
+
 # Fancy PS1, prompt exit status of last command, currenet time, hostname,
-# yroot, time, cwd, git status and branch, also prompt the '$' in red when we
-# have background jobs, '\[' and '\]' is to mark ansi colors to allow shell to
-# calculate prompt string length correctly
+# yroot, time, cwd, git status and branch, also prompt the '%' in reverse color
+# when we have background jobs. '\[' and '\]' is to mark ansi colors to allow
+# shell to calculate prompt string length correctly
 #
 PS1="\$([[ \$? == 0 ]] && echo '${_LG}✔' || echo '${_LR}✘') \t "
 
+# Promopt username only when user switched (happens after sudo -s -u <user>)
+[[ $(logname 2>/dev/null) == $USER ]] || PS1="${PS1}${_LR}${USER}${_NC}@"
+
+# Tip: start a global ssh-agent for yourself, for example, add this in
+# /etc/rc.d/rc.local (RHEL):
+#   U=ymattw
+#   rm -f /home/$U/.ssh-agent.sock
+#   /bin/su -m $U -c "/usr/bin/ssh-agent -s -a /home/$U/.ssh-agent.sock \
+#      | sed '/^echo/d' > /home/$U/.ssh-agent.rc"
+# You will need to ssh-add your identity manually once
+#
 if [[ -f ~/.ssh-agent.rc ]]; then
     # I am on my own machine, try load ssh-agent related environments
     PS1="${PS1}${_LB}"                              # blue hostname
-    . ~/.ssh-agent.rc
+    source ~/.ssh-agent.rc
     if ps -p ${SSH_AGENT_PID:-0} >& /dev/null; then
         if ! ssh-add -L | grep -q ^ssh-; then
-            echo -e "\033[1;31mWarning: No key is being held by ssh-agent," \
-                    "try 'ssh-add <your-ssh-private-key>'\x1b[0m" >&2
+            echo -e "${_LR}Warning: No key is being held by ssh-agent," \
+                    "try 'ssh-add <your-ssh-private-key>'${_NC}" >&2
         fi
     else
-        echo -e "\033[1;31mWarning: No global ssh-agent process alive" >&2
+        echo -e "${_LR}Warning: No global ssh-agent process alive${_NC}" >&2
     fi
 else
-    # Otherwise assume I am on other's box, highlight hostname in red
+    # Otherwise assume I am on other's box, highlight hostname in magenta
     PS1="${PS1}${_LM}"                              # magenta hostname
 fi
 
-PS1="${PS1}${HOSTNAME%.yahoo.*}"
+PS1="${PS1}$(_H=$(hostname -f); echo ${_H%.yahoo.*})"
 PS1="${PS1}${_LG}"                                  # then green {yroot}
-PS1="${PS1}"'$([[ -z $YROOT_NAME ]] || echo "{$YROOT_NAME}")'
-PS1="${PS1} ${_LY}\w"                               # yellow cwd
+PS1="${PS1}"${YROOT_NAME+"{$YROOT_NAME}"}
+PS1="${PS1} ${_LY}\w${_NC}"                         # yellow cwd
 PS1="${PS1}\[\$(__git_status_color)\]"              # git status indicator
 PS1="${PS1}\$(__git_active_branch)"                 # git branch name
-PS1="${PS1}${_LC} ⤾\n"                              # cyan wrap char, NL
+PS1="${PS1}${_LC}\$(__git_track_info)"              # git branch track info
+PS1="${PS1}${_LC} ⤾\n"                              # cyan wrap char, newline
 PS1="${PS1}\$([[ -z \$(jobs) ]] || echo '$_RV')"    # reverse bg job indicator
-PS1="${PS1}\\\$${_NC} "                             # $
+PS1="${PS1}\\\$${_NC} "                             # $ or #
 unset _LR _LG _LY _LB _LM _LC _RV _NC
-
-export PS1
-export EDITOR=vim
-export TERM=linux
-export GREP_OPTIONS="--color=auto"
-
-# Locale matters for ls and sort
-# www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
-export LC_COLLATE=C
-export LC_CTYPE=C
 
 # Shortcuts (Aliases, function, auto completion etc.)
 #
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
 case $(uname -s) in
     Linux)
         alias ls='/bin/ls -F --color=auto'
@@ -122,6 +180,8 @@ case $(uname -s) in
         ;;
 esac
 
+# Utilities
+#
 # Find a file which name matches given pattern (ERE, case insensitive)
 function f() {
     local pat=${1?'Usage: f ERE-pattern [path...]'}
@@ -156,36 +216,7 @@ function g() {
 
     find $paths \( -path '*/.svn' -o -path '*/.git' -o -path '*/.idea' \) \
         -prune -o -type f -name "$file_glob" -print0 -follow \
-        | xargs -0 -P128 grep -EH $grep_opts "$string_pat"
+        | eval "xargs -0 -P128 grep -EH $grep_opts '$string_pat'"
 }
-
-# Auto complete hostnames for hostname related commands, note 'complete -A
-# hostname' also works but it does not recognize new $HOSTFILE
-#
-function _host_complete()
-{
-    local cur=${COMP_WORDS[COMP_CWORD]}
-    local hosts=$( (sed -ne 's/[, ].*//p' ~/.ssh/known_hosts*;
-                    awk '!/^#/{print $1}' ~/HOSTS) 2>/dev/null | sort -u)
-    COMPREPLY=($(compgen -W "$hosts" -- $cur))
-}
-complete -F _host_complete ssh scp host nc ping telnet
-
-# Auto complete unset from exported variables
-complete -A export unset
-
-# Yroot name auto completion
-function _yroot_complete ()
-{
-    local cur=${COMP_WORDS[COMP_CWORD]};
-    local -a yroots=(
-        $(cd /home/y/var/yroots && /bin/ls *.conf | sed 's/\.conf$//g')
-    )
-    COMPREPLY=($(compgen -W '${yroots[@]}' -- $cur ))
-}
-complete -F _yroot_complete yroot
-
-# Don't tab-expand hidden files
-bind 'set match-hidden-files off' >& /dev/null
 
 # vim:set et sts=4 sw=4 ft=sh:
