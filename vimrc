@@ -32,7 +32,7 @@ filetype off
 
 if version >= 700
     set rtp+=~/.vim/bundle/vundle/
-    call vundle#rc()
+    exe "call vundle#rc()"|     " prevent syntax in vim<7
 
     " vundle is required!
     Bundle 'gmarik/vundle'
@@ -58,10 +58,8 @@ if version >= 700
     let Tlist_Exit_OnlyWindow = 1
     let Tlist_File_Fold_Auto_Close = 1
     " For TagList on mac: sudo port install ctags
-    if has('unix')
-        if system('uname -s') =~ '^Darwin'
-            let Tlist_Ctags_Cmd = '/opt/local/bin/ctags'
-        endif
+    if has('unix') && system('uname -s') =~ '^Darwin'
+        let Tlist_Ctags_Cmd = '/opt/local/bin/ctags'
     endif
 
     " 'Valloric/YouCompleteMe' might be better but its installation is too much
@@ -69,7 +67,8 @@ if version >= 700
     Bundle 'ervandew/supertab'
     let g:SuperTabDefaultCompletionType = "context"
     let g:SuperTabContextDefaultCompletionType = "<c-n>"
-    let g:SuperTabNoCompleteAfter = ['^', '\s', "'", '[~`!@#$%^&*()+={},</?\"\[\]\|-]', '[^-]>']
+    let g:SuperTabNoCompleteAfter =
+        \ ['^', '\s', '[^-]>', "'", '[~`!@#$%^&*()+={},</?\"\[\]\|-]']
 
     Bundle 'vim-scripts/AutoComplPop'
 
@@ -103,10 +102,10 @@ set nofen fdm=manual                    " folding
 set fdt=FoldText() fcs=vert:\|,fold:.   " folding
 set wim=list:full                       " misc: complete and list matched files
 set isf-==                              " misc: '=' is not part of filename
-set mps+=<:>                            " misc: '%' can match <> pair (for html)
+set mps+=<:>                            " misc: '%' can match <> pair in html
 set et sts=4 sw=4 ts=8                  " default to 4-space soft tab
 set enc=utf-8                           " work with LC_COLLATE=C & LC_CTYPE=C
-set list listchars=tab:▸⋅,trail:▌      " highlight special chars, :h dig
+set list listchars=tab:▸⋅,trail:▌       " highlight special chars, :h dig
 
 " File type detect
 "
@@ -173,7 +172,6 @@ nmap <BS>       :set ic!<CR>|           " toggle ignore case
 nmap <C-N>      :set nu!<CR>|           " ctrl-n to toggle :set number
 nmap <C-P>      :set paste!<CR>|        " ctrl-p to toggle paste mode
 nmap <C-H>      :set hls!<CR>|          " ctrl-h to toggle highlight search
-		"abc   
 nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " remove trailing blank
 imap <C-J>      <ESC>kJA|               " join to prev line (undo auto wrap)
 nmap ,c         I/* <ESC>A */<ESC>|     " comment out current line with /* */
