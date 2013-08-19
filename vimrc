@@ -105,7 +105,12 @@ set isf-==                              " misc: '=' is not part of filename
 set mps+=<:>                            " misc: '%' can match <> pair in html
 set et sts=4 sw=4 ts=8                  " default to 4-space soft tab
 set enc=utf-8                           " work with LC_COLLATE=C & LC_CTYPE=C
-set list listchars=tab:▸\ ,trail:▌      " highlight special chars, :h dig
+
+if version > 603 || version == 603 && has('patch83')
+    set list listchars=tab:▸\ ,trail:▌  " highlight special chars, :h dig
+else
+    set list listchars=tab:▸\ ,trail:_  " segment fault seen in vim 6.3.82
+endif
 
 " File type detect
 "
