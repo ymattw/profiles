@@ -105,7 +105,7 @@ set isf-==                              " misc: '=' is not part of filename
 set mps+=<:>                            " misc: '%' can match <> pair in html
 set et sts=4 sw=4 ts=8                  " default to 4-space soft tab
 set enc=utf-8                           " work with LC_COLLATE=C & LC_CTYPE=C
-set list listchars=tab:▸⋅,trail:▌       " highlight special chars, :h dig
+set list listchars=tab:▸\ ,trail:▌      " highlight special chars, :h dig
 
 " File type detect
 "
