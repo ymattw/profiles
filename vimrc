@@ -136,6 +136,8 @@ au FileType twiki inoreabbrev <buffer> <a
 
 " Colors, suitable for evening backgroud (#333)
 "
+hi! link Pmenu Visual
+hi! link PmenuSel IncSearch
 hi! link SpecialKey Special
 hi! link CharAtCol80 WarningMsg         " note 'set cc=+1' confuses :vsp
 mat CharAtCol80 /\%80v/
