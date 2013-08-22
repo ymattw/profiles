@@ -70,7 +70,7 @@ if version >= 700
     let g:SuperTabNoCompleteAfter =
         \ ['^', '\s', '[^-]>', "'", '[~`!@#$%^&*()+={},</?\"\[\]\|-]']
 
-    Bundle 'vim-scripts/AutoComplPop'
+    Bundle 'ymattw/AutoComplPop'
 
     " Solarized only looks good for gvim to me
     if has('gui_running')
