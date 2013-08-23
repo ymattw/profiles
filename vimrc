@@ -11,9 +11,6 @@
 "
 if has('gui_running')
     set background=light
-    set columns=120
-    set lines=40
-
     if has('gui_mac') || has('gui_macvim')
         set guifont=Monaco:h13
     elseif has('gui_gtk') || has('gui_gtk2')
@@ -145,7 +142,7 @@ hi! Comment ctermfg=darkcyan            " by default it's same to Identifier
 hi! link LineNr Comment
 hi! link ColorColumn Search
 hi! link Folded Comment
-hi! CursorLine cterm=bold ctermbg=black
+hi! CursorLine cterm=bold ctermbg=238
 
 " Powerful statusline, underlined status line looks better with cursor line
 "
