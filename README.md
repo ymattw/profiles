@@ -9,6 +9,7 @@ My dot files
 - gitconfig.sh: script to configure git perferences
 - vimrc: vim profile that use vundle to manage plugins.  Run `deploy-vim.sh
   [host...]` to deploy it
+- Evening.itermcolors: iTerm2 color scheme
 
 ![iTerm2, screen, zsh and bash](https://raw.github.com/ymattw/profiles/gh-pages/img/term-screen-shell.png)
 ![Vim autocompletion](https://raw.github.com/ymattw/profiles/gh-pages/img/vim.png)
