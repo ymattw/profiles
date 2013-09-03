@@ -121,6 +121,7 @@ au! FileType make setl noet sw=8
 
 " Press T to tabularize in a twiki/markdown buffer
 au! FileType twiki nmap <buffer> T vip:Tabularize /\|<CR>
+au! FileType twiki setl sts=3 sw=3 et fo=
 au! FileType markdown nmap <buffer> T vip:Tabularize /\|<CR>
 
 " Abbrs for twiki, :h abbreviations
