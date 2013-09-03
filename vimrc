@@ -189,13 +189,16 @@ nmap \\         :call ExecuteMe()<CR>|  " execute current file
 nmap !!         :q!<CR>|                " quit without saving
 nmap Q          vipgq|                  " format current paragraph
 
-if version >= 700
-    nmap <CR>   :call ToggleSpell()<CR>|        " toggle spell
-    nmap _      :set cul!<CR>|                  " toggle cursor line
+if exists('&spell')                     " toggle spell
+    nmap <CR>   :call ToggleSpell()<CR>
 endif
 
-if version >= 703
-    nmap \|     :call ToggleColorColumn()<CR>|  " for 7.3+
+if exists('&cul')                       " toggle cursor line
+    nmap _      :set cul!<CR>
+endif
+
+if exists('&cc')                        " toggle cursor column
+    nmap \|     :call ToggleColorColumn()<CR>
 endif
 
 " Misc
@@ -210,7 +213,7 @@ au! BufReadPost *
     \     exe "normal! g`\"" |
     \ endif
 
-if version >= 700
+if exists('&cul')
     set cul
     augroup ActiveBuffer
         au! WinEnter * setl cul
