@@ -110,7 +110,9 @@ function __git_active_branch() {
 PROMPT="\$([[ \$? == 0 ]] && echo '${_LG}✔' || echo '${_LR}✘') %* "
 
 # Promopt username only when user switched (happens after sudo -s -u <user>)
-[[ $(logname 2>/dev/null) == $USER ]] || PROMPT+="${_LR}${USER}${_NC}@"
+if [[ $(logname 2>/dev/null) != $(id -un) ]] || [[ $USER != $(id -un) ]]; then
+    PROMPT+="${_LR}$(id -un)${_NC}@"
+fi
 
 # Tip: start a global ssh-agent for yourself, for example, add this in
 # /etc/rc.d/rc.local (RHEL):
