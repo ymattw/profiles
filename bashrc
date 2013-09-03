@@ -162,6 +162,8 @@ unset _LR _LG _LY _LB _LM _LC _RV _NC
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+alias vi='vim -Xn'
+
 case $(uname -s) in
     Linux)
         alias ls='/bin/ls -F --color=auto'
