@@ -104,7 +104,7 @@ function __git_track_info() {
         branch=$(git symbolic-ref HEAD 2>/dev/null)
         branch=${branch##refs/heads/}
         info=$(git status -s)
-        age=$(git log --pretty=format:'%cr' -1 $branch 2>/dev/null)
+        age=$(git log --pretty=format:'%cr' -1 refs/heads/$branch 2>/dev/null)
         track=$(git status -sb 2>/dev/null | head -1 | sed -n 's/.*\[\(.*\)\].*/, \1/p')
         echo " [${age}${track}]"
     fi
