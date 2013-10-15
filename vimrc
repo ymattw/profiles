@@ -29,7 +29,7 @@ filetype off
 
 if version >= 700
     set rtp+=~/.vim/bundle/vundle/
-    exe "call vundle#rc()"|     " prevent syntax in vim<7
+    exe "call vundle#rc()"|     " prevent syntax error in vim<7
 
     " vundle is required!
     Bundle 'gmarik/vundle'
