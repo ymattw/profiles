@@ -92,7 +92,7 @@ function __git_active_branch() {
         branch=${branch##refs/heads/}
         info=$(git status -s)
         age=$(git log --pretty=format:'%cr' -1 refs/heads/$branch 2>/dev/null)
-        track=$(git status -sb 2>/dev/null | head -1 | sed -n 's/.*\[\(.*\)\].*/, \1/p')
+        track=$(git status -sb 2>/dev/null | sed -n 's/^##.*\[\(.*\)\].*/, \1/p')
 
         # FIXME: $_LR and $_LG won't expand here
         if [[ -n $info ]]; then
