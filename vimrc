@@ -230,12 +230,12 @@ function! ToggleTab()
 endfunction
 
 function! ToggleSpell()
-    let expr = &spell == 1 ? "set nospell cul" : "set spell nocul"
+    let expr = &spell == 1 ? "setl nospell cul" : "setl spell nocul"
     exe expr
 endfunction
 
 function! ToggleColorColumn()
-    let expr = len(&cc) ? "set cc=" : "set cc=+1"
+    let expr = len(&cc) ? "setl cc=" : "setl cc=+1"
     exe expr
 endfunction
 
