@@ -184,6 +184,7 @@ imap <C-J>      <ESC>kJA|               " join to prev line (undo auto wrap)
 nmap ,c         I/* <ESC>A */<ESC>|     " comment out current line with /* */
 nmap ,u         0f*h3x$xxx|             " uncomment out /* */
 nmap ,t         :TlistToggle<CR>|       " toggle TagList window
+nmap ,<Tab>     :call ToggleTab()<CR>|  " toggle hard/soft tab
 nmap q:         :q|                     " q: is boring
 nmap \\         :call ExecuteMe()<CR>|  " execute current file
 nmap !!         :q!<CR>|                " quit without saving
@@ -223,6 +224,11 @@ endif
 
 " Helper functions
 "
+function! ToggleTab()
+    let expr = &et == 1 ? "setl noet sw=8" : "setl et sw=4"
+    exe expr
+endfunction
+
 function! ToggleSpell()
     let expr = &spell == 1 ? "set nospell cul" : "set spell nocul"
     exe expr
