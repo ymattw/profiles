@@ -17,7 +17,14 @@ git config --global alias.pu "push upstream"
 git config --global alias.ff "merge --ff-only"
 git config --global alias.noff "merge --no-ff"
 git config --global alias.pp \
-    '!git_pp() { git pull --rebase ${1?} ${2?} && git push $1 $2; }; git_pp'
+        '!fn() {
+            git pull --rebase ${1?} ${2?} && git push $1 $2
+        }; fn'
+git config --global alias.tr \
+        '!fn() {
+            b=$(git symbolic-ref HEAD) &&
+            git branch --set-upstream ${b#refs/heads/} ${1?}
+        }; fn'
 
 git config --global core.editor vim
 git config --global color.ui true
