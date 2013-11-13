@@ -90,15 +90,17 @@ function __git_active_branch() {
         local branch info age track
         branch=$(git symbolic-ref HEAD 2>/dev/null)
         branch=${branch##refs/heads/}
-        info=$(git status -s)
+        info=$(git status -s 2>/dev/null)
         age=$(git log --pretty=format:'%cr' -1 refs/heads/$branch 2>/dev/null)
         track=$(git status -sb 2>/dev/null | sed -n 's/^##.*\[\(.*\)\].*/, \1/p')
 
         # FIXME: $_LR and $_LG won't expand here
-        if [[ -n $info ]]; then
-            print -nP "%{\e[1;31m%} ($branch) %{\e[1;36m%}[${age}${track}]"
-        else
+        if [[ -z $info ]]; then
             print -nP "%{\e[1;32m%} ($branch) %{\e[1;36m%}[${age}${track}]"
+        elif [[ -z $(echo "$info" | grep -v '^??') ]]; then
+            print -nP "%{\e[1;35m%} ($branch) %{\e[1;36m%}[${age}${track}]"
+        else
+            print -nP "%{\e[1;31m%} ($branch) %{\e[1;36m%}[${age}${track}]"
         fi
     fi
 }

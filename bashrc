@@ -83,10 +83,13 @@ _NC="\[\e[0m\]"         # no color
 
 function __git_status_color() {
     if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
-        if [[ -n $(git status -s 2>/dev/null) ]]; then
-            echo -ne "\033[1;31m"       # red status
+        local info=$(git status -s)
+        if [[ -z $info ]]; then
+            echo -ne "\033[1;32m"       # clean status
+        elif [[ -z $(echo "$info" | grep -v '^??') ]]; then
+            echo -ne "\033[1;35m"       # has untracked objects only
         else
-            echo -ne "\033[1;32m"       # green status
+            echo -ne "\033[1;31m"       # unclean status
         fi
     fi
 }
@@ -103,9 +106,9 @@ function __git_track_info() {
         local branch info age track
         branch=$(git symbolic-ref HEAD 2>/dev/null)
         branch=${branch##refs/heads/}
-        info=$(git status -s)
+        info=$(git status -s 2>/dev/null)
         age=$(git log --pretty=format:'%cr' -1 refs/heads/$branch 2>/dev/null)
-        track=$(git status -sb 2>/dev/null | head -1 | sed -n 's/.*\[\(.*\)\].*/, \1/p')
+        track=$(git status -sb 2>/dev/null | sed -n 's/^##.*\[\(.*\)\].*/, \1/p')
         echo " [${age}${track}]"
     fi
 }
