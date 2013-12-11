@@ -34,11 +34,6 @@ if version >= 700
     " vundle is required!
     Bundle 'gmarik/vundle'
 
-    Bundle 'klen/python-mode'
-    " Disable rope and default options e.g 'setl nu' etc.
-    let g:pymode_rope = 0
-    let g:pymode_options = 0
-
     " fugitive is required by gitv
     Bundle 'tpope/vim-fugitive'
     Bundle 'gregsexton/gitv'
