@@ -25,7 +25,7 @@ export PATH
 # Useful options
 #
 bind 'set match-hidden-files off' >& /dev/null  # Don't tab-expand hidden files
-stty stop undef                                 # Make 'C-s' to do i-search
+! shopt -q login_shell || stty stop undef       # Make 'C-s' to do i-search
 
 # Useful environments. Locale (LC_*) matters for ls and sort on Linux, see also
 # www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
@@ -135,6 +135,7 @@ if [[ -f ~/.ssh/$USER.key ]]; then
     [[ ! -f $_MY_AGENT_RC ]] || source $_MY_AGENT_RC
     if ! ps -p ${SSH_AGENT_PID:-0} >& /dev/null; then
         print -P "${_LR}Starting new ssh-agent process${_NC}" >&2
+        rm -f ~/.ssh-agent.sock
         ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > $_MY_AGENT_RC
         source $_MY_AGENT_RC
         ssh-add -L | grep -qw $USER.key || ssh-add ~/.ssh/$USER.key

@@ -33,7 +33,7 @@ unsetopt nomatch
 unsetopt correct
 unsetopt auto_remove_slash
 bindkey -e                          # Reclaim C-a, C-e, C-r, M-., etc.
-stty stop undef                     # Make 'C-s' to do fwd-i-search
+! [[ -o login ]] || stty stop undef # Make 'C-s' to do fwd-i-search
 bindkey "^U" backward-kill-line     # Keep the same behavior as in bash
 
 # Useful environments. Locale (LC_*) matters for ls and sort on Linux, see also
@@ -126,6 +126,7 @@ if [[ -f ~/.ssh/$USER.key ]]; then
     [[ ! -f $_MY_AGENT_RC ]] || source $_MY_AGENT_RC
     if ! ps -p ${SSH_AGENT_PID:-0} >& /dev/null; then
         print -P "${_LR}Starting new ssh-agent process${_NC}" >&2
+        rm -f ~/.ssh-agent.sock
         ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > $_MY_AGENT_RC
         source $_MY_AGENT_RC
         ssh-add -L | grep -qw $USER.key || ssh-add ~/.ssh/$USER.key
