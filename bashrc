@@ -125,25 +125,19 @@ if [[ $(logname 2>/dev/null) != $(id -un) ]] || [[ $USER != $(id -un) ]]; then
     PS1="${PS1}${_LR}$(id -un)${_NC}@"
 fi
 
-# Tip: start a global ssh-agent for yourself, for example, add this in
-# /etc/rc.d/rc.local (RHEL):
-#   U=ymattw
-#   rm -f /home/$U/.ssh-agent.sock
-#   /bin/su -m $U -c "/usr/bin/ssh-agent -s -a /home/$U/.ssh-agent.sock \
-#      | sed '/^echo/d' > /home/$U/.ssh-agent.rc"
-# You will need to ssh-add your identity manually once
+# Detect whether this box has my own ssh key (~/.ssh/$USER.key), distinguish
+# hostname color and setup ssh-agent related environment accordingly
 #
-if [[ -f ~/.ssh-agent.rc ]]; then
+if [[ -f ~/.ssh/$USER.key ]]; then
     # I am on my own machine, try load ssh-agent related environments
     PS1="${PS1}${_LB}"                              # blue hostname
-    source ~/.ssh-agent.rc
-    if ps -p ${SSH_AGENT_PID:-0} >& /dev/null; then
-        if ! ssh-add -L | grep -q ^ssh-; then
-            echo -e "${_LR}Warning: No key is being held by ssh-agent," \
-                    "try 'ssh-add <your-ssh-private-key>'${_NC}" >&2
-        fi
-    else
-        echo -e "${_LR}Warning: No global ssh-agent process alive${_NC}" >&2
+    _MY_AGENT_RC=~/.ssh-agent.rc
+    [[ ! -f $_MY_AGENT_RC ]] || source $_MY_AGENT_RC
+    if ! ps -p ${SSH_AGENT_PID:-0} >& /dev/null; then
+        print -P "${_LR}Starting new ssh-agent process${_NC}" >&2
+        ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > $_MY_AGENT_RC
+        source $_MY_AGENT_RC
+        ssh-add -L | grep -qw $USER.key || ssh-add ~/.ssh/$USER.key
     fi
 else
     # Otherwise assume I am on other's box, highlight hostname in magenta
