@@ -115,6 +115,7 @@ au! BufEnter *.md,*.markdown setl ft=markdown
 "
 au! FileType html setl sts=2 sw=2
 au! FileType make setl noet sw=8
+au! FileType gitcommit setl tw=72
 
 " Press T to tabularize in a twiki/markdown buffer
 au! FileType twiki nmap <buffer> T vip:Tabularize /\|<CR>
