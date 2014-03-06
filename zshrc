@@ -213,7 +213,7 @@ function g() {
 
     find $paths \( -path '*/.svn' -o -path '*/.git' -o -path '*/.idea' \) \
         -prune -o -type f -name "$file_glob" -print0 -follow \
-        | xargs -0 -P128 grep -EH $grep_opts "$string_pat"
+        | eval "xargs -0 -P128 grep -EH $grep_opts '$string_pat'"
 }
 
 # vim:set et sts=4 sw=4 ft=zsh:
