@@ -185,6 +185,15 @@ nmap q:         :q|                     " q: is boring
 nmap \\         :call ExecuteMe()<CR>|  " execute current file
 nmap !!         :q!<CR>|                " quit without saving
 nmap Q          vipgq|                  " format current paragraph
+cmap Q          qall<CR>                " :Q to quit all buffers
+nmap qq         :q<CR>
+
+if exists('&diff') && &diff
+    nmap <Up>   [c|                     " previous change
+    nmap <Down> ]c|                     " next change
+    nmap <Left> <C-w>h|                 " left window
+    nmap <Right> <C-w>l|                " right window
+endif
 
 if exists('&spell')                     " toggle spell
     nmap <CR>   :call ToggleSpell()<CR>
