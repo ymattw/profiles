@@ -185,7 +185,6 @@ nmap q:         :q|                     " q: is boring
 nmap \\         :call ExecuteMe()<CR>|  " execute current file
 nmap !!         :q!<CR>|                " quit without saving
 nmap Q          vipgq|                  " format current paragraph
-cmap Q          qall<CR>                " :Q to quit all buffers
 nmap qq         :q<CR>
 
 if exists('&diff') && &diff
