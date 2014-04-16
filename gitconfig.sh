@@ -4,6 +4,7 @@ git config --global alias.st status
 git config --global alias.ci commit
 git config --global alias.info "remote -v show -n"
 git config --global alias.vi "difftool -y -x vimdiff"
+git config --global alias.mt "mergetool -y --tool vi"
 git config --global alias.br branch
 git config --global alias.co checkout
 git config --global alias.ls "log --decorate --name-status"
@@ -31,6 +32,7 @@ git config --global core.editor vim
 git config --global color.ui true
 git config --global log.abbrevcommit true
 git config --global log.decorate short
+git config --global mergetool.vi.cmd 'vimdiff "$LOCAL" "$MERGED" "$REMOTE"'
 
 : git config --global user.email ?
 : git config --global user.name ?
