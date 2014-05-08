@@ -90,7 +90,7 @@ filetype plugin indent on
 " Basic settings
 "
 set noswf nobk                          " general
-set is ic scs hls sm mat=2 nows         " interface
+set is ic scs hls sm mat=2              " interface
 set si sta sr bs=2 tw=79 fo=tcroqnmMB   " editing
 set nofen fdm=manual                    " folding
 set fdt=FoldText() fcs=vert:\|,fold:.   " folding
