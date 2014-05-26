@@ -44,6 +44,8 @@ if version >= 700
 
     Bundle 'ymattw/TWiki-Syntax'
 
+    Bundle 'tpope/vim-bundler'
+
     Bundle 'vim-scripts/taglist.vim'
     let Tlist_Auto_Open = 0
     let Tlist_Use_Right_Window = 1
