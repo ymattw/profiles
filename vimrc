@@ -44,6 +44,8 @@ if version >= 700
 
     Bundle 'ymattw/TWiki-Syntax'
 
+    Bundle 'elzr/vim-json'
+
     Bundle 'tpope/vim-bundler'
 
     Bundle 'vim-scripts/taglist.vim'
@@ -101,6 +103,7 @@ set isf-==                              " misc: '=' is not part of filename
 set mps+=<:>                            " misc: '%' can match <> pair in html
 set et sts=4 sw=4 ts=8                  " default to 4-space soft tab
 set enc=utf-8                           " work with LC_COLLATE=C & LC_CTYPE=C
+let mapleader = ","
 
 if version > 603 || version == 603 && has('patch83')
     set list listchars=tab:▸\ ,trail:▌  " highlight special chars, :h dig
@@ -115,7 +118,7 @@ au! BufEnter *.md,*.markdown setl ft=markdown
 
 " File type autocmds
 "
-au! FileType html setl sts=2 sw=2
+au! FileType html,ruby,eruby,yaml,javascript,json setl et sts=2 sw=2
 au! FileType make setl noet sw=8
 au! FileType gitcommit setl tw=72
 
@@ -157,7 +160,8 @@ set stl+=\ %1*[%{&ft}]%*                " file type
 set stl+=\ %1*%{&enc}%*                 " file encoding
 set stl+=\ %3*%{&ff=='dos'?'dos':''}%*  " dos format flag
 set stl+=\ %3*%{&ic?'ic':'noic'}%*      " ignorecase flag
-set stl+=\ %2*%{&et?'et':'noet'}%*      " expandtab
+set stl+=\ %3*%{&et?'et:'.&sts:'noet:'.&ts}%*
+                                      \ " expandtab and (soft)tabstop
 set stl+=\ %2*%{&hls?'hls':''}%*        " highlight search flag
 set stl+=\ %2*%{&list?'list':''}%*      " list mode flag
 set stl+=\ %3*%{&paste?'paste':''}%*    " paste mode flag
@@ -179,10 +183,13 @@ nmap <C-P>      :set paste!<CR>|        " ctrl-p to toggle paste mode
 nmap <C-H>      :set hls!<CR>|          " ctrl-h to toggle highlight search
 nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " remove trailing blank
 imap <C-J>      <ESC>kJA|               " join to prev line (undo auto wrap)
-nmap ,c         I/* <ESC>A */<ESC>|     " comment out current line with /* */
-nmap ,u         0f*h3x$xxx|             " uncomment out /* */
-nmap ,t         :TlistToggle<CR>|       " toggle TagList window
-nmap ,<Tab>     :call ToggleTab()<CR>|  " toggle hard/soft tab
+nmap <leader>c  I/* <ESC>A */<ESC>|     " comment out current line with /* */
+nmap <leader>u  0f*h3x$xxx|             " uncomment out /* */
+nmap <leader>t  :TlistToggle<CR>|       " toggle TagList window
+nmap <leader><Tab>
+              \ :call ToggleTab()<CR>|  " toggle hard/soft tab
+nmap <leader>2  :set et sts=2 sw=2<CR>| " use 2-space indent
+nmap <leader>4  :set et sts=4 sw=4<CR>| " use 4-space indent
 nmap q:         :q|                     " q: is boring
 nmap \\         :call ExecuteMe()<CR>|  " execute current file
 nmap !!         :q!<CR>|                " quit without saving
@@ -231,7 +238,7 @@ endif
 " Helper functions
 "
 function! ToggleTab()
-    let expr = &et == 1 ? "setl noet sw=8" : "setl et sw=4"
+    let expr = &et == 1 ? "setl noet sw=8" : "setl et sw=".&sts
     exe expr
 endfunction
 
