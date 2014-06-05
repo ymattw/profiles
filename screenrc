@@ -12,7 +12,7 @@ vbell off
 # %-w       all window (number and title) up to current one
 # %{bW}     blue on lightwhite
 # %n %t     current window number and title
-# %t        flags of the window
+# %f        flags of the window
 # %{-}      restore color attribute to just before last change
 # %+w       all window (number and title) after current one
 # %-12=     pad up to screen width - 12
@@ -20,7 +20,6 @@ vbell off
 # %D        short weekday name
 # %d        day number
 #
-hardstatus alwayslastline '%{WB}%-w%{bW}%n %t%{-}%+w %-12=%c %D %d'
 hardstatus alwayslastline '%{WB}%-w%{bW}%n %t%f%{-}%+w %-12=%c %D %d'
 
 # PgUp to scroll up
