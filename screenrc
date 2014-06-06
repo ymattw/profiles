@@ -1,12 +1,20 @@
 # Matthew Wang's screenrc
 #
+# Run this to set it up:
+# curl -L https://github.com/ymattw/profiles/raw/master/screenrc > ~/.screenrc
+#
 startup_message off
 defscrollback 9000
 autodetach on
 altscreen off
-defshell /bin/zsh
 nonblock on
 vbell off
+
+# Enable scrollback with mouse wheel/trackpad, verified with iTerm (Rremember
+# to enable related profile preference: Terminal -> "Save lines to scrollback
+# when an app status bar is present")
+#
+termcapinfo xterm* ti@:te@
 
 # %{WB}     lightwhite on lightblue
 # %-w       all window (number and title) up to current one
