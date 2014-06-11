@@ -13,8 +13,13 @@ path_prepend /bin /usr/bin /sbin /usr/sbin /usr/local/bin /usr/local/sbin ~/bin
 [[ ! -d /opt/local/bin ]] || path_prepend /opt/local/bin
 [[ ! -d /home/y/bin64 ]] || path_prepend /home/y/bin64
 [[ ! -d /home/y/bin ]] || path_prepend /home/y/bin
-unset path_prepend
+[[ ! -d $HOME/bin ]] || path_prepend $HOME/bin
+[[ ! -d $HOME/.rvm/bin ]] || path_prepend $HOME/.rvm/bin
+unset -f path_prepend
 export PATH
+
+# RVM specific
+[[ ! -s "$HOME/.rvm/scripts/rvm" ]] || source "$HOME/.rvm/scripts/rvm"
 
 # Useful options
 #
@@ -151,10 +156,7 @@ unset _LR _LG _LY _LB _LM _LC _RV _NC
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
-alias 1='cd -'
-alias 2='cd -2'
-alias 3='cd -3'
-alias 4='cd -4'
+alias .....='cd ../../../..'
 alias vi='vim -Xn'
 
 case $(uname -s) in
