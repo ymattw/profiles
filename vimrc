@@ -45,6 +45,7 @@ if version >= 700
     Bundle 'ymattw/TWiki-Syntax'
 
     Bundle 'elzr/vim-json'
+    let g:vim_json_syntax_conceal = 0
 
     Bundle 'tpope/vim-bundler'
 
