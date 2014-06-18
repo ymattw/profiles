@@ -49,7 +49,7 @@ export HISTSIZE=10000
 export SAVEHIST=10000
 export EDITOR=vim
 export GREP_OPTIONS="--color=auto"
-export LESS="-XFR"
+export LESS="-FRSX --shift 1"
 if [[ $(uname -s) == Linux ]]; then
     export LC_COLLATE=C
     export LC_CTYPE=C
