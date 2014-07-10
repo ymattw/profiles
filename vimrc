@@ -1,26 +1,12 @@
-" Matthew Wang's vimrc for text term with evening background (#333).
+" Matthew Wang's vimrc for text term with Solarized dark background
 "
-" Requires vundle (https://github.com/gmarik/vundle) to manage plugins
+" Requires Vundle (https://github.com/gmarik/Vundle) to manage plugins
 "
-"   git clone git@github.com:gmarik/vundle.git ~/.vim/bundle/vundle
+"   git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 "   cp vimrc ~/.vimrc
-"   vim +BundleInstall +qall
+"   vim +PluginInstall +qall
 "
-
-" Default background, window and font tunings
-"
-if has('gui_running')
-    set background=light
-    if has('gui_mac') || has('gui_macvim')
-        set guifont=Monaco:h13
-    elseif has('gui_gtk') || has('gui_gtk2')
-        set guifont=Bitstream\ Vera\ Sans\ Mono\ 12
-    endif
-else
-    set background=dark
-    set t_Co=256
-    set t_ti= t_te=     " prevent clear screen after exit
-endif
+" Remember to change terminal type to xterm-256color!
 
 " Load vundle
 "
@@ -28,28 +14,26 @@ set nocp
 filetype off
 
 if version >= 700
-    set rtp+=~/.vim/bundle/vundle/
-    exe "call vundle#rc()"|     " prevent syntax error in vim<7
+    set rtp+=~/.vim/bundle/Vundle.vim
+    exe "call vundle#begin()"|     " Use exe to prevent syntax error in vim<7
 
     " vundle is required!
-    Bundle 'gmarik/vundle'
+    Plugin 'gmarik/Vundle.vim'
 
     " fugitive is required by gitv
-    Bundle 'tpope/vim-fugitive'
-    Bundle 'gregsexton/gitv'
+    Plugin 'tpope/vim-fugitive'
+    Plugin 'gregsexton/gitv'
 
-    Bundle 'godlygeek/tabular'
+    Plugin 'godlygeek/tabular'
 
-    Bundle 'tpope/vim-markdown'
+    Plugin 'tpope/vim-markdown'
 
-    Bundle 'ymattw/TWiki-Syntax'
+    Plugin 'ymattw/TWiki-Syntax'
 
-    Bundle 'elzr/vim-json'
+    Plugin 'elzr/vim-json'
     let g:vim_json_syntax_conceal = 0
 
-    Bundle 'tpope/vim-bundler'
-
-    Bundle 'vim-scripts/taglist.vim'
+    Plugin 'vim-scripts/taglist.vim'
     let Tlist_Auto_Open = 0
     let Tlist_Use_Right_Window = 1
     let Tlist_Exit_OnlyWindow = 1
@@ -61,21 +45,17 @@ if version >= 700
 
     " 'Valloric/YouCompleteMe' might be better but its installation is too much
     " heavy for me
-    Bundle 'ervandew/supertab'
+    Plugin 'ervandew/supertab'
     let g:SuperTabDefaultCompletionType = "context"
     let g:SuperTabContextDefaultCompletionType = "<c-n>"
     let g:SuperTabNoCompleteAfter =
         \ ['^', '\s', '[^-]>', "'", '[~`!@#$%^&*()+={},</?\"\[\]\|-]']
 
     if version > 702
-        Bundle 'ymattw/AutoComplPop'
+        Plugin 'ymattw/AutoComplPop'
     endif
 
-    " Solarized only looks good for gvim to me
-    if has('gui_running')
-        Bundle 'altercation/vim-colors-solarized'
-        colorscheme solarized
-    endif
+    Plugin 'altercation/vim-colors-solarized'
 endif
 
 " Brief help
@@ -89,8 +69,25 @@ endif
 " NOTE: comments after Bundle command are not allowed..
 "
 
+exe "call vundle#end()"|        " Use exe to prevent syntax error in vim<7
 syntax on
+silent! colorscheme solarized   " Needs to be after vundle#end()
 filetype plugin indent on
+
+" Default background, window and font tunings
+"
+if has('gui_running')
+    set background=light
+    if has('gui_mac') || has('gui_macvim')
+        set guifont=Monaco:h13
+    elseif has('gui_gtk') || has('gui_gtk2')
+        set guifont=Bitstream\ Vera\ Sans\ Mono\ 13
+    endif
+else
+    set background=dark
+    set t_ti= t_te=     " prevent clear screen after exit
+endif
+
 
 " Basic settings
 "
@@ -136,18 +133,11 @@ au FileType twiki inoreabbrev <buffer> <i
 au FileType twiki inoreabbrev <buffer> <a
     \ <a href='%ATTACHURLPATH%/'><img src='%ATTACHURLPATH%/' /></a><ESC>0f/a
 
-" Colors, suitable for evening backgroud (#333)
+" Colors, suitable for Solarized dark background
 "
-hi! link Pmenu Visual
-hi! link PmenuSel IncSearch
-hi! link SpecialKey Special
 hi! link CharAtCol80 WarningMsg         " note 'set cc=+1' confuses :vsp
 mat CharAtCol80 /\%80v/
-hi! Comment ctermfg=darkcyan            " by default it's same to Identifier
-hi! link LineNr Comment
 hi! link ColorColumn Search
-hi! link Folded Comment
-hi! CursorLine cterm=bold ctermbg=238
 
 " Powerful statusline, underlined status line looks better with cursor line
 "
