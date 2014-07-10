@@ -80,12 +80,12 @@ fi
 
 # Customized theme (prompt)
 #
-_LR=$'%{\e[1;31m%}'     # light red
-_LG=$'%{\e[1;32m%}'     # light green
-_LY=$'%{\e[1;33m%}'     # light yellow
-_LB=$'%{\e[1;34m%}'     # light blue
-_LM=$'%{\e[1;35m%}'     # light magenta
-_LC=$'%{\e[1;36m%}'     # light cyan
+_DR=$'%{\e[31m%}'       # red
+_DG=$'%{\e[32m%}'       # green
+_DY=$'%{\e[33m%}'       # yellow
+_DB=$'%{\e[34m%}'       # blue
+_DM=$'%{\e[35m%}'       # magenta
+_DC=$'%{\e[36m%}'       # cyan
 _RV=$'%{\e[7m%}'        # reverse
 _NC=$'%{\e[0m%}'        # reset color
 
@@ -98,13 +98,13 @@ function __git_active_branch() {
         age=$(git log --pretty=format:'%cr' -1 refs/heads/$branch 2>/dev/null)
         track=$(git status -sb 2>/dev/null | sed -n 's/^##.*\[\(.*\)\].*/, \1/p')
 
-        # FIXME: $_LR and $_LG won't expand here
+        # FIXME: $_DR and $_DG won't expand here
         if [[ -z $info ]]; then
-            print -nP "%{\e[1;32m%} ($branch) %{\e[1;36m%}[${age}${track}]"
+            print -nP "%{\e[32m%} ($branch) %{\e[36m%}[${age}${track}]"
         elif [[ -z $(echo "$info" | grep -v '^??') ]]; then
-            print -nP "%{\e[1;35m%} ($branch) %{\e[1;36m%}[${age}${track}]"
+            print -nP "%{\e[35m%} ($branch) %{\e[36m%}[${age}${track}]"
         else
-            print -nP "%{\e[1;31m%} ($branch) %{\e[1;36m%}[${age}${track}]"
+            print -nP "%{\e[31m%} ($branch) %{\e[36m%}[${age}${track}]"
         fi
     fi
 }
@@ -113,11 +113,11 @@ function __git_active_branch() {
 # yroot, time, cwd, git status and branch, also prompt the '%' in reverse color
 # when we have background jobs.
 #
-PROMPT="\$([[ \$? == 0 ]] && echo '${_LG}✔' || echo '${_LR}✘') %* "
+PROMPT="\$([[ \$? == 0 ]] && echo '${_DG}✔' || echo '${_DR}✘') %* "
 
 # Promopt username only when user switched (happens after sudo -s -u <user>)
 if [[ $(logname 2>/dev/null) != $(id -un) ]] || [[ $USER != $(id -un) ]]; then
-    PROMPT+="${_LR}$(id -un)${_NC}@"
+    PROMPT+="${_DR}$(id -un)${_NC}@"
 fi
 
 # Detect whether this box has my own ssh key (~/.ssh/$USER.key), distinguish
@@ -125,11 +125,11 @@ fi
 #
 if [[ -f ~/.ssh/$USER.key ]]; then
     # I am on my own machine, try load ssh-agent related environments
-    PROMPT+="${_LB}"                                # blue hostname
+    PROMPT+="${_DB}"                                # blue hostname
     _MY_AGENT_RC=~/.ssh-agent.rc
     [[ ! -f $_MY_AGENT_RC ]] || source $_MY_AGENT_RC
     if ! ps -p ${SSH_AGENT_PID:-0} >& /dev/null; then
-        print -P "${_LR}Starting new ssh-agent process${_NC}" >&2
+        print -P "${_DR}Starting new ssh-agent process${_NC}" >&2
         rm -f ~/.ssh-agent.sock
         ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > $_MY_AGENT_RC
         source $_MY_AGENT_RC
@@ -137,18 +137,18 @@ if [[ -f ~/.ssh/$USER.key ]]; then
     fi
 else
     # Otherwise assume I am on other's box, highlight hostname in magenta
-    PROMPT+="${_LM}"                                # magenta hostname
+    PROMPT+="${_DM}"                                # magenta hostname
 fi
 
 PROMPT+="$(_H=$(hostname -f); echo ${_H%.yahoo.*})"
-PROMPT+="${_LG}"                                    # then green {yroot}
+PROMPT+="${_DG}"                                    # then green {yroot}
 PROMPT+=${YROOT_NAME+"{$YROOT_NAME}"}
-PROMPT+=" ${_LY}%~${_NC}"                           # yellow cwd
+PROMPT+=" ${_DY}%~${_NC}"                           # yellow cwd
 PROMPT+='$(__git_active_branch)'                    # colorful git branch name
-PROMPT+=" ${_LC}"$'⤾\n'                             # cyan wrap char, newline
+PROMPT+=" ${_DC}"$'⤾\n'                             # cyan wrap char, newline
 PROMPT+="\$([[ -z \$(jobs) ]] || echo '${_RV}')"    # reverse bg job indicator
 PROMPT+="%#${_NC} "                                 # % or #
-unset _LR _LG _LY _LB _LM _LC _RV _NC
+unset _DR _DG _DY _DB _DM _DC _RV _NC
 
 # Shortcuts (Aliases, function, auto completion etc.)
 #
