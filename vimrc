@@ -113,6 +113,7 @@ endif
 "
 au! BufEnter *[Mm]akefile*,[Mm]ake.*,*.mak,*.make setl ft=make
 au! BufEnter *.md,*.markdown setl ft=markdown
+au! BufEnter Gemfile,Berksfile,Thorfile,Vagrantfile setl ft=ruby
 
 " File type autocmds
 "
