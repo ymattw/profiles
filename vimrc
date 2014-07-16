@@ -38,9 +38,9 @@ if version >= 700
     let Tlist_Use_Right_Window = 1
     let Tlist_Exit_OnlyWindow = 1
     let Tlist_File_Fold_Auto_Close = 1
-    " For TagList on mac: sudo port install ctags
+    " For TagList on mac: brew install ctags
     if has('unix') && system('uname -s') =~ '^Darwin'
-        let Tlist_Ctags_Cmd = '/opt/local/bin/ctags'
+        let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
     endif
 
     " 'Valloric/YouCompleteMe' might be better but its installation is too much
