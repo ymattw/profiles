@@ -8,14 +8,14 @@
 "
 " Remember to change terminal type to xterm-256color!
 
-" Load vundle
+" Load vundle and plugins
 "
 set nocp
 filetype off
 
 if version >= 700
     set rtp+=~/.vim/bundle/Vundle.vim
-    exe "call vundle#begin()"|     " Use exe to prevent syntax error in vim<7
+    exe "call vundle#begin()"|      " Use exe to prevent syntax error in vim<7
 
     " vundle is required!
     Plugin 'gmarik/Vundle.vim'
@@ -56,23 +56,16 @@ if version >= 700
     endif
 
     Plugin 'altercation/vim-colors-solarized'
+
+    exe "call vundle#end()"|        " Use exe to prevent syntax error in vim<7
 endif
 
-" Brief help
-"
-"   :BundleList          - list configured bundles
-"   :BundleInstall(!)    - install(update) bundles
-"   :BundleSearch(!) foo - search(or refresh cache first) for foo
-"   :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
-"
-" see :h vundle for more details or wiki for FAQ
-" NOTE: comments after Bundle command are not allowed..
-"
-
-exe "call vundle#end()"|        " Use exe to prevent syntax error in vim<7
-syntax on
-silent! colorscheme solarized   " Needs to be after vundle#end()
 filetype plugin indent on
+
+" vundle and plugins now loaded
+"
+syntax on
+silent! colorscheme solarized       " Needs to be after vundle#end()
 
 " Default background, window and font tunings
 "
@@ -87,7 +80,6 @@ else
     set background=dark
     set t_ti= t_te=     " prevent clear screen after exit
 endif
-
 
 " Basic settings
 "
