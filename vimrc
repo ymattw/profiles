@@ -103,6 +103,10 @@ set et sts=4 sw=4 ts=8                  " default to 4-space soft tab
 set enc=utf-8                           " work with LC_COLLATE=C & LC_CTYPE=C
 let mapleader = ","
 
+if exists('&wic')
+    set nowic nofic                     " don't ignore case on searching files
+endif
+
 if version > 603 || version == 603 && has('patch83')
     set list listchars=tab:▸\ ,trail:▌  " highlight special chars, :h dig
 else
