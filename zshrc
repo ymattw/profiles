@@ -14,12 +14,8 @@ path_prepend /bin /usr/bin /sbin /usr/sbin /usr/local/bin /usr/local/sbin ~/bin
 [[ ! -d /home/y/bin64 ]] || path_prepend /home/y/bin64
 [[ ! -d /home/y/bin ]] || path_prepend /home/y/bin
 [[ ! -d $HOME/bin ]] || path_prepend $HOME/bin
-[[ ! -d $HOME/.rvm/bin ]] || path_prepend $HOME/.rvm/bin
 unset -f path_prepend
 export PATH
-
-# RVM specific
-[[ ! -s "$HOME/.rvm/scripts/rvm" ]] || source "$HOME/.rvm/scripts/rvm"
 
 # Useful options
 #
