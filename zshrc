@@ -3,18 +3,11 @@
 
 # Customized PATH
 #
-function path_prepend() {
-    local x
-    for x in "$@"; do
-        [[ :$PATH: == *:$x:* ]] || PATH=$x:$PATH
-    done
-}
-path_prepend /bin /usr/bin /sbin /usr/sbin /usr/local/sbin /usr/local/bin
-[[ ! -d /opt/local/bin ]] || path_prepend /opt/local/bin
-[[ ! -d /home/y/bin64 ]] || path_prepend /home/y/bin64
-[[ ! -d /home/y/bin ]] || path_prepend /home/y/bin
-[[ ! -d $HOME/bin ]] || path_prepend $HOME/bin
-unset -f path_prepend
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+[[ ! -d /opt/local/bin ]] || PATH=/opt/local/bin:$PATH
+[[ ! -d /home/y/bin64 ]] || PATH=/home/y/bin64:$PATH
+[[ ! -d /home/y/bin ]] || PATH=/home/y/bin:$PATH
+[[ ! -d $HOME/bin ]] || PATH=$HOME/bin:$PATH
 export PATH
 
 # Useful options
