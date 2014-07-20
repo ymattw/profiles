@@ -9,7 +9,7 @@ function path_prepend() {
         [[ :$PATH: == *:$x:* ]] || PATH=$x:$PATH
     done
 }
-path_prepend /bin /usr/bin /sbin /usr/sbin /usr/local/bin /usr/local/sbin ~/bin
+path_prepend /bin /usr/bin /sbin /usr/sbin /usr/local/sbin /usr/local/bin
 [[ ! -d /opt/local/bin ]] || path_prepend /opt/local/bin
 [[ ! -d /home/y/bin64 ]] || path_prepend /home/y/bin64
 [[ ! -d /home/y/bin ]] || path_prepend /home/y/bin
