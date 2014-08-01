@@ -3,10 +3,11 @@
 
 # Customized PATH
 #
-PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+PATH=/usr/bin:/bin:/usr/sbin:/sbin
 [[ ! -d /opt/local/bin ]] || PATH=/opt/local/bin:$PATH
 [[ ! -d /home/y/bin64 ]] || PATH=/home/y/bin64:$PATH
 [[ ! -d /home/y/bin ]] || PATH=/home/y/bin:$PATH
+PATH=/usr/local/bin:/usr/local/sbin:$PATH
 [[ ! -d $HOME/bin ]] || PATH=$HOME/bin:$PATH
 export PATH
 
