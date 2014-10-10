@@ -199,8 +199,8 @@ if exists('&cul')                       " toggle cursor line
     nmap _      :set cul!<CR>
 endif
 
-if exists('&cc')                        " toggle cursor column
-    nmap \|     :call ToggleColorColumn()<CR>
+if exists('&cuc')                       " toggle cursor column
+    nmap \|     :set cuc!<CR>
 endif
 
 " Misc
@@ -232,11 +232,6 @@ endfunction
 
 function! ToggleSpell()
     let expr = &spell == 1 ? "setl nospell cul" : "setl spell nocul"
-    exe expr
-endfunction
-
-function! ToggleColorColumn()
-    let expr = len(&cc) ? "setl cc=" : "setl cc=+1"
     exe expr
 endfunction
 
