@@ -101,16 +101,15 @@ function __git_status_color() {
 
 function __git_active_branch() {
     if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
-        local branch=$(git symbolic-ref HEAD 2>/dev/null)
-        echo " (${branch##refs/heads/})"
+        local branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+        echo " (${branch})"
     fi
 }
 
 function __git_track_info() {
     if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
         local branch info age track
-        branch=$(git symbolic-ref HEAD 2>/dev/null)
-        branch=${branch##refs/heads/}
+        branch=$(git symbolic-ref --short HEAD 2>/dev/null)
         info=$(git status -s 2>/dev/null)
         age=$(git log --pretty=format:'%cr' -1 refs/heads/$branch 2>/dev/null)
         track=$(git status -sb 2>/dev/null | sed -n 's/^##.*\[\(.*\)\].*/, \1/p')
