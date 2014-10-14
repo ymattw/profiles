@@ -14,7 +14,18 @@ PATH=/usr/bin:/bin:/usr/sbin:/sbin
 [[ ! -d /home/y/bin64 ]] || PATH=/home/y/bin64:$PATH
 [[ ! -d /home/y/bin ]] || PATH=/home/y/bin:$PATH
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
+
+# Load RVM if installed, otherwise load ChefDK if installed
+if [[ -x $HOME/.rvm/bin/rvm ]] && [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
+    PATH=$HOME/.rvm/bin:$PATH
+    source "$HOME/.rvm/scripts/rvm"
+elif [[ -x /usr/bin/chef ]]; then
+    eval "$(/usr/bin/chef shell-init sh)"
+fi
+
+# ~/bin takes precedence
 [[ ! -d $HOME/bin ]] || PATH=$HOME/bin:$PATH
+
 export PATH
 
 # Useful options
