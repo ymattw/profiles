@@ -115,11 +115,6 @@ function __git_active_branch() {
 #
 PROMPT="\$([[ \$? == 0 ]] && echo '${_DG}✔' || echo '${_DR}✘') %* "
 
-# Promopt username only when user switched (happens after sudo -s -u <user>)
-if [[ $(logname 2>/dev/null) != $(id -un) ]] || [[ $USER != $(id -un) ]]; then
-    PROMPT+="${_DR}$(id -un)${_NC}@"
-fi
-
 # Detect whether this box has my own ssh key (~/.ssh/$USER.key), distinguish
 # hostname color and setup ssh-agent related environment accordingly
 #

@@ -124,11 +124,6 @@ function __git_track_info() {
 #
 PS1="\$([[ \$? == 0 ]] && echo '${_DG}✔' || echo '${_DR}✘') \t "
 
-# Promopt username only when user switched (happens after sudo -s -u <user>)
-if [[ $(logname 2>/dev/null) != $(id -un) ]] || [[ $USER != $(id -un) ]]; then
-    PS1="${PS1}${_DR}$(id -un)${_NC}@"
-fi
-
 # Detect whether this box has my own ssh key (~/.ssh/$USER.key), distinguish
 # hostname color and setup ssh-agent related environment accordingly
 #
