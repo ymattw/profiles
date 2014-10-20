@@ -83,7 +83,7 @@ endif
 
 " Basic settings
 "
-set noswf nobk                          " general
+set noswf nobk smc=150                  " general
 set is ic scs hls sm mat=2              " interface
 set si sta sr bs=2 tw=79 fo=tcroqnmMB   " editing
 set nofen fdm=manual                    " folding
