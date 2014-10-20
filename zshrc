@@ -133,8 +133,8 @@ if [[ -f ~/.ssh/$USER.key ]]; then
         rm -f ~/.ssh-agent.sock
         ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > $_MY_AGENT_RC
         source $_MY_AGENT_RC
-        ssh-add -L | grep -qw $USER.key || ssh-add ~/.ssh/$USER.key
     fi
+    ssh-add -L | grep -qw $USER.key || ssh-add ~/.ssh/$USER.key
 else
     # Otherwise assume I am on other's box, highlight hostname in magenta
     PROMPT+="${_DM}"                                # magenta hostname
