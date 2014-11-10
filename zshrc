@@ -35,6 +35,8 @@ setopt hist_ignore_space
 setopt hist_find_no_dups
 setopt hist_verify
 setopt share_history
+setopt auto_pushd
+setopt pushd_ignore_dups
 unsetopt nomatch
 unsetopt correct
 unsetopt auto_remove_slash
@@ -63,7 +65,7 @@ zstyle ':completion:*' menu yes select
 zstyle ':completion:*' users off
 zmodload zsh/complist
 bindkey -M menuselect '^M' .accept-line     # <Enter> only once to accept
-ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;&|*?$'      # no space after, see zshparam(1)
+ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;*?'         # no space after, see zshparam(1)
 
 # Fix default host completion
 __hosts=($(sed -ne 's/[, ].*//p' ~/.ssh/known_hosts* 2>/dev/null))
@@ -151,6 +153,7 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
+alias pd='popd'
 alias vi='vim -Xn'
 
 case $(uname -s) in
