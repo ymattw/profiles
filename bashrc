@@ -11,6 +11,7 @@
 #
 PATH=/usr/bin:/bin:/usr/sbin:/sbin
 [[ ! -d /opt/local/bin ]] || PATH=/opt/local/bin:$PATH
+# Note: turn this off if you have automount on /home
 [[ ! -d /home/y/bin64 ]] || PATH=/home/y/bin64:$PATH
 [[ ! -d /home/y/bin ]] || PATH=/home/y/bin:$PATH
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
@@ -132,7 +133,7 @@ if [[ -f ~/.ssh/$USER.key ]]; then
     PS1="${PS1}${_DB}"                              # blue hostname
     _MY_AGENT_RC=~/.ssh-agent.rc
     [[ ! -f $_MY_AGENT_RC ]] || source $_MY_AGENT_RC
-    if ! ps -p ${SSH_AGENT_PID:-0} >& /dev/null; then
+    if ! ps -p ${SSH_AGENT_PID:-0} -o comm 2>/dev/null | grep -q ssh-agent; then
         echo -e "${_DR}Starting new ssh-agent process${_NC}" >&2
         rm -f ~/.ssh-agent.sock
         ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > $_MY_AGENT_RC
