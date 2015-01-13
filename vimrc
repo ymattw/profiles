@@ -113,7 +113,7 @@ au! BufEnter Gemfile,Berksfile,Thorfile,Vagrantfile setl ft=ruby
 
 " File type autocmds
 "
-au! FileType html,ruby,eruby,yaml,javascript,json setl et sts=2 sw=2
+au! FileType html,ruby,eruby,yaml setl et sts=2 sw=2
 au! FileType make setl noet sw=8
 au! FileType gitcommit setl tw=72
 
