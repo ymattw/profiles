@@ -32,6 +32,7 @@ git config --global core.editor vim
 git config --global color.ui true
 git config --global log.abbrevcommit true
 git config --global log.decorate short
+git config --global diff.noprefix true
 git config --global mergetool.vi.cmd 'vimdiff "$LOCAL" "$MERGED" "$REMOTE"'
 
 git config --global user.name 'Matthew Wang'
