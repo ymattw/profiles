@@ -199,7 +199,7 @@ function f() {
 # jump to the file
 #
 function vif() {
-    local tmpf=$(mktemp)
+    local tmpf=/tmp/viftmpfile.$RANDOM$$
     f "$@" > $tmpf && vi -c "/$1" $tmpf && rm -f $tmpf
 }
 
