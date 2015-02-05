@@ -66,7 +66,7 @@ zstyle ':completion:*' menu yes select
 zstyle ':completion:*' users off
 zmodload zsh/complist
 bindkey -M menuselect '^M' .accept-line     # <Enter> only once to accept
-ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;*?'         # no space after, see zshparam(1)
+ZLE_REMOVE_SUFFIX_CHARS=                    # no space after, see zshparam(1)
 
 # Fix default host completion
 __hosts=($(sed -ne 's/[, ].*//p' ~/.ssh/known_hosts* 2>/dev/null))
@@ -96,7 +96,8 @@ _NC=$'%{\e[0m%}'        # reset color
 function __git_active_branch() {
     if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
         local branch info age track
-        branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+        branch=$(git symbolic-ref HEAD 2>/dev/null)
+        branch=${branch#refs/heads/}
         info=$(git status -s 2>/dev/null)
         age=$(git log --pretty=format:'%cr' -1 refs/heads/$branch 2>/dev/null)
         track=$(git status -sb 2>/dev/null | sed -n 's/^##.*\[\(.*\)\].*/, \1/p')
