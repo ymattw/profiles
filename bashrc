@@ -19,6 +19,7 @@ PATH=/usr/local/bin:/usr/local/sbin:$PATH
 # Load RVM if installed, otherwise load ChefDK if installed
 if [[ -x $HOME/.rvm/bin/rvm ]] && [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
     PATH=$HOME/.rvm/bin:$PATH
+    unset GEM_HOME GEM_PATH GEM_ROOT
     source "$HOME/.rvm/scripts/rvm"
 elif [[ -x /usr/bin/chef ]]; then
     eval "$(/usr/bin/chef shell-init sh)"
