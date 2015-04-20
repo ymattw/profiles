@@ -34,6 +34,7 @@ git config --global log.abbrevcommit true
 git config --global log.decorate short
 git config --global diff.noprefix true
 git config --global mergetool.vi.cmd 'vimdiff "$LOCAL" "$MERGED" "$REMOTE"'
+git config --global push.default simple
 
 git config --global user.name 'Matthew Wang'
 # Leave user.email as per repo setting
