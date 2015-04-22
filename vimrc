@@ -10,11 +10,11 @@
 
 " Load vundle and plugins
 "
-set nocp
+set nocompatible
 filetype off
 
 if version >= 700
-    set rtp+=~/.vim/bundle/Vundle.vim
+    set runtimepath+=~/.vim/bundle/Vundle.vim
     exe "call vundle#begin()"|      " Use exe to prevent syntax error in vim<7
 
     " vundle is required!
@@ -85,20 +85,24 @@ endif
 
 " Basic settings
 "
-set noswf nobk smc=150                  " general
-set is ic scs hls sm mat=2              " interface
-set si sta sr bs=2 tw=79 fo=tcroqnmMB   " editing
-set nofen fdm=manual                    " folding
-set fdt=FoldText() fcs=vert:\|,fold:.   " folding
-set wim=list:full                       " misc: complete and list matched files
-set isf-==                              " misc: '=' is not part of filename
-set mps+=<:>                            " misc: '%' can match <> pair in html
-set et sts=4 sw=4 ts=8                  " default to 4-space soft tab
+set noswapfile nobackup                 " no tmp files
+set incsearch smartcase ignorecase hls  " searching
+set showmatch matchtime=2 synmaxcol=150 " interface
+set si smarttab shiftround backspace=2  " editing
+set tw=79 formatoptions=tcroqnmMB       " formatting
+set nofoldenable foldmethod=manual      " folding
+set foldtext=FoldText()                 " folding
+set fillchars=vert:\|,fold:.            " folding
+set wildmode=list:full                  " misc: complete and list matched files
+set isfname-==                          " misc: '=' is not part of filename
+set matchpairs+=<:>                     " misc: '%' can match <> pair in html
+set et sts=4 sw=4 ts=8                  " tab: default to 4-space soft tab
 set enc=utf-8                           " work with LC_COLLATE=C & LC_CTYPE=C
 let mapleader = ","
 
-if exists('&wic')
-    set nowic nofic                     " don't ignore case on searching files
+if exists('&wildignorecase')
+    set nowildignorecase
+    set nofileignorecase                " don't ignore case on searching files
 endif
 
 if version > 603 || version == 603 && has('patch83')
@@ -109,9 +113,9 @@ endif
 
 " File type detect
 "
-au! BufEnter *[Mm]akefile*,[Mm]ake.*,*.mak,*.make setl ft=make
-au! BufEnter *.md,*.markdown setl ft=markdown
-au! BufEnter Gemfile,Berksfile,Thorfile,Vagrantfile setl ft=ruby
+au! BufEnter *[Mm]akefile*,[Mm]ake.*,*.mak,*.make setl filetype=make
+au! BufEnter *.md,*.markdown setl filetype=markdown
+au! BufEnter Gemfile,Berksfile,Thorfile,Vagrantfile setl filetype=ruby
 
 " File type autocmds
 "
@@ -140,7 +144,7 @@ hi! link ColorColumn Search
 
 " Powerful statusline, underlined status line looks better with cursor line
 "
-set noru ls=2                           " no ruler, always show status line
+set noruler laststatus=2                " no ruler, always show status line
 set stl=                                " reset
 set stl+=\ %0*%n%*                      " buffer number
 set stl+=\ %0*%f%*                      " short pathname
@@ -197,12 +201,12 @@ if exists('&spell')                     " toggle spell
     nmap <CR>   :call ToggleSpell()<CR>
 endif
 
-if exists('&cul')                       " toggle cursor line
-    nmap _      :set cul!<CR>
+if exists('&cursorline')                " toggle cursor line
+    nmap _      :set cursorline!<CR>
 endif
 
-if exists('&cuc')                       " toggle cursor column
-    nmap \|     :set cuc!<CR>
+if exists('&cursorcolumn')              " toggle cursor column
+    nmap \|     :set cursorcolumn!<CR>
 endif
 
 " Misc
@@ -217,11 +221,11 @@ au! BufReadPost *
     \     exe "normal! g`\"" |
     \ endif
 
-if exists('&cul')
+if exists('&cursorline')
     set cul
     augroup ActiveBuffer
-        au! WinEnter * setl cul
-        au! WinLeave * setl nocul
+        au! WinEnter * setl cursorline
+        au! WinLeave * setl nocursorline
     augroup END
 endif
 
