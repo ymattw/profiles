@@ -41,7 +41,6 @@ bind 'set match-hidden-files off' >& /dev/null  # Don't tab-expand hidden files
 export HISTFILE=~/.bash_history     # In case switched from zsh temporally
 export HISTSIZE=10000
 export EDITOR=vim
-export GREP_OPTIONS="--color=auto"
 if [[ $(uname -s) == Linux ]]; then
     export LC_COLLATE=C
     export LC_CTYPE=C
@@ -167,6 +166,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias vi='vim -Xn'
+alias grep='grep --color=auto'
 
 case $(uname -s) in
     Linux)

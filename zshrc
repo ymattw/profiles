@@ -53,7 +53,6 @@ export HISTFILE=~/.zhistory         # Prevent from ~/.zsh<tab> completion
 export HISTSIZE=10000
 export SAVEHIST=10000
 export EDITOR=vim
-export GREP_OPTIONS="--color=auto"
 if [[ $(uname -s) == Linux ]]; then
     export LC_COLLATE=C
     export LC_CTYPE=C
@@ -158,6 +157,7 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias pd='popd'
 alias vi='vim -Xn'
+alias grep='grep --color=auto'
 
 case $(uname -s) in
     Linux)
