@@ -1,4 +1,4 @@
-# Matthew Wang's bash profile for general Linux/Unix with a little Y! flavor
+# Matthew Wang's bash profile for general Linux/Unix
 #
 # Suggestion: ln -sf .bashrc .bash_profile
 #
@@ -11,9 +11,6 @@
 #
 PATH=/usr/bin:/bin:/usr/sbin:/sbin
 [[ ! -d /opt/local/bin ]] || PATH=/opt/local/bin:$PATH
-# Note: turn this off if you have automount on /home
-[[ ! -d /home/y/bin64 ]] || PATH=/home/y/bin64:$PATH
-[[ ! -d /home/y/bin ]] || PATH=/home/y/bin:$PATH
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
 # Load RVM if installed, otherwise load ChefDK if installed
@@ -64,18 +61,6 @@ complete -F _host_complete ssh scp host nc ping telnet
 # Auto complete unset from exported variables
 complete -A export unset
 
-# Customized yroot completion for Y! boxes
-#
-if [[ $(hostname -f) == *.yahoo.* ]]; then
-    function _yroot_complete() {
-        local cur=${COMP_WORDS[COMP_CWORD]}
-        local d="/home/y/var/yroots"
-        local -a yroots=($(/bin/ls $d/*.conf |& sed -n "s#$d/\(.*\).conf#\1#p"))
-        COMPREPLY=($(compgen -W '${yroots[@]}' -- $cur ))
-    }
-    complete -F _yroot_complete yroot
-fi
-
 # Customized theme (prompt)
 #
 _DR="\[\e[31m\]"        # red
@@ -120,10 +105,10 @@ function __git_track_info() {
     fi
 }
 
-# Fancy PS1, prompt exit status of last command, currenet time, hostname,
-# yroot, time, cwd, git status and branch, also prompt the '%' in reverse color
-# when we have background jobs. '\[' and '\]' is to mark ansi colors to allow
-# shell to calculate prompt string length correctly
+# Fancy PS1, prompt exit status of last command, currenet time, hostname, time,
+# cwd, git status and branch, also prompt the '%' in reverse color when we have
+# background jobs. '\[' and '\]' is to mark ansi colors to allow shell to
+# calculate prompt string length correctly
 #
 PS1="\$([[ \$? == 0 ]] && echo '${_DG}✔' || echo '${_DR}✘') \t "
 
@@ -147,9 +132,7 @@ else
     PS1="${PS1}${_DM}"                              # magenta hostname
 fi
 
-PS1="${PS1}$(_H=$(hostname -f); echo ${_H%.yahoo.*})"
-PS1="${PS1}${_DG}"                                  # then green {yroot}
-PS1="${PS1}"${YROOT_NAME+"{$YROOT_NAME}"}
+PS1="${PS1}$(hostname -f)"
 PS1="${PS1} ${_DY}\w${_NC}"                         # yellow cwd
 PS1="${PS1}\[\$(__git_status_color)\]"              # git status indicator
 PS1="${PS1}\$(__git_active_branch)"                 # git branch name

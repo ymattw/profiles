@@ -1,13 +1,10 @@
-# Matthew Wang's zsh profile for general Linux/Unix with a little Y! flavor
+# Matthew Wang's zsh profile for general Linux/Unix
 #
 
 # Customized PATH
 #
 PATH=/usr/bin:/bin:/usr/sbin:/sbin
 [[ ! -d /opt/local/bin ]] || PATH=/opt/local/bin:$PATH
-# Note: turn this off if you have automount on /home
-[[ ! -d /home/y/bin64 ]] || PATH=/home/y/bin64:$PATH
-[[ ! -d /home/y/bin ]] || PATH=/home/y/bin:$PATH
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
 # Load RVM if installed, otherwise load ChefDK if installed
@@ -72,16 +69,6 @@ ZLE_REMOVE_SUFFIX_CHARS=                    # no space after, see zshparam(1)
 __hosts=($(sed -ne 's/[, ].*//p' ~/.ssh/known_hosts* 2>/dev/null))
 zstyle ':completion:*:hosts' hosts $__hosts
 
-# Customized yroot completion for Y! boxes
-#
-if [[ $(hostname -f) == *.yahoo.* ]]; then
-    function _yroot_complete() {
-        local d="/home/y/var/yroots"
-        reply=($(/bin/ls $d/*.conf |& sed -n "s#$d/\(.*\).conf#\1#p"))
-    }
-    compctl -K _yroot_complete yroot
-fi
-
 # Customized theme (prompt)
 #
 _DR=$'%{\e[31m%}'       # red
@@ -114,8 +101,8 @@ function __git_active_branch() {
 }
 
 # Fancy PROMPT, prompt exit status of last command, currenet time, hostname,
-# yroot, time, cwd, git status and branch, also prompt the '%' in reverse color
-# when we have background jobs.
+# time, cwd, git status and branch, also prompt the '%' in reverse color when
+# we have background jobs.
 #
 PROMPT="\$([[ \$? == 0 ]] && echo '${_DG}✔' || echo '${_DR}✘') %* "
 
@@ -139,9 +126,7 @@ else
     PROMPT+="${_DM}"                                # magenta hostname
 fi
 
-PROMPT+="$(_H=$(hostname -f); echo ${_H%.yahoo.*})"
-PROMPT+="${_DG}"                                    # then green {yroot}
-PROMPT+=${YROOT_NAME+"{$YROOT_NAME}"}
+PROMPT+="$(hostname -f)"
 PROMPT+=" ${_DY}%~${_NC}"                           # yellow cwd
 PROMPT+='$(__git_active_branch)'                    # colorful git branch name
 PROMPT+=" ${_DC}"$'⤾\n'                             # cyan wrap char, newline
