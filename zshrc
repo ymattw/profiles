@@ -127,7 +127,7 @@ if [[ -f ~/.ssh/$USER.key ]]; then
     PROMPT+="${_DB}"                                # blue hostname
     _MY_AGENT_RC=~/.ssh-agent.rc
     [[ ! -f $_MY_AGENT_RC ]] || source $_MY_AGENT_RC
-    if ! ps -p ${SSH_AGENT_PID:-0} -o comm 2>/dev/null | grep -q ssh-agent; then
+    if ! ps -p ${SSH_AGENT_PID:-0} 2>/dev/null | grep -q ssh-agent; then
         print -P "${_DR}Starting new ssh-agent process${_NC}" >&2
         rm -f ~/.ssh-agent.sock
         ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > $_MY_AGENT_RC
