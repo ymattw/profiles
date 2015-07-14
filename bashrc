@@ -187,24 +187,22 @@ function vif() {
     f "$@" > $tmpf && vi -c "/$1" $tmpf && rm -f $tmpf
 }
 
-# Grep a ERE pattern in files that match given file glob in cwd or given path
+# Grep a ERE pattern in cwd or given path
 function g() {
     local string_pat=${1:?"Usage: g ERE-pattern [file-glob] [grep opts] [path...]"}
     shift
-    local file_glob grep_opts paths
+    local grep_opts="--color=auto" paths
 
     while (( $# > 0 )); do
         case "$1" in
-            *\**|*\?*|*\]*) file_glob="$1"; shift;;
             -*) grep_opts="$grep_opts $1"; shift;;
             *) paths="$paths $1"; shift;;
         esac
     done
-    [[ -n "$file_glob" ]] || file_glob="*"
     [[ -n "$paths" ]] || paths="."
 
     find $paths \( -path '*/.svn' -o -path '*/.git' -o -path '*/.idea' \) \
-        -prune -o -type f -name "$file_glob" -print0 -follow \
+        -prune -o -type f -print0 -follow \
         | eval "xargs -0 -P128 grep -EH $grep_opts '$string_pat'"
 }
 
