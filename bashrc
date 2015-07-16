@@ -189,9 +189,10 @@ function vif() {
 
 # Grep a ERE pattern in cwd or given path
 function g() {
-    local string_pat=${1:?"Usage: g ERE-pattern [file-glob] [grep opts] [path...]"}
+    local string_pat=${1:?"Usage: g ERE-pattern [grep opts] [path...]"}
     shift
-    local grep_opts="--color=auto" paths
+    local grep_opts="--color=auto"
+    local paths
 
     while (( $# > 0 )); do
         case "$1" in
