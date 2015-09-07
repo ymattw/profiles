@@ -35,14 +35,16 @@ if version >= 700
 
     Plugin 'ahayman/vim-nodejs-complete'
 
-    Plugin 'vim-scripts/taglist.vim'
-    let Tlist_Auto_Open = 0
-    let Tlist_Use_Right_Window = 1
-    let Tlist_Exit_OnlyWindow = 1
-    let Tlist_File_Fold_Auto_Close = 1
-    " For TagList on mac: brew install ctags
-    if has('unix') && system('uname -s') =~ '^Darwin'
-        let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
+    if executable('ctags')
+        Plugin 'vim-scripts/taglist.vim'
+        let Tlist_Auto_Open = 0
+        let Tlist_Use_Right_Window = 1
+        let Tlist_Exit_OnlyWindow = 1
+        let Tlist_File_Fold_Auto_Close = 1
+        " For TagList on mac: brew install ctags
+        if has('unix') && system('uname -s') =~ '^Darwin'
+            let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
+        endif
     endif
 
     " 'Valloric/YouCompleteMe' might be better but its installation is too much
