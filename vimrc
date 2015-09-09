@@ -142,8 +142,8 @@ au FileType twiki inoreabbrev <buffer> <a
 "
 hi! link CharAtCol80 WarningMsg         " note 'set cc=+1' confuses :vsp
 mat CharAtCol80 /\%80v/
-hi! link SmartReplacedChars ErrorMsg
-mat SmartReplacedChars /\%xa0\|[“”‘’—]/ " happens when copy from pages/alternote
+hi! link SmartReplacedChar ErrorMsg
+2mat SmartReplacedChar /\%xa0\|[“”‘’—]/ " happens when copy from pages/alternote
 hi! link ColorColumn Search
 
 " Powerful statusline, underlined status line looks better with cursor line
