@@ -15,7 +15,7 @@ filetype off
 
 if version >= 700
     set runtimepath+=~/.vim/bundle/Vundle.vim
-    exe "call vundle#begin()"|      " Use exe to prevent syntax error in vim<7
+    execute "call vundle#begin()"|      " execute to avoid syntax error in vim<7
 
     " vundle is required!
     Plugin 'gmarik/Vundle.vim'
@@ -46,7 +46,8 @@ if version >= 700
     endif
 
     " 'Valloric/YouCompleteMe' might be better but its installation is too much
-    " heavy for me
+    " heavy on most systems
+    "
     Plugin 'ervandew/supertab'
     let g:SuperTabDefaultCompletionType = "context"
     let g:SuperTabContextDefaultCompletionType = "<c-n>"
@@ -59,7 +60,7 @@ if version >= 700
 
     Plugin 'altercation/vim-colors-solarized'
 
-    exe "call vundle#end()"|        " Use exe to prevent syntax error in vim<7
+    execute "call vundle#end()"|        " execute to avoid syntax error in vim<7
 endif
 
 filetype plugin indent on
@@ -67,7 +68,7 @@ filetype plugin indent on
 " vundle and plugins now loaded
 "
 syntax on
-silent! colorscheme solarized       " Needs to be after vundle#end()
+silent! colorscheme solarized           " Needs to be after vundle#end()
 
 " Default background, window and font tunings
 "
@@ -80,7 +81,7 @@ if has('gui_running')
     endif
 else
     set background=dark
-    set t_ti= t_te=     " prevent clear screen after exit
+    set t_ti= t_te=                     " prevent clear screen after exit
 endif
 
 " Basic settings
