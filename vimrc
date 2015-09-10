@@ -28,8 +28,6 @@ if version >= 700
 
     Plugin 'tpope/vim-markdown'
 
-    Plugin 'ymattw/TWiki-Syntax'
-
     Plugin 'elzr/vim-json'
     let g:vim_json_syntax_conceal = 0
 
@@ -119,24 +117,11 @@ au! BufEnter *[Mm]akefile*,[Mm]ake.*,*.mak,*.make setl filetype=make
 au! BufEnter *.md,*.markdown setl filetype=markdown
 au! BufEnter Gemfile,Berksfile,Thorfile,Vagrantfile setl filetype=ruby
 
-" File type autocmds
+" File type tag size
 "
 au! FileType html,ruby,eruby,yaml setl et sts=2 sw=2
 au! FileType make setl noet sw=8
 au! FileType gitcommit setl tw=72
-
-" Press T to tabularize in a twiki/markdown buffer
-au! FileType twiki nmap <buffer> T vip:Tabularize /\|<CR>
-au! FileType twiki setl sts=3 sw=3 et fo=
-au! FileType markdown nmap <buffer> T vip:Tabularize /\|<CR>
-
-" Abbrs for twiki, :h abbreviations
-au FileType twiki inoreabbrev <buffer> <v
-    \ <verbatim><CR></verbatim><UP>
-au FileType twiki inoreabbrev <buffer> <i
-    \ <img src='%ATTACHURLPATH%/' width='600' /><ESC>0f/a
-au FileType twiki inoreabbrev <buffer> <a
-    \ <a href='%ATTACHURLPATH%/'><img src='%ATTACHURLPATH%/' /></a><ESC>0f/a
 
 " Colors, suitable for Solarized dark background
 "
@@ -172,7 +157,7 @@ hi! User3 cterm=underline ctermfg=red gui=underline guibg=#ccc6b3 guifg=red
 hi! StatusLine cterm=underline ctermfg=blue gui=underline guibg=#ccc6b3
 hi! StatusLineNC cterm=underline ctermfg=grey gui=underline guibg=#eee8d5
 
-" Key maps. Make sure <BS> and <C-H> are different in your terminal setting!
+" Global key maps. Make sure <BS> and <C-H> are different in terminal setting!
 "
 nmap <Space>    :set list!<CR>|         " toggle list mode
 nmap <BS>       :set ic!<CR>|           " toggle ignore case
@@ -181,8 +166,6 @@ nmap <C-P>      :set paste!<CR>|        " ctrl-p to toggle paste mode
 nmap <C-H>      :set hls!<CR>|          " ctrl-h to toggle highlight search
 nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " remove trailing blank
 imap <C-J>      <ESC>kJA|               " join to prev line (undo auto wrap)
-nmap <leader>c  I/* <ESC>A */<ESC>|     " comment out current line with /* */
-nmap <leader>u  0f*h3x$xxx|             " uncomment out /* */
 nmap <leader>t  :TlistToggle<CR>|       " toggle TagList window
 nmap <leader><Tab>
               \ :call ToggleTab()<CR>|  " toggle hard/soft tab
@@ -194,6 +177,17 @@ nmap !!         :q!<CR>|                " quit without saving
 nmap Q          vipgq|                  " format current paragraph
 nmap qq         :q<CR>
 
+" File type key mappings
+"
+au! FileType markdown nmap <buffer> T
+              \ vip:Tabularize /\|<CR>| " tabularize markdown tables
+au! FileType c,cpp,javascript,css nmap <buffer> <leader>c
+              \ I/* <ESC>A */<ESC>|     " comment out current line with /* */
+au! FileType c,cpp,javascript, css nmap <leader>u
+              \ 0f*h3x$3x|              " comment out /* */
+
+" Mode key mappings
+"
 if exists('&diff') && &diff
     nmap <Up>   [c|                     " previous change
     nmap <Down> ]c|                     " next change
