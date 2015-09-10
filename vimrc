@@ -88,7 +88,10 @@ set showmatch matchtime=2 synmaxcol=150 " interface
 set encoding=utf-8 textwidth=79         " editing
 set smartindent autoindent shiftround   " editing
 set smarttab backspace=indent,eol,start " editing
-set formatoptions=tcqron1jMB            " formatting, jMB for multi-byte chars
+set formatoptions=tcqron1MB             " formatting, MB for multi-byte chars
+if version > 703 || version == 703 && has('patch541')
+    set formatoptions+=j                " j' is added in 7.3.541
+endif
 set nofoldenable foldmethod=manual      " folding
 set foldtext=FoldText()                 " folding
 set fillchars=vert:\|,fold:.            " folding
