@@ -192,7 +192,7 @@ autocmd! FileType markdown nmap <buffer> T
               \ vip:Tabularize /\|<CR>| " tabularize markdown tables
 autocmd! FileType c,cpp,javascript,css nmap <buffer> <leader>c
               \ I/* <ESC>A */<ESC>|     " comment out current line with /* */
-autocmd! FileType c,cpp,javascript, css nmap <leader>u
+autocmd! FileType c,cpp,javascript,css nmap <leader>u
               \ 0f*h3x$3x|              " comment out /* */
 
 " Mode key mappings
