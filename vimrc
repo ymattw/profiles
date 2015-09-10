@@ -124,9 +124,9 @@ autocmd! BufEnter Gemfile,Berksfile,Thorfile,Vagrantfile setlocal filetype=ruby
 
 " File type tag size
 "
-autocmd! FileType html,ruby,eruby,yaml setlocal et sts=2 sw=2
-autocmd! FileType make setlocal noet sw=8
-autocmd! FileType gitcommit setlocal tw=72
+autocmd! FileType html,ruby,eruby,yaml setlocal expandtab softtabstop=2 shiftwidth=2
+autocmd! FileType make setlocal noexpandtab shiftwidth=8
+autocmd! FileType gitcommit setlocal textwidth=72
 
 " Colors, suitable for Solarized dark background
 "
