@@ -173,6 +173,7 @@ nmap <leader><Tab>
               \ :call ToggleTab()<CR>|  " toggle hard/soft tab
 nmap <leader>2  :set et sts=2 sw=2<CR>| " use 2-space indent
 nmap <leader>4  :set et sts=4 sw=4<CR>| " use 4-space indent
+nmap <leader>\| :call ToggleColorColumn()<CR>|
 nmap q:         :q|                     " q: is boring
 nmap \\         :call ExecuteMe()<CR>|  " execute current file
 nmap !!         :q!<CR>|                " quit without saving
@@ -238,6 +239,11 @@ endfunction
 
 function! ToggleSpell()
     let expr = &spell == 1 ? "setl nospell cul" : "setl spell nocul"
+    exe expr
+endfunction
+
+function! ToggleColorColumn()
+    let expr = &cc == "" ? "setl cc=+1" : "setl cc="
     exe expr
 endfunction
 
