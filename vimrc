@@ -101,8 +101,11 @@ set matchpairs+=<:>                     " misc: '%' can match <> pair in html
 set expandtab softtabstop=4 shiftwidth=4 tabstop=8
                                         " tab: default to 4-space soft tab
 
-if exists('&wildignorecase')
+if exists('&wildignorecase')            " version >= 7.3.072 only
     set nowildignorecase
+endif
+
+if exists('&fileignorecase')            " version >= 7.3.872 only
     set nofileignorecase                " don't ignore case on searching files
 endif
 
