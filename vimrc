@@ -185,6 +185,7 @@ nmap \\         :call ExecuteMe()<CR>|  " execute current file
 nmap !!         :q!<CR>|                " quit without saving
 nmap Q          vipgq|                  " format current paragraph
 nmap qq         :q<CR>
+cmap w!!        w !sudo tee % > /dev/null
 
 " File type key mappings
 "
