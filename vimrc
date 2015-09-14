@@ -124,7 +124,8 @@ autocmd! BufEnter Gemfile,Berksfile,Thorfile,Vagrantfile setlocal filetype=ruby
 
 " File type tag size
 "
-autocmd! FileType html,ruby,eruby,yaml setlocal expandtab softtabstop=2 shiftwidth=2
+autocmd! FileType html,ruby,eruby,yaml,json,javascript
+    \ setlocal expandtab softtabstop=2 shiftwidth=2
 autocmd! FileType make setlocal noexpandtab shiftwidth=8
 autocmd! FileType gitcommit setlocal textwidth=72
 
@@ -187,13 +188,14 @@ nmap Q          vipgq|                  " format current paragraph
 nmap qq         :q<CR>
 cmap w!!        w !sudo tee % > /dev/null
 
-" File type key mappings
+" File type key mappings. (NOTE! Do not use autocmd! as it overwrites previous
+" definitions)
 "
-autocmd! FileType markdown nmap <buffer> T
+autocmd FileType markdown nmap <buffer> T
               \ vip:Tabularize /\|<CR>| " tabularize markdown tables
-autocmd! FileType c,cpp,javascript,css nmap <buffer> <leader>c
+autocmd FileType c,cpp,javascript,css nmap <buffer> <leader>c
               \ I/* <ESC>A */<ESC>|     " comment out current line with /* */
-autocmd! FileType c,cpp,javascript,css nmap <leader>u
+autocmd FileType c,cpp,javascript,css nmap <leader>u
               \ 0f*h3x$3x|              " comment out /* */
 
 " Mode key mappings
