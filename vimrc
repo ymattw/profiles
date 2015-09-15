@@ -188,7 +188,7 @@ nmap q:         :q|                     " q: is boring
 nmap !!         :q!<CR>|                " quit without saving
 nmap Q          vipgq|                  " format current paragraph
 nmap qq         :q<CR>
-cmap w!!        w !sudo tee % > /dev/null
+cmap W!         w !sudo tee % > /dev/null
 
 " File type key mappings. (NOTE! Do not use autocmd! as it overwrites previous
 " definitions)
