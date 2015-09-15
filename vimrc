@@ -241,6 +241,11 @@ if exists('&cursorline')
     augroup END
 endif
 
+" 'R' to run a shell command and load output in a scratch buffer
+command! -nargs=* -complete=shellcmd R new
+    \ | setlocal buftype=nofile bufhidden=hide
+    \ | r !<args>
+
 " Helper functions
 "
 function! ToggleTab()
