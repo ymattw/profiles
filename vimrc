@@ -174,6 +174,7 @@ nmap <C-N>      :set nu!<CR>|           " ctrl-n to toggle :set number
 nmap <C-P>      :set paste!<CR>|        " ctrl-p to toggle paste mode
 nmap <C-H>      :set hls!<CR>|          " ctrl-h to toggle highlight search
 nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " remove trailing blank
+nmap <C-\>      <C-w>w|                 " switch to next window
 imap <C-J>      <ESC>kJA|               " join to prev line (undo auto wrap)
 nmap <leader>t  :TlistToggle<CR>|       " toggle TagList window
 nmap <leader><Tab>
@@ -181,8 +182,9 @@ nmap <leader><Tab>
 nmap <leader>2  :set et sts=2 sw=2<CR>| " use 2-space indent
 nmap <leader>4  :set et sts=4 sw=4<CR>| " use 4-space indent
 nmap <leader>\| :call ToggleColorColumn()<CR>|
+nmap <leader>r  :call RunMe()<CR>|      " run current file
+nmap \          %
 nmap q:         :q|                     " q: is boring
-nmap \\         :call ExecuteMe()<CR>|  " execute current file
 nmap !!         :q!<CR>|                " quit without saving
 nmap Q          vipgq|                  " format current paragraph
 nmap qq         :q<CR>
@@ -264,7 +266,7 @@ endfunction
 " Execute current file and pipe output to new window below, window height will
 " be 1/3 of the vim window size
 "
-function! ExecuteMe()
+function! RunMe()
     let file = expand("%:p")
     exe "botright " . (&lines / 3) . " new"
     exe ".!" .  file
