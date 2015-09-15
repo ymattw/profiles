@@ -273,8 +273,17 @@ endfunction
 "
 function! RunMe()
     let file = expand("%:p")
+    let line = getline(1)
+
     exe "botright " . (&lines / 3) . " new"
-    exe ".!" .  file
+        \ | setlocal buftype=nofile bufhidden=hide
+
+    if line =~ "^#!"
+        let intepreter = line[2:]
+        exe ".!" . intepreter . " " . file
+    else
+        exe ".!" . file
+    endif
 endfunction
 
 " EOF
