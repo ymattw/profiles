@@ -31,8 +31,6 @@ if version >= 700
     Plugin 'elzr/vim-json'
     let g:vim_json_syntax_conceal = 0
 
-    Plugin 'ahayman/vim-nodejs-complete'
-
     if executable('ctags')
         Plugin 'vim-scripts/taglist.vim'
         let Tlist_Auto_Open = 0
