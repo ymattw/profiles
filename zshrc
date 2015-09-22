@@ -106,6 +106,9 @@ function __git_active_branch() {
 #
 PROMPT="\$([[ \$? == 0 ]] && echo '${_DG}✔' || echo '${_DR}✘') %* "
 
+# Mark docker indicator in green if inside a container
+[[ -z $container_uuid ]] || PROMPT+="${_DG}[docker] "
+
 # Detect whether this box has my own ssh key (~/.ssh/$USER.key), distinguish
 # hostname color and setup ssh-agent related environment accordingly
 #
@@ -127,7 +130,7 @@ else
 fi
 
 PROMPT+="$(hostname -f)"
-PROMPT+=" ${_DY}%~${_NC}"                           # yellow cwd
+PROMPT+="${_NC}:${_DY}%~${_NC}"                     # yellow cwd
 PROMPT+='$(__git_active_branch)'                    # colorful git branch name
 PROMPT+=" ${_DC}"$'⤾\n'                             # cyan wrap char, newline
 PROMPT+="\$([[ -z \$(jobs) ]] || echo '${_RV}')"    # reverse bg job indicator
