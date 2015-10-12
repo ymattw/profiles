@@ -143,7 +143,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias pd='popd'
-alias vi='vim -Xn'
+! type vim >& /dev/null || alias vi='vim -Xn'
 alias grep='grep --color=auto'
 
 case $(uname -s) in
