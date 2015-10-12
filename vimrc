@@ -90,8 +90,10 @@ set formatoptions=tcqron1MB             " formatting, MB for multi-byte chars
 if version > 703 || version == 703 && has('patch541')
     set formatoptions+=j                " j' is added in 7.3.541
 endif
-set nofoldenable foldmethod=manual      " folding
-set foldtext=FoldText()                 " folding
+if exists('&foldenable')
+    set nofoldenable foldmethod=manual  " folding
+    set foldtext=FoldText()             " folding
+endif
 set fillchars=vert:\|,fold:.            " folding
 set wildmode=list:full                  " misc: complete and list matched files
 set isfname-==                          " misc: '=' is not part of filename
