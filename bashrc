@@ -112,9 +112,6 @@ function __git_track_info() {
 #
 PS1="\$([[ \$? == 0 ]] && echo '${_DG}✔' || echo '${_DR}✘') \t "
 
-# Mark docker indicator in green if inside a container
-[[ -z $container_uuid ]] || PS1="${PS1}${_DG}[docker] "
-
 # Detect whether this box has my own ssh key (~/.ssh/$USER.key), distinguish
 # hostname color and setup ssh-agent related environment accordingly
 #
@@ -135,6 +132,8 @@ else
     PS1="${PS1}${_DM}"                              # magenta hostname
 fi
 
+# Highlight hostname in reverse green if inside a container
+[[ -z $container_uuid ]] || PS1="${PS1}${_RV}${_DG}"
 PS1="${PS1}$(hostname -f)"
 PS1="${PS1}${_NC}:${_DY}\w${_NC}"                   # yellow cwd
 PS1="${PS1}\[\$(__git_status_color)\]"              # git status indicator
