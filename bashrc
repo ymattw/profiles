@@ -40,7 +40,6 @@ export HISTSIZE=10000
 export EDITOR=vim
 if [[ $(uname -s) == Linux ]]; then
     export LC_COLLATE=C
-    export LC_CTYPE=C
 fi
 
 # Load completions
