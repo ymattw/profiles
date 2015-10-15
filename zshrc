@@ -126,7 +126,9 @@ else
 fi
 
 # Highlight hostname in reverse green if inside a container
-[[ -z $container_uuid ]] || PROMPT+="${_RV}${_DG}"
+if [[ -n $container_uuid ]] || [[ -f /.dockerenv ]]; then
+    PROMPT+="${_RV}${_DG}"
+fi
 PROMPT+="$(hostname -f)"
 PROMPT+="${_NC}:${_DY}%~${_NC}"                     # yellow cwd
 PROMPT+='$(__git_active_branch)'                    # colorful git branch name

@@ -132,7 +132,9 @@ else
 fi
 
 # Highlight hostname in reverse green if inside a container
-[[ -z $container_uuid ]] || PS1="${PS1}${_RV}${_DG}"
+if [[ -n $container_uuid ]] || [[ -f /.dockerenv ]]; then
+    PS1="${PS1}${_RV}${_DG}"
+fi
 PS1="${PS1}$(hostname -f)"
 PS1="${PS1}${_NC}:${_DY}\w${_NC}"                   # yellow cwd
 PS1="${PS1}\[\$(__git_status_color)\]"              # git status indicator
