@@ -181,8 +181,8 @@ nmap <leader><Tab>
               \ :call ToggleTab()<CR>|  " toggle hard/soft tab
 nmap <leader>2  :set et sts=2 sw=2<CR>| " use 2-space indent
 nmap <leader>4  :set et sts=4 sw=4<CR>| " use 4-space indent
-nmap <leader>\| :call ToggleColorColumn()<CR>|
 nmap <leader>r  :call RunMe()<CR>|      " run current file
+nmap \|         :call ToggleColorColumn()<CR>|
 nmap \          %
 nmap q:         :q|                     " q: is boring
 nmap !!         :q!<CR>|                " quit without saving
@@ -218,7 +218,7 @@ if exists('&cursorline')                " toggle cursor line
 endif
 
 if exists('&cursorcolumn')              " toggle cursor column
-    nmap \|     :set cursorcolumn!<CR>
+    nmap <leader>\| :set cursorcolumn!<CR>
 endif
 
 " Misc
