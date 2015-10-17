@@ -122,7 +122,7 @@ autocmd! BufEnter *[Mm]akefile*,[Mm]ake.*,*.mak,*.make setlocal filetype=make
 autocmd! BufEnter *.md,*.markdown setlocal filetype=markdown
 autocmd! BufEnter Gemfile,Berksfile,Thorfile,Vagrantfile setlocal filetype=ruby
 
-" File type tag size
+" File type tab size
 "
 autocmd! FileType html,ruby,eruby,yaml,json,javascript
     \ setlocal expandtab softtabstop=2 shiftwidth=2
