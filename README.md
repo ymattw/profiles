@@ -11,6 +11,4 @@ My dot files
   [host...]` to deploy it
 - Evening.itermcolors: iTerm2 color scheme
 
-![iTerm2, screen, zsh and bash](https://raw.github.com/ymattw/profiles/gh-pages/img/term-screen-shell.png)
-![Vim autocompletion](https://raw.github.com/ymattw/profiles/gh-pages/img/vim.png)
-![Gvim autocompletion](https://raw.github.com/ymattw/profiles/gh-pages/img/gvim.png)
+![Screenshot](https://raw.github.com/ymattw/profiles/gh-pages/img/profiles.png)
