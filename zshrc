@@ -103,7 +103,7 @@ function __git_active_branch() {
 # time, cwd, git status and branch, also prompt the '%' in reverse color when
 # we have background jobs.
 #
-PROMPT="\$([[ \$? == 0 ]] && echo '${_DG}✔' || echo '${_DR}✘') %* "
+PROMPT="\$([[ \$? == 0 ]] && echo '${_DG}√' || echo '${_DR}×') %* "
 
 # Detect whether this box has my own ssh key (~/.ssh/$USER.key), distinguish
 # hostname color and setup ssh-agent related environment accordingly
@@ -132,7 +132,7 @@ fi
 PROMPT+="$(hostname -f)"
 PROMPT+="${_NC}:${_DY}%~${_NC}"                     # yellow cwd
 PROMPT+='$(__git_active_branch)'                    # colorful git branch name
-PROMPT+=" ${_DC}"$'⤾\n'                             # cyan wrap char, newline
+PROMPT+=" ${_DC}\\\\"$'\n'                          # cyan wrap char, newline
 PROMPT+="\$([[ -z \$(jobs) ]] || echo '${_RV}')"    # reverse bg job indicator
 PROMPT+="%#${_NC} "                                 # % or #
 unset _DR _DG _DY _DB _DM _DC _RV _NC

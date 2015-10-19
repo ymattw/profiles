@@ -109,7 +109,7 @@ function __git_track_info() {
 # background jobs. '\[' and '\]' is to mark ansi colors to allow shell to
 # calculate prompt string length correctly
 #
-PS1="\$([[ \$? == 0 ]] && echo '${_DG}✔' || echo '${_DR}✘') \t "
+PS1="\$([[ \$? == 0 ]] && echo '${_DG}√' || echo '${_DR}×') \t "
 
 # Detect whether this box has my own ssh key (~/.ssh/$USER.key), distinguish
 # hostname color and setup ssh-agent related environment accordingly
@@ -140,7 +140,7 @@ PS1="${PS1}${_NC}:${_DY}\w${_NC}"                   # yellow cwd
 PS1="${PS1}\[\$(__git_status_color)\]"              # git status indicator
 PS1="${PS1}\$(__git_active_branch)"                 # git branch name
 PS1="${PS1}${_DC}\$(__git_track_info)"              # git branch track info
-PS1="${PS1}${_DC} ⤾\n"                              # cyan wrap char, newline
+PS1="${PS1}${_DC} \\\\\n"                           # cyan wrap char, newline
 PS1="${PS1}\$([[ -z \$(jobs) ]] || echo '$_RV')"    # reverse bg job indicator
 PS1="${PS1}\\\$${_NC} "                             # $ or #
 unset _DR _DG _DY _DB _DM _DC _RV _NC
