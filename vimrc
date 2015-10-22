@@ -109,8 +109,12 @@ if exists('&fileignorecase')            " version >= 7.3.872 only
     set nofileignorecase                " don't ignore case on searching files
 endif
 
-" Extended ascii chars works in all systems, better than of utf-8 chars
-set list listchars=tab:»\ ,trail:·      " hilight tab and trailing space, :h dig
+" Note: rquires a utf-8 font to display the two special chars
+if version > 603 || version == 603 && has('patch83')
+    set list listchars=tab:▸\ ,trail:▌  " hilight tab and trailing space, :h dig
+else
+    set list listchars=tab:▸\ ,trail:_  " segment fault seen in vim 6.3.82
+endif
 
 " File type detect
 "
