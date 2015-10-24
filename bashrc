@@ -3,9 +3,10 @@
 # Suggestion: ln -sf .bashrc .bash_profile
 #
 
-# Source global definitions
+# Source global definitions but unset PROMPT_COMMAND as tmux manages it
 [[ ! -f /etc/profile ]] || . /etc/profile
 [[ ! -f /etc/bashrc ]] || . /etc/bashrc
+unset PROMPT_COMMAND
 
 # Customized PATH
 #
