@@ -28,6 +28,8 @@ if version >= 700
 
     Plugin 'tpope/vim-markdown'
 
+    Plugin 'digitaltoad/vim-jade'
+
     Plugin 'elzr/vim-json'
     let g:vim_json_syntax_conceal = 0
 
@@ -124,7 +126,7 @@ autocmd! BufEnter Gemfile,Berksfile,Thorfile,Vagrantfile setlocal filetype=ruby
 
 " File type tab size
 "
-autocmd! FileType html,ruby,eruby,yaml,json,javascript
+autocmd! FileType html,ruby,eruby,yaml,json,javascript,jade
     \ setlocal expandtab softtabstop=2 shiftwidth=2
 autocmd! FileType make setlocal noexpandtab shiftwidth=8
 autocmd! FileType gitcommit setlocal textwidth=72
