@@ -282,10 +282,21 @@ function! RunMe()
 
     if line =~ "^#!"
         let intepreter = line[2:]
-        exe ".!" . intepreter . " " . file
+    elseif file =~ '\.sh\|\.bash'
+        let intepreter = "bash"
+    elseif file =~ '\.py'
+        let intepreter = "python"
+    elseif file =~ '\.rb'
+        let intepreter = "ruby"
+    elseif file =~ '\.js'
+        let intepreter = "node"
+    elseif file =~ '\.pl'
+        let intepreter = "perl"
     else
-        exe ".!" . file
+        let intepreter = ""
     endif
+
+    exe ".!" . intepreter . " " . file
 endfunction
 
 " EOF
