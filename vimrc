@@ -20,10 +20,6 @@ if version >= 700
     " vundle is required!
     Plugin 'gmarik/Vundle.vim'
 
-    " fugitive is required by gitv
-    Plugin 'tpope/vim-fugitive'
-    Plugin 'gregsexton/gitv'
-
     Plugin 'godlygeek/tabular'
 
     Plugin 'tpope/vim-markdown'
