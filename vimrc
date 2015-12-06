@@ -132,7 +132,13 @@ autocmd! FileType html,ruby,eruby,yaml,json,javascript,jade
 autocmd! FileType make setlocal noexpandtab shiftwidth=8
 autocmd! FileType gitcommit setlocal textwidth=72
 
-" Colors, suitable for Solarized dark background
+" Better color for Solarized theme in diff mode
+"
+highlight! DiffDelete ctermfg=10 ctermbg=0
+highlight! DiffAdd cterm=reverse ctermfg=2 ctermbg=0
+highlight! DiffText cterm=reverse ctermfg=1 ctermbg=0
+
+" More colors suitable for Solarized dark background
 "
 highlight! link ColorColumn Search
 highlight! link CharAtCol80 WarningMsg
