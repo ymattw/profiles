@@ -109,9 +109,12 @@ if exists('&fileignorecase')            " version >= 7.3.872 only
     set nofileignorecase                " don't ignore case on searching files
 endif
 
-" Note: rquires a utf-8 font to display the two special chars
+" Hilight tab, trailing space, extend and precede chars for nowrap mode, etc.
+" Note: rquires fonts with utf-8 support to display the special chars (:h dig
+" to see more chars)
+"
 if version > 603 || version == 603 && has('patch83')
-    set list listchars=tab:▸\ ,trail:▌  " hilight tab and trailing space, :h dig
+    set list listchars=tab:▸\ ,trail:▌,extends:»,precedes:«
 else
     set list listchars=tab:▸\ ,trail:_  " segment fault seen in vim 6.3.82
 endif
@@ -135,8 +138,8 @@ highlight! link ColorColumn Search
 highlight! link CharAtCol80 WarningMsg
 highlight! link SpecialChars ErrorMsg
 match CharAtCol80 /\%80v/               " Mark char at column 80 in red
-2match SpecialChars /\%xa0\|[“”‘’—]/    " Hard space \xa0 copied from alternote
-                                        " and "smartly" replaced chars
+2match SpecialChars /\%xa0\|[“”‘’—]/    " Mark 'nbsp' copied from alternote
+                                        " and 'smartly' replaced chars
 
 " Powerful statusline, underlined status line looks better with cursor line
 "
