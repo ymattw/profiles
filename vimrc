@@ -215,6 +215,7 @@ autocmd FileType c,cpp,javascript,css nmap <leader>u
 " Mode key mappings
 "
 if exists('&diff') && &diff
+    nmap qq :qa<CR>                     " close all windows
     nmap <Up>   [c|                     " previous change
     nmap <Down> ]c|                     " next change
     nmap <Left> <C-w>h|                 " left window
