@@ -235,6 +235,8 @@ endif
 let loaded_matchparen = 0
 let python_highlight_all = 1
 
+autocmd VimResized * :wincmd =          " realign vim window size
+
 " Remember last cursor postion, :h last-position-jump
 set viminfo='10,\"10,<50,s10,%,h,f10
 autocmd! BufReadPost *
