@@ -132,6 +132,9 @@ autocmd! FileType html,ruby,eruby,yaml,json,javascript,jade
 autocmd! FileType make setlocal noexpandtab shiftwidth=8
 autocmd! FileType gitcommit setlocal textwidth=72
 
+" Better color for matched parenthesis
+highlight! MatchParen cterm=underline ctermfg=7 ctermbg=0
+
 " Better color for Solarized theme in diff mode
 "
 highlight! DiffDelete ctermfg=10 ctermbg=0
@@ -232,7 +235,6 @@ endif
 
 " Misc
 "
-let loaded_matchparen = 0
 let python_highlight_all = 1
 
 autocmd VimResized * :wincmd =          " realign vim window size
