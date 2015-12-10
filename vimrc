@@ -26,6 +26,8 @@ if version >= 700
 
     Plugin 'digitaltoad/vim-jade'
 
+    Plugin 'moll/vim-node'
+
     Plugin 'elzr/vim-json'
     let g:vim_json_syntax_conceal = 0
 
