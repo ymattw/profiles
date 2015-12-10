@@ -41,16 +41,22 @@ if version >= 700
         let Tlist_File_Fold_Auto_Close = 1
     endif
 
-    " 'Valloric/YouCompleteMe' might be better but its installation is too much
-    " heavy on most systems
+    " YouCompleteMe is damn better, the only downside is you can't press C-U to
+    " remove text in completion mode, use C-W instead
     "
-    Plugin 'ervandew/supertab'
-    let g:SuperTabDefaultCompletionType = "context"
-    let g:SuperTabContextDefaultCompletionType = "<c-n>"
-    let g:SuperTabNoCompleteAfter =
-        \ ['^', '\s', '[^-]>', "'", '[~`!@#$%^&*()+={},</?\"\[\]\|-]']
+    if version > 703 || version == 703 && has('patch598')
+        Plugin 'Valloric/YouCompleteMe'
+        let g:ycm_complete_in_comments = 1
+        let g:ycm_collect_identifiers_from_comments_and_strings = 1
+        let g:ycm_collect_identifiers_from_tags_files = 1
+        let g:ycm_seed_identifiers_with_syntax = 1
+    else
+        Plugin 'ervandew/supertab'
+        let g:SuperTabDefaultCompletionType = "context"
+        let g:SuperTabContextDefaultCompletionType = "<c-n>"
+        let g:SuperTabNoCompleteAfter =
+            \ ['^', '\s', '[^-]>', "'", '[~`!@#$%^&*()+={},</?\"\[\]\|-]']
 
-    if version > 702
         Plugin 'ymattw/AutoComplPop'
     endif
 
