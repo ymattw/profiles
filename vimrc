@@ -119,7 +119,7 @@ endif
 
 " Hilight tab, trailing space, extend and precede chars for nowrap mode, etc.
 " Note: rquires fonts with utf-8 support to display the special chars (:h dig
-" to see more chars)
+" to see more chars). Alternate symbols for poor Windows users: >, _, . etc.
 "
 if version > 603 || version == 603 && has('patch83')
     set list listchars=tab:▸\ ,trail:▌,extends:»,precedes:«
