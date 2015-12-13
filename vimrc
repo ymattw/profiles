@@ -84,8 +84,7 @@ set noswapfile nobackup                 " no tmp files
 set incsearch smartcase ignorecase hls  " searching
 set showmatch matchtime=2 scrolloff=4   " interface
 set encoding=utf-8 textwidth=79         " editing
-set smartindent autoindent shiftround   " editing
-set smarttab backspace=indent,eol,start " editing
+set backspace=indent,eol,start          " editing
 set formatoptions=tcqron1MB             " formatting, MB for multi-byte chars
 if version > 703 || version == 703 && has('patch541')
     set formatoptions+=j                " j' is added in 7.3.541
@@ -94,12 +93,14 @@ if exists('&foldenable')
     set nofoldenable foldmethod=manual  " folding
     set foldtext=FoldText()             " folding
 endif
+
 set fillchars=vert:\|,fold:.            " folding
 set wildmode=list:full                  " misc: complete and list matched files
 set isfname-==                          " misc: '=' is not part of filename
 set matchpairs+=<:>                     " misc: '%' can match <> pair in html
-set expandtab softtabstop=4 shiftwidth=4 tabstop=8
-                                        " tab: default to 4-space soft tab
+set smarttab shiftround shiftwidth=4    " tab behaviour
+set expandtab softtabstop=4 tabstop=8   " tab: default to 4-space soft tab
+set smartindent autoindent copyindent   " indenting
 set synmaxcol=128 lazyredraw ttyfast    " performance
 syntax sync minlines=50 maxlines=200    " performance
 
