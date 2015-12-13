@@ -87,16 +87,16 @@ silent! set foldenable                  " Often disabled for vim in container
 silent! set foldmethod=manual           " Manual toggle with <leader>f
 silent! set fillchars=vert:\|,fold:.    " Folding
 
-" Hilight tab, trailing space, extend and precede chars for nowrap mode, etc.
-" Note: rquires fonts with utf-8 support to display the special chars (:h dig
-" to see more chars). Alternate symbols for poor Windows users: >, _, . etc.
+" Highlight invisible chars andt trailing spaces, also displays extend and
+" precede chars for nowrap mode.  Poor Windows users: switch to Mac/Linux or
+" use alternate chars such as >, _, . instead  (:h dig to see more)
 "
 set list listchars=tab:▸\ ,trail:▌,extends:»,precedes:«
 
 " File type tab size
 "
 autocmd! FileType html,ruby,eruby,yaml,json,javascript,jade
-    \ setlocal expandtab softtabstop=2 shiftwidth=2
+            \ setlocal expandtab softtabstop=2 shiftwidth=2
 autocmd! FileType make setlocal noexpandtab shiftwidth=8
 autocmd! FileType gitcommit setlocal textwidth=72
 
