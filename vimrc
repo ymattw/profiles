@@ -29,13 +29,8 @@ if version >= 700
     " Useful for wiki and markdown
     Plugin 'godlygeek/tabular'
 
-    if executable('ctags')
-        Plugin 'vim-scripts/taglist.vim'
-        let Tlist_Auto_Open = 0
-        let Tlist_Use_Right_Window = 1
-        let Tlist_Exit_OnlyWindow = 1
-        let Tlist_File_Fold_Auto_Close = 1
-    endif
+    " The NERD Tree, use <leader>t to toggle display
+    Plugin 'scrooloose/nerdtree'
 
     " YouCompleteMe is damn better, the only downside is you can't press C-U to
     " remove text in completion mode, use C-W instead
@@ -193,7 +188,7 @@ nmap <C-H>      :set hls!<CR>|          " ctrl-h to toggle highlight search
 nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " remove trailing blank
 nmap <C-\>      <C-w>w|                 " switch to next window
 imap <C-J>      <ESC>kJA|               " join to prev line (undo auto wrap)
-nmap <leader>t  :TlistToggle<CR>|       " toggle TagList window
+nmap <leader>t  :NERDTreeToggle<CR>|    " toggle NERDTree window
 nmap <leader><Tab>
               \ :call ToggleTab()<CR>|  " toggle hard/soft tab
 nmap <leader>2  :set et sts=2 sw=2<CR>| " use 2-space indent
