@@ -93,12 +93,6 @@ silent! set fillchars=vert:\|,fold:.    " Folding
 "
 set list listchars=tab:▸\ ,trail:▌,extends:»,precedes:«
 
-" File type detect
-"
-autocmd! BufEnter *[Mm]akefile*,[Mm]ake.*,*.mak,*.make setlocal filetype=make
-autocmd! BufEnter *.md,*.markdown setlocal filetype=markdown
-autocmd! BufEnter Gemfile,Berksfile,Thorfile,Vagrantfile setlocal filetype=ruby
-
 " File type tab size
 "
 autocmd! FileType html,ruby,eruby,yaml,json,javascript,jade
