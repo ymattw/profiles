@@ -26,7 +26,7 @@ if version >= 700
     " Provides more features not covered by vim-polyglot
     Plugin 'moll/vim-node'
 
-
+    " Useful for wiki and markdown
     Plugin 'godlygeek/tabular'
 
     if executable('ctags')
@@ -56,6 +56,7 @@ if version >= 700
         Plugin 'ymattw/AutoComplPop'
     endif
 
+    " The popular color scheme
     Plugin 'altercation/vim-colors-solarized'
 
     execute "call vundle#end()"|        " execute to avoid syntax error in vim<7
