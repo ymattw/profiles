@@ -8,65 +8,50 @@
 "
 " Remember to change terminal type to xterm-256color!
 
-" Load vundle and plugins
+" Load vundle and plugins (requires vim 7.0+)
 "
 set nocompatible
 filetype off
 
-if version >= 700
-    set runtimepath+=~/.vim/bundle/Vundle.vim
-    execute "call vundle#begin()"|      " execute to avoid syntax error in vim<7
+set runtimepath+=~/.vim/bundle/Vundle.vim
+execute "call vundle#begin()"|          " Avoid syntax error in vim < 7
 
-    " Vundle (Vim bundle) is required!
-    Plugin 'gmarik/Vundle.vim'
+Plugin 'gmarik/Vundle.vim'              " Vundle (Vim bundle), package manager
+Plugin 'sheerun/vim-polyglot'           " The solid language pack
+Plugin 'moll/vim-node'                  " Has more features not in vim-polyglot
+Plugin 'godlygeek/tabular'              " Useful for wiki and markdown
+Plugin 'scrooloose/nerdtree'            " NERDTree, 'gn' to toggle (see below)
+let g:NERDTreeQuitOnOpen = 1
 
-    " The solid language pack
-    Plugin 'sheerun/vim-polyglot'
+" YouCompleteMe is damn better, the only downside is you can't press C-U to
+" remove text in completion mode, use C-W instead
+"
+if version > 703 || version == 703 && has('patch598')
+    Plugin 'Valloric/YouCompleteMe'
+    let g:ycm_complete_in_comments = 1
+    let g:ycm_collect_identifiers_from_comments_and_strings = 1
+    let g:ycm_collect_identifiers_from_tags_files = 1
+    let g:ycm_seed_identifiers_with_syntax = 1
+else
+    Plugin 'ervandew/supertab'
+    let g:SuperTabDefaultCompletionType = "context"
+    let g:SuperTabContextDefaultCompletionType = "<c-n>"
+    let g:SuperTabNoCompleteAfter =
+        \ ['^', '\s', '[^-]>', "'", '[~`!@#$%^&*()+={},</?\"\[\]\|-]']
 
-    " Provides more features not covered by vim-polyglot
-    Plugin 'moll/vim-node'
-
-    " Useful for wiki and markdown
-    Plugin 'godlygeek/tabular'
-
-    " The NERD Tree, use <leader>t to toggle display
-    Plugin 'scrooloose/nerdtree'
-    let g:NERDTreeQuitOnOpen = 1
-
-    " YouCompleteMe is damn better, the only downside is you can't press C-U to
-    " remove text in completion mode, use C-W instead
-    "
-    if version > 703 || version == 703 && has('patch598')
-        Plugin 'Valloric/YouCompleteMe'
-        let g:ycm_complete_in_comments = 1
-        let g:ycm_collect_identifiers_from_comments_and_strings = 1
-        let g:ycm_collect_identifiers_from_tags_files = 1
-        let g:ycm_seed_identifiers_with_syntax = 1
-    else
-        Plugin 'ervandew/supertab'
-        let g:SuperTabDefaultCompletionType = "context"
-        let g:SuperTabContextDefaultCompletionType = "<c-n>"
-        let g:SuperTabNoCompleteAfter =
-            \ ['^', '\s', '[^-]>', "'", '[~`!@#$%^&*()+={},</?\"\[\]\|-]']
-
-        Plugin 'ymattw/AutoComplPop'
-    endif
-
-    " The popular color scheme
-    Plugin 'altercation/vim-colors-solarized'
-
-    execute "call vundle#end()"|        " execute to avoid syntax error in vim<7
+    Plugin 'ymattw/AutoComplPop'        " With my own fix for #53 on bitbucket
 endif
 
-filetype plugin indent on
+Plugin 'altercation/vim-colors-solarized'
 
-" vundle and plugins now loaded
+execute "call vundle#end()"|            " Avoid syntax error in vim < 7
+filetype plugin indent on               " Vundle and plugins now loaded
+
+" Default color and font tunings
 "
 syntax on
 silent! colorscheme solarized           " Needs to be after vundle#end()
 
-" Default background, window and font tunings
-"
 if has('gui_running')
     set background=light
     if has('gui_mac') || has('gui_macvim')
@@ -76,41 +61,37 @@ if has('gui_running')
     endif
 else
     set background=dark
-    set t_ti= t_te=                     " prevent clear screen after exit
+    set t_ti= t_te=                     " Prevent clear screen after exit
 endif
 
 " Basic settings
 "
-set noswapfile nobackup                 " no tmp files
-set incsearch smartcase ignorecase hls  " searching
-set showmatch matchtime=2 scrolloff=4   " interface
-set encoding=utf-8 textwidth=79         " editing
-set backspace=indent,eol,start          " editing
-set formatoptions=tcqron1MB             " formatting, MB for multi-byte chars
-silent! set formatoptions+=j            " j' is added in 7.3.541
-set wildmode=list:full                  " misc: complete and list matched files
-set isfname-==                          " misc: '=' is not part of filename
-set matchpairs+=<:>                     " misc: '%' can match <> pair in html
-set smarttab shiftround shiftwidth=4    " tab behaviour
-set expandtab softtabstop=4 tabstop=8   " tab: default to 4-space soft tab
-set smartindent autoindent copyindent   " indenting
-set synmaxcol=128 lazyredraw ttyfast    " performance
-syntax sync minlines=50 maxlines=200    " performance
-silent! set nowildignorecase            " version >= 7.3.072 only
-silent! set nofileignorecase            " version >= 7.3.872 only
-silent! set foldenable                  " often disabled for vim in container
-silent! set foldmethod=manual           " manual toggle with <leader>f
-silent! set fillchars=vert:\|,fold:.    " folding
+set noswapfile nobackup                 " No tmp files
+set incsearch smartcase ignorecase hls  " Searching
+set showmatch matchtime=2 scrolloff=4   " Interface
+set encoding=utf-8 textwidth=79         " Editing
+set backspace=indent,eol,start          " Editing
+set formatoptions=tcqron1MB             " Formatting, MB for multi-byte chars
+silent! set formatoptions+=j            " Vim >= 7.3.541 only
+set wildmode=list:full                  " Misc: complete and list matched files
+set isfname-==                          " Misc: '=' is not part of filename
+set matchpairs+=<:>                     " Misc: '%' can match <> pair in html
+set smarttab shiftround shiftwidth=4    " Tab behaviour
+set expandtab softtabstop=4 tabstop=8   " Tab: default to 4-space soft tab
+set smartindent autoindent copyindent   " Indenting
+set synmaxcol=128 lazyredraw ttyfast    " Performance
+syntax sync minlines=50 maxlines=200    " Performance
+silent! set nowildignorecase            " Vim >= 7.3.072 only
+silent! set nofileignorecase            " Vim >= 7.3.872 only
+silent! set foldenable                  " Often disabled for vim in container
+silent! set foldmethod=manual           " Manual toggle with <leader>f
+silent! set fillchars=vert:\|,fold:.    " Folding
 
 " Hilight tab, trailing space, extend and precede chars for nowrap mode, etc.
 " Note: rquires fonts with utf-8 support to display the special chars (:h dig
 " to see more chars). Alternate symbols for poor Windows users: >, _, . etc.
 "
-if version > 603 || version == 603 && has('patch83')
-    set list listchars=tab:▸\ ,trail:▌,extends:»,precedes:«
-else
-    set list listchars=tab:▸\ ,trail:_  " segment fault seen in vim 6.3.82
-endif
+set list listchars=tab:▸\ ,trail:▌,extends:»,precedes:«
 
 " File type detect
 "
@@ -145,24 +126,24 @@ match CharAtCol80 /\%80v/               " Mark char at column 80 in red
 
 " Powerful statusline, underlined status line looks better with cursor line
 "
-set noruler laststatus=2                " no ruler, always show status line
-set stl=                                " reset
-set stl+=\ %0*%n%*                      " buffer number
-set stl+=\ %0*%f%*                      " short pathname
-set stl+=\ %3*%m%*                      " modified flag
-set stl+=\ %3*%r%*                      " readonly flag
-set stl+=\ %1*[%{&ft}]%*                " file type
-set stl+=\ %1*%{&enc}%*                 " file encoding
-set stl+=\ %3*%{&ff=='dos'?'dos':''}%*  " dos format flag
-set stl+=\ %3*%{&ic?'ic':'noic'}%*      " ignorecase flag
+set noruler laststatus=2                " No ruler, always show status line
+set stl=                                " Reset
+set stl+=\ %0*%n%*                      " Buffer number
+set stl+=\ %0*%f%*                      " Short pathname
+set stl+=\ %3*%m%*                      " Modified flag
+set stl+=\ %3*%r%*                      " Readonly flag
+set stl+=\ %1*[%{&ft}]%*                " File type
+set stl+=\ %1*%{&enc}%*                 " File encoding
+set stl+=\ %3*%{&ff=='dos'?'dos':''}%*  " Dos format flag
+set stl+=\ %3*%{&ic?'ic':'noic'}%*      " Ignorecase flag
 set stl+=\ %3*%{&et?'et:'.&sts:'noet:'.&ts}%*
-                                        " expandtab and (soft)tabstop
-set stl+=\ %2*%{&hls?'hls':''}%*        " highlight search flag
-set stl+=\ %2*%{&list?'list':''}%*      " list mode flag
-set stl+=\ %3*%{&paste?'paste':''}%*    " paste mode flag
-set stl+=\ %0*%=%*                      " start to align right
-set stl+=\ %0*%4l,%-2v%*                " line and column info
-set stl+=\ %0*%3p%%%*                   " line percentage
+                                        " Expandtab and (soft)tabstop
+set stl+=\ %2*%{&hls?'hls':''}%*        " Highlight search flag
+set stl+=\ %2*%{&list?'list':''}%*      " List mode flag
+set stl+=\ %3*%{&paste?'paste':''}%*    " Paste mode flag
+set stl+=\ %0*%=%*                      " Start to align right
+set stl+=\ %0*%4l,%-2v%*                " Line and column info
+set stl+=\ %0*%3p%%%*                   " Line percentage
 highlight! User1 cterm=underline ctermfg=white gui=underline guibg=#ccc6b3 guifg=#fdf6e3
 highlight! User2 cterm=underline ctermfg=magenta gui=underline guibg=#ccc6b3 guifg=magenta
 highlight! User3 cterm=underline ctermfg=red gui=underline guibg=#ccc6b3 guifg=red
@@ -174,33 +155,33 @@ highlight! StatusLineNC cterm=underline ctermfg=grey gui=underline guibg=#eee8d5
 let mapleader = ","
 
 " nmaps
-nmap <Space>    :set list!<CR>|         " toggle list mode
-nmap <CR>       :set spell!<CR>|        " toggle spell
-nmap <BS>       :set ic!<CR>|           " toggle ignore case
-nmap <C-N>      :set nu!<CR>|           " ctrl-n to toggle :set number
-nmap <C-P>      :set paste!<CR>|        " ctrl-p to toggle paste mode
-nmap <C-H>      :set hls!<CR>|          " ctrl-h to toggle highlight search
-nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " remove trailing blank
-nnoremap gn     :NERDTreeToggle<CR>|    " toggle NERDTree window
-nmap K          <C-w>w|                 " cycle to next window
+nmap <Space>    :set list!<CR>|         " Toggle list mode
+nmap <CR>       :set spell!<CR>|        " Toggle spell
+nmap <BS>       :set ic!<CR>|           " Toggle ignore case
+nmap <C-N>      :set nu!<CR>|           " Ctrl-n to toggle :set number
+nmap <C-P>      :set paste!<CR>|        " Ctrl-p to toggle paste mode
+nmap <C-H>      :set hls!<CR>|          " Ctrl-h to toggle highlight search
+nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " Remove trailing blank
+nnoremap gn     :NERDTreeToggle<CR>|    " Toggle NERDTree window
+nmap K          <C-w>w|                 " Cycle to next window
 nmap _          :silent! set cursorline!<CR>
 nmap \|         :silent! set cursorcolumn!<CR>
-nmap \          %|                      " jump to pairing char
+nmap \          %|                      " Jump to pairing char
 nmap q:         :q|                     " q: is boring
-nmap !!         :q!<CR>|                " quit without saving
-nmap Q          vipgq|                  " format current paragraph
-nmap qq         :q<CR>|                 " quickly quit vim
+nmap !!         :q!<CR>|                " Quit without saving
+nmap Q          vipgq|                  " Format current paragraph
+nmap qq         :q<CR>|                 " Quickly quit vim
 nmap <leader>\| :call ToggleColorColumn()<CR>
 nmap <leader><Tab>
-              \ :call ToggleTab()<CR>|  " toggle hard/soft tab
-nmap <leader>2  :set et sts=2 sw=2<CR>| " use 2-space indent
-nmap <leader>4  :set et sts=4 sw=4<CR>| " use 4-space indent
-nmap <leader>w  :w<CR>|                 " save 2 key strokes
-nmap <leader>r  :call RunMe()<CR>|      " run current file
+              \ :call ToggleTab()<CR>|  " Toggle hard/soft tab
+nmap <leader>2  :set et sts=2 sw=2<CR>| " Use 2-space indent
+nmap <leader>4  :set et sts=4 sw=4<CR>| " Use 4-space indent
+nmap <leader>w  :w<CR>|                 " Save 2 key strokes
+nmap <leader>r  :call RunMe()<CR>|      " Run current file
 
 " imaps
-imap <C-J>      <ESC>kJA|               " join to prev line (undo auto wrap)
-inoremap <C-F>  <C-X><C-F>|             " complete filename
+imap <C-J>      <ESC>kJA|               " Join to prev line (undo auto wrap)
+inoremap <C-F>  <C-X><C-F>|             " Complete filename
 
 " cmaps
 cmap w!!         w !sudo tee % > /dev/null
@@ -218,19 +199,19 @@ autocmd FileType c,cpp,javascript,css nmap <leader>u
 " Mode key mappings
 "
 if exists('&diff') && &diff
-    nmap qq :qa<CR>|                    " close all windows
-    nmap <Up>   [c|                     " previous change
-    nmap <Down> ]c|                     " next change
-    nmap <Left> <C-w>h|                 " left window
-    nmap <Right> <C-w>l|                " right window
+    nmap qq :qa<CR>|                    " Close all windows
+    nmap <Up>   [c|                     " Previous change
+    nmap <Down> ]c|                     " Next change
+    nmap <Left> <C-w>h|                 " Left window
+    nmap <Right> <C-w>l|                " Right window
 endif
 
 " Misc
 "
 let python_highlight_all = 1
 
-autocmd VimResized * :wincmd =          " realign vim window size
-autocmd InsertLeave * set nopaste       " saves a <C-P>
+autocmd VimResized * :wincmd =          " Realign vim window size
+autocmd InsertLeave * set nopaste       " Saves a <C-P>
 
 " Remember last cursor postion, :h last-position-jump
 set viminfo='10,\"10,<50,s10,%,h,f10
