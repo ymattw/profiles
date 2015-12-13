@@ -31,6 +31,7 @@ if version >= 700
 
     " The NERD Tree, use <leader>t to toggle display
     Plugin 'scrooloose/nerdtree'
+    let g:NERDTreeQuitOnOpen = 1
 
     " YouCompleteMe is damn better, the only downside is you can't press C-U to
     " remove text in completion mode, use C-W instead
@@ -172,27 +173,37 @@ highlight! StatusLineNC cterm=underline ctermfg=grey gui=underline guibg=#eee8d5
 "
 let mapleader = ","
 
+" nmaps
 nmap <Space>    :set list!<CR>|         " toggle list mode
+nmap <CR>       :set spell!<CR>|        " toggle spell
 nmap <BS>       :set ic!<CR>|           " toggle ignore case
 nmap <C-N>      :set nu!<CR>|           " ctrl-n to toggle :set number
 nmap <C-P>      :set paste!<CR>|        " ctrl-p to toggle paste mode
 nmap <C-H>      :set hls!<CR>|          " ctrl-h to toggle highlight search
 nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " remove trailing blank
-nmap <C-\>      <C-w>w|                 " switch to next window
-imap <C-J>      <ESC>kJA|               " join to prev line (undo auto wrap)
-nmap <leader>t  :NERDTreeToggle<CR>|    " toggle NERDTree window
+nnoremap gn     :NERDTreeToggle<CR>|    " toggle NERDTree window
+nmap K          <C-w>w|                 " cycle to next window
+nmap _          :silent! set cursorline!<CR>
+nmap \|         :silent! set cursorcolumn!<CR>
+nmap \          %|                      " jump to pairing char
+nmap q:         :q|                     " q: is boring
+nmap !!         :q!<CR>|                " quit without saving
+nmap Q          vipgq|                  " format current paragraph
+nmap qq         :q<CR>|                 " quickly quit vim
+nmap <leader>\| :call ToggleColorColumn()<CR>
 nmap <leader><Tab>
               \ :call ToggleTab()<CR>|  " toggle hard/soft tab
 nmap <leader>2  :set et sts=2 sw=2<CR>| " use 2-space indent
 nmap <leader>4  :set et sts=4 sw=4<CR>| " use 4-space indent
+nmap <leader>w  :w<CR>|                 " save 2 key strokes
 nmap <leader>r  :call RunMe()<CR>|      " run current file
-nmap \|         :call ToggleColorColumn()<CR>|
-nmap \          %
-nmap q:         :q|                     " q: is boring
-nmap !!         :q!<CR>|                " quit without saving
-nmap Q          vipgq|                  " format current paragraph
-nmap qq         :q<CR>
-cmap W!         w !sudo tee % > /dev/null
+
+" imaps
+imap <C-J>      <ESC>kJA|               " join to prev line (undo auto wrap)
+inoremap <C-F>  <C-X><C-F>|             " complete filename
+
+" cmaps
+cmap w!!         w !sudo tee % > /dev/null
 
 " File type key mappings. (NOTE! Do not use autocmd! as it overwrites previous
 " definitions)
@@ -207,23 +218,11 @@ autocmd FileType c,cpp,javascript,css nmap <leader>u
 " Mode key mappings
 "
 if exists('&diff') && &diff
-    nmap qq :qa<CR>                     " close all windows
+    nmap qq :qa<CR>|                    " close all windows
     nmap <Up>   [c|                     " previous change
     nmap <Down> ]c|                     " next change
     nmap <Left> <C-w>h|                 " left window
     nmap <Right> <C-w>l|                " right window
-endif
-
-if exists('&spell')                     " toggle spell
-    nmap <CR>   :call ToggleSpell()<CR>
-endif
-
-if exists('&cursorline')                " toggle cursor line
-    nmap _      :set cursorline!<CR>
-endif
-
-if exists('&cursorcolumn')              " toggle cursor column
-    nmap <leader>\| :set cursorcolumn!<CR>
 endif
 
 " Misc
@@ -231,6 +230,7 @@ endif
 let python_highlight_all = 1
 
 autocmd VimResized * :wincmd =          " realign vim window size
+autocmd InsertLeave * set nopaste       " saves a <C-P>
 
 " Remember last cursor postion, :h last-position-jump
 set viminfo='10,\"10,<50,s10,%,h,f10
@@ -256,11 +256,6 @@ command! -nargs=* -complete=shellcmd R new
 "
 function! ToggleTab()
     let expr = &et == 1 ? "setl noet sw=8" : "setl et sw=".&sts
-    exe expr
-endfunction
-
-function! ToggleSpell()
-    let expr = &spell == 1 ? "setl nospell cul" : "setl spell nocul"
     exe expr
 endfunction
 
