@@ -87,12 +87,6 @@ set encoding=utf-8 textwidth=79         " editing
 set backspace=indent,eol,start          " editing
 set formatoptions=tcqron1MB             " formatting, MB for multi-byte chars
 silent! set formatoptions+=j            " j' is added in 7.3.541
-if exists('&foldenable')
-    set nofoldenable foldmethod=manual  " folding
-    set foldtext=FoldText()             " folding
-endif
-
-set fillchars=vert:\|,fold:.            " folding
 set wildmode=list:full                  " misc: complete and list matched files
 set isfname-==                          " misc: '=' is not part of filename
 set matchpairs+=<:>                     " misc: '%' can match <> pair in html
@@ -103,6 +97,9 @@ set synmaxcol=128 lazyredraw ttyfast    " performance
 syntax sync minlines=50 maxlines=200    " performance
 silent! set nowildignorecase            " version >= 7.3.072 only
 silent! set nofileignorecase            " version >= 7.3.872 only
+silent! set foldenable                  " often disabled for vim in container
+silent! set foldmethod=manual           " manual toggle with <leader>f
+silent! set fillchars=vert:\|,fold:.    " folding
 
 " Hilight tab, trailing space, extend and precede chars for nowrap mode, etc.
 " Note: rquires fonts with utf-8 support to display the special chars (:h dig
@@ -270,11 +267,6 @@ endfunction
 function! ToggleColorColumn()
     let expr = &cc == "" ? "setl cc=+1" : "setl cc="
     exe expr
-endfunction
-
-function! FoldText()
-    let line = getline(v:foldstart)
-    return '+' . line[1:]
 endfunction
 
 " Execute current file and pipe output to new window below, window height will
