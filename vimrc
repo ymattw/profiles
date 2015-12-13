@@ -17,21 +17,17 @@ if version >= 700
     set runtimepath+=~/.vim/bundle/Vundle.vim
     execute "call vundle#begin()"|      " execute to avoid syntax error in vim<7
 
-    " vundle is required!
+    " Vundle (Vim bundle) is required!
     Plugin 'gmarik/Vundle.vim'
 
-    Plugin 'godlygeek/tabular'
+    " The solid language pack
+    Plugin 'sheerun/vim-polyglot'
 
-    Plugin 'tpope/vim-markdown'
-
-    Plugin 'digitaltoad/vim-jade'
-
+    " Provides more features not covered by vim-polyglot
     Plugin 'moll/vim-node'
 
-    Plugin 'elzr/vim-json'
-    let g:vim_json_syntax_conceal = 0
 
-    Plugin 'hynek/vim-python-pep8-indent'
+    Plugin 'godlygeek/tabular'
 
     if executable('ctags')
         Plugin 'vim-scripts/taglist.vim'
