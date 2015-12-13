@@ -86,9 +86,7 @@ set showmatch matchtime=2 scrolloff=4   " interface
 set encoding=utf-8 textwidth=79         " editing
 set backspace=indent,eol,start          " editing
 set formatoptions=tcqron1MB             " formatting, MB for multi-byte chars
-if version > 703 || version == 703 && has('patch541')
-    set formatoptions+=j                " j' is added in 7.3.541
-endif
+silent! set formatoptions+=j            " j' is added in 7.3.541
 if exists('&foldenable')
     set nofoldenable foldmethod=manual  " folding
     set foldtext=FoldText()             " folding
@@ -103,14 +101,8 @@ set expandtab softtabstop=4 tabstop=8   " tab: default to 4-space soft tab
 set smartindent autoindent copyindent   " indenting
 set synmaxcol=128 lazyredraw ttyfast    " performance
 syntax sync minlines=50 maxlines=200    " performance
-
-if exists('&wildignorecase')            " version >= 7.3.072 only
-    set nowildignorecase
-endif
-
-if exists('&fileignorecase')            " version >= 7.3.872 only
-    set nofileignorecase                " don't ignore case on searching files
-endif
+silent! set nowildignorecase            " version >= 7.3.072 only
+silent! set nofileignorecase            " version >= 7.3.872 only
 
 " Hilight tab, trailing space, extend and precede chars for nowrap mode, etc.
 " Note: rquires fonts with utf-8 support to display the special chars (:h dig
