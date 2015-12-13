@@ -82,7 +82,7 @@ endif
 "
 set noswapfile nobackup                 " no tmp files
 set incsearch smartcase ignorecase hls  " searching
-set showmatch matchtime=2 synmaxcol=150 " interface
+set showmatch matchtime=2 scrolloff=4   " interface
 set encoding=utf-8 textwidth=79         " editing
 set smartindent autoindent shiftround   " editing
 set smarttab backspace=indent,eol,start " editing
@@ -100,6 +100,8 @@ set isfname-==                          " misc: '=' is not part of filename
 set matchpairs+=<:>                     " misc: '%' can match <> pair in html
 set expandtab softtabstop=4 shiftwidth=4 tabstop=8
                                         " tab: default to 4-space soft tab
+set synmaxcol=128 lazyredraw ttyfast    " performance
+syntax sync minlines=50 maxlines=200    " performance
 
 if exists('&wildignorecase')            " version >= 7.3.072 only
     set nowildignorecase
