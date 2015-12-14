@@ -152,12 +152,12 @@ let mapleader = ","
 nmap <Space>    :set list!<CR>|         " Toggle list mode
 nmap <CR>       :set spell!<CR>|        " Toggle spell
 nmap <BS>       :set ic!<CR>|           " Toggle ignore case
+nmap <C-H>      :set hls!<CR>|          " Ctrl-h to toggle highlight search
+nmap <C-J>      <C-W>w|                 " Cycle to next window
+nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " Remove trailing blank
 nmap <C-N>      :set nu!<CR>|           " Ctrl-n to toggle :set number
 nmap <C-P>      :set paste!<CR>|        " Ctrl-p to toggle paste mode
-nmap <C-H>      :set hls!<CR>|          " Ctrl-h to toggle highlight search
-nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " Remove trailing blank
 nnoremap gn     :NERDTreeToggle<CR>|    " Toggle NERDTree window
-nmap K          <C-w>w|                 " Cycle to next window
 nmap _          :silent! set cursorline!<CR>
 nmap \|         :silent! set cursorcolumn!<CR>
 nmap \          %|                      " Jump to pairing char
