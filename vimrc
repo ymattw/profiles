@@ -87,6 +87,7 @@ set matchpairs+=<:>                     " Misc: '%' can match <> pair in html
 set smarttab shiftround shiftwidth=4    " Tab behaviour
 set expandtab softtabstop=4 tabstop=8   " Tab: default to 4-space soft tab
 set smartindent autoindent copyindent   " Indenting
+set spelllang=en_us complete+=kspell    " Spell completion, see imap <C-K>
 set synmaxcol=128 lazyredraw ttyfast    " Performance
 syntax sync minlines=50 maxlines=200    " Performance
 silent! set nowildignorecase            " Vim >= 7.3.072 only
@@ -104,7 +105,7 @@ set list listchars=tab:▸\ ,trail:▌,extends:»,precedes:«
 " File type detect
 "
 autocmd! BufEnter *[Mm]akefile*,[Mm]ake.*,*.mak,*.make setlocal filetype=make
-autocmd! BufEnter *.md,*.markdown setlocal filetype=markdown
+autocmd! BufEnter *.md,*.markdown setlocal filetype=markdown spell
 autocmd! BufEnter Gemfile,Berksfile,Thorfile,Vagrantfile setlocal filetype=ruby
 
 " File type tab size
@@ -112,7 +113,7 @@ autocmd! BufEnter Gemfile,Berksfile,Thorfile,Vagrantfile setlocal filetype=ruby
 autocmd! FileType html,ruby,eruby,yaml,json,javascript,jade
             \ setlocal expandtab softtabstop=2 shiftwidth=2
 autocmd! FileType make setlocal noexpandtab shiftwidth=8
-autocmd! FileType gitcommit setlocal textwidth=72
+autocmd! FileType gitcommit setlocal textwidth=72 spell
 
 " Better color for matched parenthesis
 highlight! MatchParen cterm=underline ctermfg=7 ctermbg=0
@@ -191,6 +192,7 @@ nmap <leader>r  :call RunMe()<CR>|      " Run current file
 " imaps
 imap <C-J>      <ESC>kJA|               " Join to prev line (undo auto wrap)
 inoremap <C-F>  <C-X><C-F>|             " Complete filename
+inoremap <C-K>  <C-X><C-K>|             " Complete spell from words
 
 " cmaps
 cmap w!!         w !sudo tee % > /dev/null
