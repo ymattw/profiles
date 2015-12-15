@@ -120,8 +120,9 @@ highlight! MatchParen cterm=underline ctermfg=7 ctermbg=0
 " Better color for Solarized theme in diff mode
 "
 highlight! DiffDelete ctermfg=10 ctermbg=0
-highlight! DiffAdd cterm=reverse ctermfg=2 ctermbg=0
-highlight! DiffText cterm=reverse ctermfg=1 ctermbg=0
+highlight! DiffAdd cterm=bold ctermfg=70 ctermbg=0
+highlight! DiffChange cterm=bold ctermfg=142 ctermbg=0
+highlight! DiffText cterm=underline ctermfg=142 ctermbg=0
 
 " More colors suitable for Solarized dark background
 "
