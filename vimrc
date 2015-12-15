@@ -17,9 +17,17 @@ set runtimepath+=~/.vim/bundle/Vundle.vim
 execute "call vundle#begin()"|          " Avoid syntax error in vim < 7
 
 Plugin 'gmarik/Vundle.vim'              " Vundle (Vim bundle), package manager
-Plugin 'sheerun/vim-polyglot'           " The solid language pack
-Plugin 'moll/vim-node'                  " Has more features not in vim-polyglot
+
+" No vim-polyglot, which has poor performance
+Plugin 'tpope/vim-markdown'
+Plugin 'digitaltoad/vim-jade'
+Plugin 'moll/vim-node'
+Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'godlygeek/tabular'              " Useful for wiki and markdown
+
+Plugin 'elzr/vim-json'
+let g:vim_json_syntax_conceal = 0
+
 Plugin 'scrooloose/nerdtree'            " NERDTree, 'gn' to toggle (see below)
 let g:NERDTreeQuitOnOpen = 1
 
@@ -92,6 +100,12 @@ silent! set fillchars=vert:\|,fold:.    " Folding
 " use alternate chars such as >, _, . instead  (:h dig to see more)
 "
 set list listchars=tab:▸\ ,trail:▌,extends:»,precedes:«
+
+" File type detect
+"
+autocmd! BufEnter *[Mm]akefile*,[Mm]ake.*,*.mak,*.make setlocal filetype=make
+autocmd! BufEnter *.md,*.markdown setlocal filetype=markdown
+autocmd! BufEnter Gemfile,Berksfile,Thorfile,Vagrantfile setlocal filetype=ruby
 
 " File type tab size
 "
