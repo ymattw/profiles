@@ -118,6 +118,9 @@ autocmd! FileType gitcommit setlocal textwidth=72 spell
 " Better color for matched parenthesis
 highlight! MatchParen cterm=underline ctermfg=7 ctermbg=0
 
+" Better color for folded text
+highlight! Folded cterm=bold ctermfg=70 ctermbg=0
+
 " Better color for Solarized theme in diff mode
 "
 highlight! DiffDelete ctermfg=10 ctermbg=0
