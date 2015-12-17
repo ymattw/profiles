@@ -24,6 +24,7 @@ Plugin 'digitaltoad/vim-jade'
 Plugin 'moll/vim-node'
 Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'godlygeek/tabular'              " Useful for wiki and markdown
+Plugin 'ymattw/vim-fold-paragraph'      " My own folding preference
 
 Plugin 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
@@ -92,9 +93,8 @@ set synmaxcol=128 lazyredraw ttyfast    " Performance
 syntax sync minlines=50 maxlines=200    " Performance
 silent! set nowildignorecase            " Vim >= 7.3.072 only
 silent! set nofileignorecase            " Vim >= 7.3.872 only
-silent! set foldenable                  " Often disabled for vim in container
-silent! set foldmethod=manual           " Manual toggle with <leader>f
-silent! set fillchars=vert:\|,fold:.    " Folding
+silent! set nofoldenable                " Default off, often n/a in containder
+silent! set foldmethod=manual           " Work with ymattw/vim-fold-paragraph
 
 " Highlight invisible chars andt trailing spaces, also displays extend and
 " precede chars for nowrap mode.  Poor Windows users: switch to Mac/Linux or
@@ -165,7 +165,7 @@ highlight! StatusLineNC cterm=underline ctermfg=grey gui=underline guibg=#eee8d5
 let mapleader = ","
 
 " nmaps
-nmap <Space>    :set list!<CR>|         " Toggle list mode
+nmap <Space>    :call ToggleFoldParagraph()<CR>|
 nmap <CR>       :set spell!<CR>|        " Toggle spell
 nmap <BS>       :set ic!<CR>|           " Toggle ignore case
 nmap <C-H>      :set hls!<CR>|          " Ctrl-h to toggle highlight search
@@ -174,6 +174,7 @@ nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " Remove trailing blank
 nmap <C-N>      :set nu!<CR>|           " Ctrl-n to toggle :set number
 nmap <C-P>      :set paste!<CR>|        " Ctrl-p to toggle paste mode
 nnoremap gn     :NERDTreeToggle<CR>|    " Toggle NERDTree window
+nmap -          :set list!<CR>|         " Toggle list mode
 nmap _          :silent! set cursorline!<CR>
 nmap \|         :silent! set cursorcolumn!<CR>
 nmap \          %|                      " Jump to pairing char
