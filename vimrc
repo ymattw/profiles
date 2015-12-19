@@ -147,11 +147,16 @@ set stl+=\ %3*%{&paste?'paste':''}%*    " Paste mode flag
 set stl+=\ %0*%=%*                      " Start to align right
 set stl+=\ %0*%4l,%-2v%*                " Line and column info
 set stl+=\ %0*%3p%%%*                   " Line percentage
-highlight! User1 cterm=underline ctermfg=white gui=underline guibg=#ccc6b3 guifg=#fdf6e3
-highlight! User2 cterm=underline ctermfg=magenta gui=underline guibg=#ccc6b3 guifg=magenta
-highlight! User3 cterm=underline ctermfg=red gui=underline guibg=#ccc6b3 guifg=red
-highlight! StatusLine cterm=underline ctermfg=blue gui=underline guibg=#ccc6b3
-highlight! StatusLineNC cterm=underline ctermfg=grey gui=underline guibg=#eee8d5
+highlight! User1 cterm=underline ctermfg=white
+               \ gui=underline guibg=#ccc6b3 guifg=#fdf6e3
+highlight! User2 cterm=underline ctermfg=magenta
+               \ gui=underline guibg=#ccc6b3 guifg=magenta
+highlight! User3 cterm=underline ctermfg=red ctermbg=0
+               \ gui=underline guibg=#ccc6b3 guifg=red
+highlight! StatusLine cterm=underline ctermfg=blue
+               \ gui=underline guibg=#ccc6b3
+highlight! StatusLineNC cterm=underline ctermfg=grey
+               \ gui=underline guibg=#eee8d5
 
 " Global key maps. Make sure <BS> and <C-H> are different in terminal setting!
 "
