@@ -1,64 +1,54 @@
-" Matthew Wang's vimrc for text term with Solarized dark background
-"
-" Requires Vundle (https://github.com/gmarik/Vundle) to manage plugins
-"
-"   git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-"   cp vimrc ~/.vimrc
-"   vim +PluginInstall +qall
-"
-" Remember to change terminal type to xterm-256color!
+" Matthew Wang's vimrc with plugin manager https://github.com/junegunn/vim-plug
 
-" Load vundle and plugins (requires vim 7.0+)
-"
+if empty(glob('~/.vim/autoload/plug.vim'))
+    echomsg "*** vim-plug is missing, see https://github.com/junegunn/vim-plug"
+    finish
+endif
+
 set nocompatible
-filetype off
-
-set runtimepath+=~/.vim/bundle/Vundle.vim
-execute "call vundle#begin()"|          " Avoid syntax error in vim < 7
-
-Plugin 'gmarik/Vundle.vim'              " Vundle (Vim bundle), package manager
+call plug#begin('~/.vim/plugged')
 
 " No vim-polyglot, which has poor performance
-Plugin 'tpope/vim-markdown'
-Plugin 'digitaltoad/vim-jade'
-Plugin 'moll/vim-node'
-Plugin 'hynek/vim-python-pep8-indent'
-Plugin 'godlygeek/tabular'              " Useful for wiki and markdown
-Plugin 'ymattw/vim-fold-paragraph'      " My own folding preference
+Plug 'tpope/vim-markdown', {'for': 'markdown'}
+Plug 'godlygeek/tabular', {'for': 'markdown'}
+Plug 'digitaltoad/vim-jade', {'for': 'jade'}
+Plug 'moll/vim-node', {'for': 'javascript'}
+Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
+Plug 'ymattw/vim-fold-paragraph'        " My own folding preference
 
-Plugin 'elzr/vim-json'
+Plug 'elzr/vim-json', {'for': 'json'}
 let g:vim_json_syntax_conceal = 0
 
-Plugin 'scrooloose/nerdtree'            " NERDTree, 'gn' to toggle (see below)
+" Load NERDTree on demand, 'gn' to toggle (see nmaps section)
+Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 let g:NERDTreeQuitOnOpen = 1
 
 " YouCompleteMe is damn better, the only downside is you can't press C-U to
 " remove text in completion mode, use C-W instead
 "
 if version > 703 || version == 703 && has('patch598')
-    Plugin 'Valloric/YouCompleteMe'
+    Plug 'Valloric/YouCompleteMe', {'do': './install.py'}
     let g:ycm_complete_in_comments = 1
     let g:ycm_collect_identifiers_from_comments_and_strings = 1
     let g:ycm_collect_identifiers_from_tags_files = 1
     let g:ycm_seed_identifiers_with_syntax = 1
 else
-    Plugin 'ervandew/supertab'
+    Plug 'ervandew/supertab'
     let g:SuperTabDefaultCompletionType = "context"
     let g:SuperTabContextDefaultCompletionType = "<c-n>"
     let g:SuperTabNoCompleteAfter =
         \ ['^', '\s', '[^-]>', "'", '[~`!@#$%^&*()+={},</?\"\[\]\|-]']
 
-    Plugin 'ymattw/AutoComplPop'        " With my own fix for #53 on bitbucket
+    Plug 'ymattw/AutoComplPop'          " With my own fix for #53 on bitbucket
 endif
 
-Plugin 'altercation/vim-colors-solarized'
+" Remember to change terminal type to xterm-256color!
+Plug 'altercation/vim-colors-solarized'
 
-execute "call vundle#end()"|            " Avoid syntax error in vim < 7
-filetype plugin indent on               " Vundle and plugins now loaded
+call plug#end()
 
 " Default color and font tunings
 "
-syntax on
 silent! colorscheme solarized           " Needs to be after vundle#end()
 
 if has('gui_running')
