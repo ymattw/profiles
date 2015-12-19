@@ -152,7 +152,8 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
-! type vim >& /dev/null || alias vi='vim -Xn'
+# Skip system wide vimrc to reduce startup time
+! type vim >& /dev/null || alias vi='vim -Xn -u ~/.vimrc'
 alias grep='grep --color=auto'
 
 case $(uname -s) in
