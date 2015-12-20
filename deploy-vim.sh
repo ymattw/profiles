@@ -11,8 +11,9 @@ if [[ -n $1 ]]; then
 else
     echo "Initializing vim profile to $HOME..."
     cp vimrc ~/.vimrc
-    [[ -d ~/.vim/bundle/Vundle.vim ]] || {
-        git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    [[ -f ~/.vim/autoload/plug.vim ]] || {
+        curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     }
-    vim +PluginInstall +qall
+    vim +PlugInstall +qall
 fi
