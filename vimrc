@@ -165,7 +165,7 @@ let mapleader = ","
 nmap <Space>    :call ToggleFoldParagraph()<CR>|
 nmap <CR>       :set spell!<CR>|        " Toggle spell
 nmap <BS>       :set ic!<CR>|           " Toggle ignore case
-nmap <C-H>      :set hls!<CR>|          " Ctrl-h to toggle highlight search
+nmap <C-H>      :nohlsearch<CR>|        " Stop highlight search temporarily
 nmap <C-J>      <C-W>w|                 " Cycle to next window
 nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " Remove trailing blank
 nmap <C-N>      :set nu!<CR>|           " Ctrl-n to toggle :set number
