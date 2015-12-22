@@ -17,7 +17,7 @@ Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
 Plug 'ymattw/vim-fold-paragraph'        " My own folding preference
 
 Plug 'elzr/vim-json', {'for': 'json'}
-let g:vim_json_syntax_conceal = 0
+let g:vim_json_syntax_conceal = 0       " Do not hide quotes
 
 " Load NERDTree on demand, 'gn' to toggle (see nmaps section)
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
@@ -47,9 +47,8 @@ Plug 'altercation/vim-colors-solarized'
 
 call plug#end()
 
-" Default color and font tunings
-"
-silent! colorscheme solarized           " Needs to be after vundle#end()
+" Default color and font tunings, needs to be after plug#end()
+silent! colorscheme solarized
 
 if has('gui_running')
     set background=light
