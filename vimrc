@@ -39,7 +39,8 @@ else
     let g:SuperTabNoCompleteAfter =
         \ ['^', '\s', '[^-]>', "'", '[~`!@#$%^&*()+={},</?\"\[\]\|-]']
 
-    Plug 'ymattw/AutoComplPop'          " With my own fix for #53 on bitbucket
+    " With my own fix for #53 on bitbucket
+    Plug 'ymattw/AutoComplPop', {'branch': 'dev'}
 endif
 
 " Remember to change terminal type to xterm-256color!
