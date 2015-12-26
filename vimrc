@@ -24,7 +24,8 @@ Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 let g:NERDTreeQuitOnOpen = 1
 
 " YouCompleteMe is damn better, the only downside is you can't press C-U to
-" remove text in completion mode, use C-W instead
+" remove text in completion mode, use C-W instead. Dependencies: cmake and
+" python-dev[el]
 "
 if version > 703 || version == 703 && has('patch598')
     Plug 'Valloric/YouCompleteMe', {'do': './install.py'}
@@ -32,6 +33,7 @@ if version > 703 || version == 703 && has('patch598')
     let g:ycm_collect_identifiers_from_comments_and_strings = 1
     let g:ycm_collect_identifiers_from_tags_files = 1
     let g:ycm_seed_identifiers_with_syntax = 1
+    let g:ycm_autoclose_preview_window_after_completion = 1
 else
     Plug 'ervandew/supertab'
     let g:SuperTabDefaultCompletionType = "context"
