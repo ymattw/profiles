@@ -14,6 +14,7 @@ Plug 'godlygeek/tabular', {'for': 'markdown'}
 Plug 'digitaltoad/vim-jade', {'for': 'jade'}
 Plug 'moll/vim-node', {'for': 'javascript'}
 Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
+Plug 'Valloric/MatchTagAlways', {'for': 'html'}
 Plug 'ymattw/vim-fold-paragraph'        " My own folding preference
 
 Plug 'elzr/vim-json', {'for': 'json'}
