@@ -24,11 +24,12 @@ let g:vim_json_syntax_conceal = 0       " Do not hide quotes
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 let g:NERDTreeQuitOnOpen = 1
 
-" YouCompleteMe is damn better, the only downside is you can't press C-U to
-" remove text in completion mode, use C-W instead. Dependencies: cmake and
-" python-dev[el]
+" YouCompleteMe is damn better, downsides: 1) install takes too long; 2) you
+" can't press C-U to remove text in completion mode, use C-W instead.  So keep
+" disabled by default.  Dependencies: cmake and python-dev[el].
 "
-if version > 703 || version == 703 && has('patch598')
+let s:_youcompleteme_on = 0
+if s:_youcompleteme_on && (version > 703 || version == 703 && has('patch598'))
     Plug 'Valloric/YouCompleteMe', {'do': './install.py'}
     let g:ycm_complete_in_comments = 1
     let g:ycm_collect_identifiers_from_comments_and_strings = 1
