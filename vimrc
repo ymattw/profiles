@@ -204,11 +204,13 @@ cmap w!!         w !sudo tee % > /dev/null
 " definitions)
 "
 autocmd FileType markdown nmap <buffer> T
-              \ vip:Tabularize /\|<CR>| " tabularize markdown tables
+              \ vip:Tabularize /\|<CR>| " Tabularize markdown tables
 autocmd FileType c,cpp,javascript,css nmap <buffer> <leader>c
-              \ I/* <ESC>A */<ESC>|     " comment out current line with /* */
+              \ I/* <ESC>A */<ESC>|     " Comment out current line with /* */
 autocmd FileType c,cpp,javascript,css nmap <leader>u
-              \ 0f*h3x$3x|              " comment out /* */
+              \ 0f*h3x$3x|              " Comment out /* */
+autocmd Filetype html nmap <buffer> %
+              \ :MtaJumpToOtherTag<CR>| " See MatchTagAlways
 
 " Mode key mappings
 "
