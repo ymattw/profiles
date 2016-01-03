@@ -1,7 +1,7 @@
 # Matthew Wang's screenrc
 #
 # Run this to set it up:
-# curl -ksSL https://github.com/ymattw/profiles/raw/master/screenrc > ~/.screenrc
+# curl -fksSL https://github.com/ymattw/profiles/raw/master/screenrc > ~/.screenrc
 #
 startup_message off
 defscrollback 9000

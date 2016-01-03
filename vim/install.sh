@@ -8,7 +8,7 @@ readonly SELF_DIR=$(cd $(dirname $0) && pwd)
 rsync $SELF_DIR/vimrc ~/.vimrc
 
 [[ -f ~/.vim/autoload/plug.vim ]] || {
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    curl -fksSLo ~/.vim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 }
 
