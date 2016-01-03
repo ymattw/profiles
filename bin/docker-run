@@ -1,0 +1,17 @@
+#!/bin/bash
+
+[[ -n $2 ]] || {
+    echo "Usage: $0 <image> <name> [cmd...]"
+    echo
+    echo "Available images:"
+    docker images
+    exit 1
+}
+
+IMAGE=$1
+NAME=$2
+shift 2
+
+docker run -it -v /home:/home -v /root:/root -v /tmp:/tmp \
+    -v /etc/localtime:/etc/localtime:ro -w $(pwd) -P \
+    --name $NAME --hostname $NAME $IMAGE "${@:-/bin/bash}"
