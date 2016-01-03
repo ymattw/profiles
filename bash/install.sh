@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 
 readonly SELF_DIR=$(cd $(dirname $0) && pwd)
-readonly BACKUP_DIR=~/.bash.backup.$(date '+%F-%H%M%S')
+readonly BACKUP_DIR=~/.bash.backup
 readonly BASH_FILES=(~/.bash_profile ~/.bash_login ~/.profile)
 
 mkdir -p $BACKUP_DIR

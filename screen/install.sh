@@ -5,4 +5,4 @@ set -o nounset
 
 readonly SELF_DIR=$(cd $(dirname $0) && pwd)
 
-cp $SELF_DIR/screenrc ~/.screenrc
+rsync $SELF_DIR/screenrc ~/.screenrc

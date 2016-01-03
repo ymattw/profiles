@@ -5,7 +5,7 @@ set -o nounset
 
 readonly SELF_DIR=$(cd $(dirname $0) && pwd)
 
-cp $SELF_DIR/vimrc ~/.vimrc
+rsync $SELF_DIR/vimrc ~/.vimrc
 
 [[ -f ~/.vim/autoload/plug.vim ]] || {
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs \

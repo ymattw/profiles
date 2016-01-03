@@ -5,4 +5,4 @@ set -o nounset
 
 readonly SELF_DIR=$(cd $(dirname $0) && pwd)
 
-cp $SELF_DIR/muttrc ~/.muttrc
+rsync $SELF_DIR/muttrc ~/.muttrc

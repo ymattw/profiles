@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 
 readonly SELF_DIR=$(cd $(dirname $0) && pwd)
-readonly BACKUP_DIR=~/.zsh.backup.$(date '+%F-%H%M%S')
+readonly BACKUP_DIR=~/.zsh.backup
 readonly ZSH_FILES=(~/.zshenv ~/.zprofile ~/.zshrc ~/.zlogin)
 readonly ZSH_COMPLETION_DIR=~/.zsh-completions
 
