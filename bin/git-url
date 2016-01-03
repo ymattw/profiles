@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# Show git remotes and clickable urls
+
+set -o errexit
+set -o nounset
+
+function git_to_http
+{
+    local url=${1:?}
+
+    url=${url##*@}
+    url=${url/:/\/}
+    url=${url%.git}
+    echo http://$url
+}
+
+REMOTES=$(git remote -v | awk '{print $2}' | sort -u)
+
+for URL in $REMOTES; do
+    if [[ $URL == http* ]]; then
+        echo $URL
+    else
+        echo "$URL -> $(git_to_http $URL)"
+    fi
+done
