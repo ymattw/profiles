@@ -10,7 +10,7 @@ function get_all_components
 function usage
 {
     echo "Usage: $0 [component]"
-    echo "List of components: $(get_all_components)"
+    echo "List of components:" $(get_all_components)
 }
 
 function install_component
