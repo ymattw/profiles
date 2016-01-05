@@ -14,10 +14,18 @@ git config --global alias.loggrep "log --decorate --all-match -i --grep"
 git config --global alias.pick cherry-pick
 git config --global alias.ff "merge --ff-only"
 git config --global alias.noff "merge --no-ff"
+
 git config --global alias.tr \
         '!fn() {
             local b=$(git symbolic-ref HEAD) &&
             git branch --set-upstream ${b#refs/heads/} ${1?}
+        }; fn'
+
+# Convert git ssh url to clickable hyperlink
+git config --global alias.url \
+        '!fn() {
+            git remote -v | awk "{print \$2}" | sort -u \
+                | sed -e "s#\(git@\|.*//\|\.git$\)##g" -e "s#:#/#"
         }; fn'
 
 git config --global core.editor vim
