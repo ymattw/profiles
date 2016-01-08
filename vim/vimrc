@@ -167,7 +167,7 @@ highlight! StatusLineNC cterm=underline ctermfg=grey
 let mapleader = ","
 
 " nmaps
-nmap <Space>    :call ToggleFoldParagraph()<CR>|
+nmap <Space>    :set list!<CR>|         " Toggle list mode
 nmap <CR>       :set spell!<CR>|        " Toggle spell
 nmap <BS>       :set ic!<CR>|           " Toggle ignore case
 nmap <C-H>      :nohlsearch<CR>|        " Stop highlight search temporarily
@@ -176,7 +176,7 @@ nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " Remove trailing blank
 nmap <C-N>      :set nu!<CR>|           " Ctrl-n to toggle :set number
 nmap <C-P>      :set paste!<CR>|        " Ctrl-p to toggle paste mode
 nnoremap gn     :NERDTreeToggle<CR>|    " Toggle NERDTree window
-nmap -          :set list!<CR>|         " Toggle list mode
+nmap -          :call ToggleFoldParagraph()<CR>|
 nmap _          :silent! set cursorline!<CR>
 nmap \|         :silent! set cursorcolumn!<CR>
 nmap \          %|                      " Jump to pairing char
