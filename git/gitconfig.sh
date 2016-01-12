@@ -18,8 +18,7 @@ git config --global alias.tr "branch --set-upstream-to"
 
 # Convert git ssh url to clickable hyperlink
 git config --global alias.url \
-    "!git remote -v | awk '{print \$2}' | sort -u \
-    | sed -e 's,\(git@\|.*//\|\.git$\),,g' -e 's,:,/,'"
+    "!git remote -v | perl -pe 's,(.*\sgit@|.*://|\.git .*),,g; s,:,/,' | sort -u"
 
 git config --global core.editor vim
 git config --global color.ui true
