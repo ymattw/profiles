@@ -1,10 +1,10 @@
 #!/bin/bash
 #
 # List or switch git ids (user.name and user.email) defined in ~/.git-ids,
-# for example, define ~/git-ids as below:
+# for example, define ~/.git-ids as below:
 #
-#   github ymattw ymattw@example.com
-#   corp matt matt@example.org
+#   github ymattw@example.com ymattw
+#   corp matt@example.org matt
 #
 # Then you can run 'git-id github' to setup user.name and user.email to your
 # github account and run 'git-id corp' to switch to your corp account.
