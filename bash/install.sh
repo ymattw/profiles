@@ -5,7 +5,7 @@ set -o nounset
 
 readonly SELF_DIR=$(cd $(dirname $0) && pwd)
 readonly BACKUP_DIR=~/.bash.backup
-readonly BASH_FILES=(~/.bash_profile ~/.bash_login ~/.profile)
+readonly BASH_FILES=(~/.bash_profile ~/.bashrc ~/.bash_login ~/.profile)
 
 mkdir -p $BACKUP_DIR
 for x in ${BASH_FILES[@]}; do
