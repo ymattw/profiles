@@ -220,6 +220,7 @@ if exists('&diff') && &diff
     nmap <Down> ]c|                     " Next change
     nmap <Left> <C-w>h|                 " Left window
     nmap <Right> <C-w>l|                " Right window
+    nnoremap <C-L> :diffupdate<CR>|     " Refresh diff
 endif
 
 " Misc
