@@ -7,12 +7,6 @@
 # ProxyCommand /usr/bin/nc -X 5 -x localhost:1080 %h %p
 # IdentifyFile ~/.ssh/my.key
 
-Host *
-    User ymattw
-    TCPKeepAlive yes
-    ServerAliveInterval 30
-    ServerAliveCountMax 5
-
 Host cent7
     Hostname 10.1.1.2
 
@@ -36,3 +30,9 @@ Host */*
     ProxyCommand ssh $(dirname %h) -W $(basename %h):%p
     PreferredAuthentications publickey
     ForwardAgent yes
+
+Host *
+    User ymattw
+    TCPKeepAlive yes
+    ServerAliveInterval 30
+    ServerAliveCountMax 5
