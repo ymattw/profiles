@@ -15,7 +15,7 @@ done
 rm -f ${BASH_FILES[@]}
 
 cp $SELF_DIR/bashrc ~/.bashrc
-ln -s ~/.bashrc ~/.bash_profile
+ln -s .bashrc ~/.bash_profile
 
 [[ -s ~/.git-completion.bash ]] || {
     curl -fksSLo ~/.git-completion.bash \
