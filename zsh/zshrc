@@ -56,7 +56,9 @@ fi
 
 # Load dircolors (see ../dircolors/)
 #
-[[ ! -f ~/.dircolors ]] || eval $(dircolors -b ~/.dircolors)
+if type dircolors &> /dev/null && [[ -f ~/.dircolors ]]; then
+    eval $(dircolors -b ~/.dircolors)
+fi
 
 # Load completions
 #
