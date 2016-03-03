@@ -54,6 +54,10 @@ if [[ $(uname -s) == Linux ]]; then
     export LC_COLLATE=C
 fi
 
+# Load dircolors (see ../dircolors/)
+#
+[[ ! -f ~/.dircolors ]] || eval $(dircolors -b ~/.dircolors)
+
 # Load completions
 #
 [[ ! -d ~/.zsh-completions ]] || fpath=(~/.zsh-completions/src $fpath)

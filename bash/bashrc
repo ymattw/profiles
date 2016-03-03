@@ -43,6 +43,10 @@ if [[ $(uname -s) == Linux ]]; then
     export LC_COLLATE=C
 fi
 
+# Load dircolors (see ../dircolors/)
+#
+[[ ! -f ~/.dircolors ]] || eval $(dircolors -b ~/.dircolors)
+
 # Load completions
 #
 # https://raw.github.com/git/git/master/contrib/completion/git-completion.bash
