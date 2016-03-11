@@ -153,8 +153,6 @@ alias pd='popd'
 # Skip system wide vimrc to reduce startup time
 ! type vim >& /dev/null || alias vi='vim -Xn -u ~/.vimrc'
 alias grep='grep --color=auto'
-alias di='docker images | grep --color'
-alias dr='docker run --rm -it'
 
 case $(uname -s) in
     Linux)
