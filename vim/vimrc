@@ -14,6 +14,7 @@ Plug 'godlygeek/tabular', {'for': 'markdown'}
 Plug 'digitaltoad/vim-jade', {'for': 'jade'}
 Plug 'moll/vim-node', {'for': 'javascript'}
 Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
+Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'Valloric/MatchTagAlways', {'for': 'html'}
 Plug 'ymattw/vim-fold-paragraph'        " My own folding preference
 
@@ -106,7 +107,7 @@ autocmd! BufEnter Gemfile,Berksfile,Thorfile,Vagrantfile setlocal filetype=ruby
 "
 autocmd! FileType html,ruby,eruby,yaml,json,javascript,jade
             \ setlocal expandtab softtabstop=2 shiftwidth=2
-autocmd! FileType make setlocal noexpandtab shiftwidth=8
+autocmd! FileType make,go setlocal noexpandtab shiftwidth=8
 autocmd! FileType gitcommit setlocal textwidth=72 spell
 
 " Better color for matched parenthesis
