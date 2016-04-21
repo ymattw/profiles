@@ -111,6 +111,11 @@ function __git_track_info() {
     fi
 }
 
+function __load_ssh_key
+{
+    [[ ! -f "${1:?}" ]] || ssh-add -L | grep -qw "$1" || ssh-add "$1"
+}
+
 # Fancy PS1, prompt exit status of last command, currenet time, hostname, time,
 # cwd, git status and branch, also prompt the '%' in reverse color when we have
 # background jobs. '\[' and '\]' is to mark ansi colors to allow shell to
@@ -118,10 +123,10 @@ function __git_track_info() {
 #
 PS1="\$([[ \$? == 0 ]] && echo '${_DG}✔' || echo '${_DR}✘') \t "
 
-# Detect whether this box has my own ssh key (~/.ssh/$USER.key), distinguish
-# hostname color and setup ssh-agent related environment accordingly
+# Detect whether this box has ssh keys, distinguish hostname color and setup
+# ssh-agent related environment accordingly
 #
-if [[ -f ~/.ssh/$USER.key ]]; then
+if [[ -f ~/.ssh/$USER.key ]] || ls ~/.ssh/id_?sa >& /dev/null; then
     # I am on my own machine, try load ssh-agent related environments
     PS1="${PS1}${_DB}"                              # blue hostname
     _MY_AGENT_RC=~/.ssh-agent.rc
@@ -132,7 +137,9 @@ if [[ -f ~/.ssh/$USER.key ]]; then
         ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > $_MY_AGENT_RC
         source $_MY_AGENT_RC
     fi
-    ssh-add -L | grep -qw $USER.key || ssh-add ~/.ssh/$USER.key
+    __load_ssh_key ~/.ssh/$USER.key
+    __load_ssh_key ~/.ssh/id_rsa
+    __load_ssh_key ~/.ssh/id_dsa
 else
     # Otherwise assume I am on other's box, highlight hostname in magenta
     PS1="${PS1}${_DM}"                              # magenta hostname
