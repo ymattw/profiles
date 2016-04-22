@@ -28,13 +28,18 @@ git config --global log.abbrevcommit true
 git config --global log.decorate short
 git config --global diff.noprefix true
 
-# Let mergetool shows BASE (common ancestor) in the first row, LOCAL and REMOTE
-# in the middle row, and then the target file the bottom row.  Note we need to
-# handle filename contains spaces, also note vim '+' command treats double
-# quotes as comments so we use single ('\'' denotes a single quote in shell)
+# The layout (LOCAL means local version in current branch):
+#
+#   LOCAL | BASE | REMOTE
+#   ---------------------
+#   MERGED
+#
+# Note we need to handle filename contains spaces, also note vim '+' command
+# treats double quotes as comments so we use single ('\'' denotes a single
+# quote in shell)
 #
 git config --global mergetool.vi.cmd \
-    'vimdiff "$LOCAL" "$REMOTE" '\''+topleft diffsplit '\''"$BASE" '\''+botright diffsplit '\''"$MERGED"'
+    'vimdiff "$LOCAL" "$BASE" "$REMOTE" '\''+botright diffsplit '\''"$MERGED"'
 
 git config --global push.default simple
 
