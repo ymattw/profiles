@@ -43,6 +43,8 @@ STICKY_OTHER_WRITABLE 38;5;112;3
 .bz2                  38;5;210
 .zip                  38;5;210
 .jar                  38;5;210
+.rpm                  38;5;210
+.bin                  38;5;210
 
 # Common termcap
 TERM ansi
