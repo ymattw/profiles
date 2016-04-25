@@ -102,6 +102,19 @@ function __git_active_branch {
     fi
 }
 
+# ssh-add -l exits code 2 when unable to connect to the agent
+function __start_ssh_agent {
+    local rc=~/.ssh-agent.rc
+
+    [[ ! -f $rc ]] || source $rc
+    if [[ $(ssh-add -l >& /dev/null; echo $?) == 2 ]]; then
+        print -P "${_DR}Starting a new ssh-agent process...${_NC}" >&2
+        rm -f ~/.ssh-agent.sock
+        ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > $rc
+        source $rc
+    fi
+}
+
 function __load_ssh_key
 {
     [[ ! -f "${1:?}" ]] || ssh-add -L | grep -qw "$1" || ssh-add "$1"
@@ -119,17 +132,11 @@ PROMPT="\$([[ \$? == 0 ]] && echo '${_DG}✔' || echo '${_DR}✘') %* "
 if [[ -f ~/.ssh/$USER.key ]] || ls ~/.ssh/id_?sa >& /dev/null; then
     # I am on my own machine, try load ssh-agent related environments
     PROMPT+="${_DB}"                                # blue hostname
-    _MY_AGENT_RC=~/.ssh-agent.rc
-    [[ ! -f $_MY_AGENT_RC ]] || source $_MY_AGENT_RC
-    if [[ ! -S ${SSH_AUTH_SOCK:-} ]]; then
-        print -P "${_DR}Starting a new ssh-agent process...${_NC}" >&2
-        rm -f ~/.ssh-agent.sock
-        ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > $_MY_AGENT_RC
-        source $_MY_AGENT_RC
-    fi
+    __start_ssh_agent
     __load_ssh_key ~/.ssh/$USER.key
     __load_ssh_key ~/.ssh/id_rsa
     __load_ssh_key ~/.ssh/id_dsa
+    unset __start_ssh_agent
     unset __load_ssh_key
 else
     # Otherwise assume I am on other's box, highlight hostname in magenta
