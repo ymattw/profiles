@@ -39,7 +39,7 @@ unsetopt nomatch
 unsetopt correct
 unsetopt auto_remove_slash
 bindkey -e                          # Reclaim C-a, C-e, C-r, M-., etc.
-! [[ -o login ]] || stty stop undef # Make 'C-s' to do fwd-i-search
+! test -t 0 || stty stop undef      # Make 'C-s' to do fwd-i-search
 bindkey "^U" backward-kill-line     # Keep the same behavior as in bash
 
 # Useful environments. Locale (LC_*) matters for ls and sort on Linux, see also

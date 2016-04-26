@@ -29,7 +29,7 @@ export PATH
 # Useful options
 #
 bind 'set match-hidden-files off' >& /dev/null  # Don't tab-expand hidden files
-! shopt -q login_shell || stty stop undef       # Make 'C-s' to do i-search
+! test -t 0 || stty stop undef >& /dev/null     # Make 'C-s' to do i-search
 
 # Useful environments. Locale (LC_*) matters for ls and sort on Linux, see also
 # www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
