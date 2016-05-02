@@ -2,78 +2,156 @@
 #
 # Suggestion: ln -sf .bashrc .bash_profile
 #
+# Implementation note: all functions with name starts with '__' are considered
+# private and will be unset at the end.
 
-[[ ! -f /etc/profile ]] || source /etc/profile
-[[ ! -f /etc/bashrc ]] || source /etc/bashrc
-unset PROMPT_COMMAND    # Let tmux manage it
+function __main
+{
+    local fn
 
-# Customized PATH
+    [[ ! -f /etc/profile ]] || source /etc/profile
+    [[ ! -f /etc/bashrc ]] || source /etc/bashrc
+    unset PROMPT_COMMAND    # Let tmux manage it
+
+    for fn in \
+        __setup_path \
+        __setup_shell_options \
+        __setup_environments \
+        __setup_aliases \
+        __setup_completions \
+        __setup_dir_colors \
+        __setup_ssh_agent \
+        __setup_prompt \
+    ; do
+        $fn; unset -f $fn
+    done
+}
+
+function __setup_path
+{
+    # prepend paths
+    for x in /sbin /usr/sbin /bin /usr/bin /usr/local/bin; do
+        [[ :$PATH: == *:$x:?}:* ]] || PATH=$1:$PATH
+    done
+
+    # Load RVM if installed, otherwise load ChefDK if installed
+    if [[ -x $HOME/.rvm/bin/rvm ]] && [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
+        PATH=$HOME/.rvm/bin:$PATH
+        unset GEM_HOME GEM_PATH GEM_ROOT
+        source "$HOME/.rvm/scripts/rvm"
+    elif [[ -x /usr/bin/chef ]]; then
+        eval "$(/usr/bin/chef shell-init sh)"
+    fi
+
+    # ~/bin takes precedence
+    [[ ! -d $HOME/bin ]] || PATH=$HOME/bin:$PATH
+    export PATH
+}
+
+function __setup_shell_options
+{
+    bind 'set match-hidden-files off' >& /dev/null  # No tab-expand hidden files
+    ! test -t 0 || stty stop undef >& /dev/null     # Make 'C-s' to do i-search
+}
+
+function __setup_environments
+{
+    export HISTFILE=~/.bash_history     # In case switched from zsh temporally
+    export HISTSIZE=10000
+    export EDITOR=vim
+
+    # Locale (LC_*) matters for ls and sort on Linux, see also
+    # www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
+    #
+    [[ $(uname -s) != Linux ]] || export LC_COLLATE=C
+}
+
+# Non "private" helper function to auto complete hostnames, note 'complete -A
+# hostname' also works but it does not recognize new $HOSTFILE
 #
-PATH=/usr/bin:/bin:/usr/sbin:/sbin
-[[ ! -d /opt/local/bin ]] || PATH=/opt/local/bin:$PATH
-PATH=/usr/local/bin:/usr/local/sbin:$PATH
-
-# Load RVM if installed, otherwise load ChefDK if installed
-if [[ -x $HOME/.rvm/bin/rvm ]] && [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
-    PATH=$HOME/.rvm/bin:$PATH
-    unset GEM_HOME GEM_PATH GEM_ROOT
-    source "$HOME/.rvm/scripts/rvm"
-elif [[ -x /usr/bin/chef ]]; then
-    eval "$(/usr/bin/chef shell-init sh)"
-fi
-
-# ~/bin takes precedence
-[[ ! -d $HOME/bin ]] || PATH=$HOME/bin:$PATH
-export PATH
-
-# Useful options
-#
-bind 'set match-hidden-files off' >& /dev/null  # Don't tab-expand hidden files
-! test -t 0 || stty stop undef >& /dev/null     # Make 'C-s' to do i-search
-
-# Useful environments. Locale (LC_*) matters for ls and sort on Linux, see also
-# www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
-#
-export HISTFILE=~/.bash_history     # In case switched from zsh temporally
-export HISTSIZE=10000
-export EDITOR=vim
-[[ $(uname -s) != Linux ]] || export LC_COLLATE=C
-
-# Load dircolors (see ../dircolors/)
-#
-if type dircolors >& /dev/null && [[ -f ~/.dircolors ]]; then
-    eval $(dircolors -b ~/.dircolors)
-fi
-
-# Load completions
-#
-# https://raw.github.com/git/git/master/contrib/completion/git-completion.bash
-[[ ! -f ~/.git-completion.bash ]] || . ~/.git-completion.bash
-
-# Helper function to auto complete hostnames, note 'complete -A hostname' also
-# works but it does not recognize new $HOSTFILE
-#
-function __host_complete {
+function _host_complete
+{
     local cur=${COMP_WORDS[COMP_CWORD]}
     local hosts=$(sed -ne 's/[, ].*//p' ~/.ssh/known_hosts* 2>/dev/null)
     COMPREPLY=($(compgen -W "$hosts" -- $cur))
 }
 
-complete -F __host_complete ssh scp host nc ping telnet
-complete -A export unset
+function __setup_completions
+{
+    # https://raw.github.com/git/git/master/contrib/completion/git-completion.bash
+    [[ ! -f ~/.git-completion.bash ]] || . ~/.git-completion.bash
+    complete -F _host_complete ssh scp host nc ping telnet
+    complete -A export unset
+}
 
-# Customized theme (prompt)
-#
-_DR="\[\e[31m\]"        # red
-_DG="\[\e[32m\]"        # green
-_DY="\[\e[33m\]"        # yellow
-_DB="\[\e[34m\]"        # blue
-_DM="\[\e[35m\]"        # magenta
-_DC="\[\e[36m\]"        # cyan
-_RV="\[\e[7m\]"         # reverse
-_NC="\[\e[0m\]"         # no color
+function __setup_aliases
+{
+    alias ..='cd ..'
+    alias ...='cd ../..'
+    alias ....='cd ../../..'
+    alias .....='cd ../../../..'
+    # Skip system wide vimrc to reduce startup time
+    ! type vim >& /dev/null || alias vi='vim -Xn -u ~/.vimrc'
+    alias grep='grep --color=auto'
 
-function __git_status_color {
+    case $(uname -s) in
+        Linux)
+            alias ls='/bin/ls -F --color=auto'
+            alias l='/bin/ls -lF --color=auto'
+            alias lsps='ps -ef f | grep -vw grep | grep -i'
+            ;;
+        Darwin)
+            alias ls='/bin/ls -F'
+            alias l='/bin/ls -lF'
+            alias lsps='ps -ax -o user,pid,ppid,stime,tty,time,command | grep -vw grep | grep -i'
+            ;;
+        *)
+            alias ls='/bin/ls -F'
+            alias l='/bin/ls -lF'
+            alias lsps='ps -auf | grep -vw grep | grep -i'
+            ;;
+    esac
+}
+
+function __setup_dir_colors
+{
+    if type dircolors >& /dev/null && [[ -f ~/.dircolors ]]; then
+        eval $(dircolors -b ~/.dircolors)
+    fi
+}
+
+function __has_ssh_key
+{
+    [[ -f ~/.ssh/$USER.key ]] || ls ~/.ssh/id_?sa >& /dev/null
+}
+
+function __load_ssh_key
+{
+    [[ ! -f "${1:?}" ]] || ssh-add -L | grep -qw "$1" || ssh-add "$1"
+}
+
+# ssh-add -l exits code 2 when unable to connect to the agent
+function __setup_ssh_agent
+{
+    local rc=~/.ssh-agent.rc
+
+    __has_ssh_key || return 0
+    [[ ! -f $rc ]] || source $rc
+    if [[ $(ssh-add -l >& /dev/null; echo $?) == 2 ]]; then
+        print -P "%{\e[31m%}Starting a new ssh-agent process...%{\e[0m}" >&2
+        rm -f ~/.ssh-agent.sock
+        ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > $rc
+        source $rc
+    fi
+
+    __load_ssh_key ~/.ssh/$USER.key
+    __load_ssh_key ~/.ssh/id_rsa
+    __load_ssh_key ~/.ssh/id_dsa
+}
+
+# Non "private" helper function used to setup PROMPT
+function _git_status_color
+{
     if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
         local info=$(git status -s)
         if [[ -z $info ]]; then
@@ -86,7 +164,9 @@ function __git_status_color {
     fi
 }
 
-function __git_active_branch {
+# Non "private" helper function used to setup PROMPT
+function _git_active_branch
+{
     if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
         local branch=$(git symbolic-ref HEAD 2>/dev/null)
         branch=${branch#refs/heads/}
@@ -94,7 +174,9 @@ function __git_active_branch {
     fi
 }
 
-function __git_track_info {
+# Non "private" helper function used to setup PROMPT
+function _git_track_info
+{
     if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
         local branch info age track
         branch=$(git symbolic-ref HEAD 2>/dev/null)
@@ -106,94 +188,53 @@ function __git_track_info {
     fi
 }
 
-# ssh-add -l exits code 2 when unable to connect to the agent
-function __start_ssh_agent {
-    local rc=~/.ssh-agent.rc
-
-    [[ ! -f $rc ]] || source $rc
-    if [[ $(ssh-add -l >& /dev/null; echo $?) == 2 ]]; then
-        echo -e "\e[31mStarting a new ssh-agent process...\e[0m" >&2
-        rm -f ~/.ssh-agent.sock
-        ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > $rc
-        source $rc
-    fi
-}
-
-function __load_ssh_key
-{
-    [[ ! -f "${1:?}" ]] || ssh-add -L | grep -qw "$1" || ssh-add "$1"
-}
 
 # Fancy PS1, prompt exit status of last command, currenet time, hostname, time,
 # cwd, git status and branch, also prompt the '%' in reverse color when we have
 # background jobs. '\[' and '\]' is to mark ansi colors to allow shell to
 # calculate prompt string length correctly
 #
-PS1="\$([[ \$? == 0 ]] && echo '${_DG}✔' || echo '${_DR}✘') \t "
+function __setup_prompt
+{
+    local _DR="\[\e[31m\]"        # red
+    local _DG="\[\e[32m\]"        # green
+    local _DY="\[\e[33m\]"        # yellow
+    local _DB="\[\e[34m\]"        # blue
+    local _DM="\[\e[35m\]"        # magenta
+    local _DC="\[\e[36m\]"        # cyan
+    local _RV="\[\e[7m\]"         # reverse
+    local _NC="\[\e[0m\]"         # no color
 
-# Detect whether this box has ssh keys, distinguish hostname color and setup
-# ssh-agent related environment accordingly
-#
-if [[ -f ~/.ssh/$USER.key ]] || ls ~/.ssh/id_?sa >& /dev/null; then
-    # I am on my own machine, try load ssh-agent related environments
-    PS1="${PS1}${_DB}"                              # blue hostname
-    __start_ssh_agent
-    __load_ssh_key ~/.ssh/$USER.key
-    __load_ssh_key ~/.ssh/id_rsa
-    __load_ssh_key ~/.ssh/id_dsa
-    unset __start_ssh_agent
-    unset __load_ssh_key
-else
-    # Otherwise assume I am on other's box, highlight hostname in magenta
-    PS1="${PS1}${_DM}"                              # magenta hostname
-fi
+    PS1="\$([[ \$? == 0 ]] && echo '${_DG}✔' || echo '${_DR}✘') \t "
 
-# Highlight hostname in reverse green if inside a container
-if [[ -n $container_uuid ]] || [[ -f /.dockerenv ]]; then
-    PS1="${PS1}${_RV}${_DG}"
-fi
-PS1="${PS1}$(hostname -f)"
-PS1="${PS1}${_NC}:${_DY}\w${_NC}"                   # yellow cwd
-PS1="${PS1}\[\$(__git_status_color)\]"              # git status indicator
-PS1="${PS1}\$(__git_active_branch)"                 # git branch name
-PS1="${PS1}${_DC}\$(__git_track_info)"              # git branch track info
-PS1="${PS1}${_DC} ⤾\n"                              # cyan wrap char, newline
-PS1="${PS1}\$([[ -z \$(jobs) ]] || echo '$_RV')"    # reverse bg job indicator
-PS1="${PS1}\\\$${_NC} "                             # $ or #
-unset _DR _DG _DY _DB _DM _DC _RV _NC
+    # Detect whether this box has ssh keys, distinguish hostname color and setup
+    # ssh-agent related environment accordingly
+    #
+    if __has_ssh_key; then
+        # I am on my own machine, try load ssh-agent related environments
+        PS1="${PS1}${_DB}"                              # blue hostname
+    else
+        # Otherwise assume I am on other's box, highlight hostname in magenta
+        PS1="${PS1}${_DM}"                              # magenta hostname
+    fi
 
-# Shortcuts (Aliases, function, auto completion etc.)
-#
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-# Skip system wide vimrc to reduce startup time
-! type vim >& /dev/null || alias vi='vim -Xn -u ~/.vimrc'
-alias grep='grep --color=auto'
+    # Highlight hostname in reverse green if inside a container
+    if [[ -n $container_uuid ]] || [[ -f /.dockerenv ]]; then
+        PS1="${PS1}${_RV}${_DG}"
+    fi
+    PS1="${PS1}$(hostname -f)"
+    PS1="${PS1}${_NC}:${_DY}\w${_NC}"                   # yellow cwd
+    PS1="${PS1}\[\$(_git_status_color)\]"               # git status indicator
+    PS1="${PS1}\$(_git_active_branch)"                  # git branch name
+    PS1="${PS1}${_DC}\$(_git_track_info)"               # git branch track info
+    PS1="${PS1}${_DC} ⤾\n"                              # cyan wrap char, newline
+    PS1="${PS1}\$([[ -z \$(jobs) ]] || echo '$_RV')"    # reverse bg job indicator
+    PS1="${PS1}\\\$${_NC} "                             # $ or #
+}
 
-case $(uname -s) in
-    Linux)
-        alias ls='/bin/ls -F --color=auto'
-        alias l='/bin/ls -lF --color=auto'
-        alias lsps='ps -ef f | grep -vw grep | grep -i'
-        ;;
-    Darwin)
-        alias ls='/bin/ls -F'
-        alias l='/bin/ls -lF'
-        alias lsps='ps -ax -o user,pid,ppid,stime,tty,time,command | grep -vw grep | grep -i'
-        ;;
-    *)
-        alias ls='/bin/ls -F'
-        alias l='/bin/ls -lF'
-        alias lsps='ps -auf | grep -vw grep | grep -i'
-        ;;
-esac
-
-# Utilities
-#
 # Find a file which name matches given pattern (ERE, case insensitive)
-function f {
+function f
+{
     local pat=${1?'Usage: f ERE-pattern [path...]'}
     shift
     find ${@:-.} \( -path '*/.svn' -o -path '*/.git' -o -path '*/.idea' \) \
@@ -201,13 +242,15 @@ function f {
 }
 
 # Load file list generated by f() in vim, type 'gf' to jump to the file
-function vif {
+function vif
+{
     local tmpf=/tmp/viftmpfile.$RANDOM$$
     f "$@" > $tmpf && vi -c "/$1" $tmpf && rm -f $tmpf
 }
 
 # Grep a ERE pattern in cwd or given path
-function g {
+function g
+{
     local string_pat=${1:?"Usage: g ERE-pattern [grep opts] [path...]"}
     shift
     local grep_opts="--color=auto"
@@ -225,5 +268,12 @@ function g {
         -prune -o -type f -print0 -follow \
         | eval "xargs -0 -P128 grep -EH $grep_opts '$string_pat'"
 }
+
+########################################################################
+# Setup everything and unset "private" functions
+########################################################################
+
+__main
+unset -f __has_ssh_key __load_ssh_key __main
 
 # vim:set et sts=4 sw=4 ft=sh:
