@@ -36,15 +36,14 @@ function __setup_path
     done
 
     # Load RVM if installed, otherwise load ChefDK if installed
-    if [[ -s $HOME/.rvm/scripts/rvm ]]; then
-        source "$HOME/.rvm/scripts/rvm"
-        __prepend_path $HOME/.rvm/bin
+    if [[ -s ~/.rvm/scripts/rvm ]]; then
+        source ~/.rvm/scripts/rvm
     elif [[ -x /usr/bin/chef ]]; then
         eval "$(/usr/bin/chef shell-init sh)"
     fi
 
     # ~/bin takes precedence
-    __prepend_path $HOME/bin
+    __prepend_path ~/bin
 
     export PATH
 }
