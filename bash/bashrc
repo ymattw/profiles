@@ -155,45 +155,27 @@ function __setup_ssh_agent
     __load_ssh_key ~/.ssh/id_dsa
 }
 
-# Non "private" helper function used to setup PROMPT
-function _git_status_color
-{
-    if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
-        local info=$(git status -s)
-        if [[ -z $info ]]; then
-            echo -ne "\033[32m"       # clean status
-        elif [[ -z $(echo "$info" | grep -v '^??') ]]; then
-            echo -ne "\033[35m"       # has untracked objects only
-        else
-            echo -ne "\033[31m"       # unclean status
-        fi
-    fi
-}
-
-# Non "private" helper function used to setup PROMPT
+# Non "private" helper function used to setup PS1
 function _git_active_branch
 {
-    if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
-        local branch=$(git symbolic-ref HEAD 2>/dev/null)
-        branch=${branch#refs/heads/}
-        echo " (${branch})"
+    local branch info age track
+
+    [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]] || return
+    branch=$(git symbolic-ref HEAD 2>/dev/null)
+    branch=${branch#refs/heads/}
+    info=$(git status -s 2>/dev/null)
+    age=$(git log --pretty=format:'%cr' -1 refs/heads/$branch 2>/dev/null)
+    track=$(git status -sb 2>/dev/null | sed -n 's/^##.*\[\(.*\)\].*/, \1/p')
+
+    # NOTE: have to use $'string' for ansi escape sequence here
+    if [[ -z $info ]]; then
+        echo -ne $'\e[32m'" ($branch) "$'\e[36m'"[${age}${track}]"
+    elif [[ -z $(echo "$info" | grep -v '^??') ]]; then
+        echo -ne $'\e[35m'" ($branch) "$'\e[36m'"[${age}${track}]"
+    else
+        echo -ne $'\e[31m'" ($branch) "$'\e[36m'"[${age}${track}]"
     fi
 }
-
-# Non "private" helper function used to setup PROMPT
-function _git_track_info
-{
-    if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
-        local branch info age track
-        branch=$(git symbolic-ref HEAD 2>/dev/null)
-        branch=${branch#refs/heads/}
-        info=$(git status -s 2>/dev/null)
-        age=$(git log --pretty=format:'%cr' -1 refs/heads/$branch 2>/dev/null)
-        track=$(git status -sb 2>/dev/null | sed -n 's/^##.*\[\(.*\)\].*/, \1/p')
-        echo " [${age}${track}]"
-    fi
-}
-
 
 # Fancy PS1, prompt exit status of last command, currenet time, hostname, time,
 # cwd, git status and branch, also prompt the '%' in reverse color when we have
@@ -230,9 +212,7 @@ function __setup_prompt
     fi
     PS1="${PS1}$(hostname -f)"
     PS1="${PS1}${_NC}:${_DY}\w${_NC}"                   # yellow cwd
-    PS1="${PS1}\[\$(_git_status_color)\]"               # git status indicator
     PS1="${PS1}\$(_git_active_branch)"                  # git branch name
-    PS1="${PS1}${_DC}\$(_git_track_info)"               # git branch track info
     PS1="${PS1}${_DC} ⤾\n"                              # cyan wrap char, newline
     PS1="${PS1}\$([[ -z \$(jobs) ]] || echo '$_RV')"    # reverse bg job indicator
     PS1="${PS1}\\\$${_NC} "                             # $ or #
