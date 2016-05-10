@@ -41,9 +41,9 @@ function __setup_path
         __prepend_path $x
     done
 
-    # Load RVM if installed, otherwise load ChefDK if installed
-    if [[ -s ~/.rvm/scripts/rvm ]]; then
-        source ~/.rvm/scripts/rvm
+    # Load rbenv if installed, otherwise load ChefDK if installed
+    if type -P rbenv > /dev/null; then
+        eval "$(rbenv init -)"
     elif [[ -x /usr/bin/chef ]]; then
         eval "$(/usr/bin/chef shell-init sh)"
     fi
