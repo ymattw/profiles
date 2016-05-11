@@ -13,7 +13,7 @@ Host cent7
 Host github.com bitbucket.org git
     ControlMaster auto
     ControlPath ~/.ssh-%h-%p.mux
-    ControlPersist yes
+    ControlPersist 1h
 
 Host jumpbox
     PreferredAuthentications publickey
