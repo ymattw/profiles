@@ -153,7 +153,7 @@ function __setup_ssh_agent
     __has_ssh_key || return 0
     [[ ! -f $rc ]] || source $rc
     if [[ $(ssh-add -l >& /dev/null; echo $?) == 2 ]]; then
-        print -P "%{\e[31m%}Starting a new ssh-agent process...%{\e[0m}" >&2
+        print -P "%{\e[31m%}Starting a new ssh-agent process...%{\e[0m%}" >&2
         rm -f ~/.ssh-agent.sock
         ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > $rc
         source $rc
