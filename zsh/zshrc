@@ -8,6 +8,7 @@ function __main
     local fn
 
     for fn in \
+        __init_completion \
         __setup_path \
         __setup_shell_options \
         __setup_environments \
@@ -19,6 +20,13 @@ function __main
     ; do
         $fn; unset -f $fn
     done
+}
+
+# This has to be done before ChefDK can load its completion setup
+function __init_completion
+{
+    [[ ! -d ~/.zsh-completions ]] || fpath=(~/.zsh-completions/src $fpath)
+    autoload -U compinit && compinit
 }
 
 function __prepend_path
@@ -85,8 +93,6 @@ function __setup_environments
 
 function __setup_completions
 {
-    [[ ! -d ~/.zsh-completions ]] || fpath=(~/.zsh-completions/src $fpath)
-    autoload -U compinit && compinit
     zstyle ':completion:*' menu yes select
     zstyle ':completion:*' users off
     zmodload zsh/complist
