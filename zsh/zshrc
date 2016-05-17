@@ -35,11 +35,11 @@ function __setup_path
         __prepend_path $x
     done
 
-    # Load rbenv if installed, otherwise load ChefDK if installed
-    if whence -p rbenv > /dev/null; then
+    # Try load ChefDK if installed, or else rbenv if installed
+    if [[ -x /opt/chefdk/bin/chef ]]; then
+        eval "$(/opt/chefdk/bin/chef shell-init zsh)"
+    elif whence -p rbenv > /dev/null; then
         eval "$(rbenv init -)"
-    elif [[ -x /usr/bin/chef ]]; then
-        eval "$(/usr/bin/chef shell-init sh)"
     fi
 
     # ~/bin takes precedence
