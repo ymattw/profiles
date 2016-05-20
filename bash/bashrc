@@ -44,7 +44,7 @@ function __setup_path
     # Try load ChefDK if installed, or else rbenv if installed
     if [[ -x /opt/chefdk/bin/chef ]]; then
         eval "$(/opt/chefdk/bin/chef shell-init bash)"
-    elif whence -p rbenv > /dev/null; then
+    elif type -P rbenv > /dev/null; then
         eval "$(rbenv init -)"
     fi
 
