@@ -107,7 +107,8 @@ autocmd! BufEnter Gemfile,Berksfile,Thorfile,Vagrantfile setlocal filetype=ruby
 "
 autocmd! FileType html,ruby,eruby,yaml,json,javascript,jade
             \ setlocal expandtab softtabstop=2 shiftwidth=2
-autocmd! FileType make,go setlocal noexpandtab shiftwidth=8
+autocmd! FileType make setlocal noexpandtab shiftwidth=8
+autocmd! FileType go setlocal nolist    " vim-go is good enough!
 autocmd! FileType gitcommit setlocal textwidth=72 spell
 
 " Better color for matched parenthesis
