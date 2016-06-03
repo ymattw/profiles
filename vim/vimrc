@@ -31,7 +31,6 @@ let g:NERDTreeQuitOnOpen = 1
 "
 if has('lua')
     Plug 'Shougo/neocomplete.vim'
-    let g:acp_enableAtStartup = 0       " In case AutoComplPop is installed
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
     let g:neocomplete#min_keyword_length = 3
