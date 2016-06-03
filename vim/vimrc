@@ -277,6 +277,8 @@ function! RunMe()
         let intepreter = "ruby"
     elseif file =~ '\.js'
         let intepreter = "node"
+    elseif file =~ '\.go'
+        let intepreter = "go run"
     elseif file =~ '\.pl'
         let intepreter = "perl"
     else
