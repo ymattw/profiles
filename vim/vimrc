@@ -35,9 +35,16 @@ if has('lua')
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
     let g:neocomplete#min_keyword_length = 3
-    set completeopt+=menuone
-    set completeopt-=preview
     inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"  " Tab completion
+else
+    Plug 'ervandew/supertab'
+    let g:SuperTabDefaultCompletionType = "context"
+    let g:SuperTabContextDefaultCompletionType = "<c-n>"
+    let g:SuperTabNoCompleteAfter =
+        \ ['^', '\s', '[^-]>', "'", '[~`!@#$%^&*()+={},</?\"\[\]\|-]']
+
+    " With my own fix for #53 on bitbucket
+    Plug 'ymattw/AutoComplPop', {'branch': 'dev'}
 endif
 
 " Remember to change terminal type to xterm-256color!
@@ -76,6 +83,7 @@ set smarttab shiftround shiftwidth=4    " Tab behaviour
 set expandtab softtabstop=4 tabstop=8   " Tab: default to 4-space soft tab
 set smartindent autoindent copyindent   " Indenting
 set spelllang=en_us complete+=kspell    " Spell completion, see imap <C-K>
+set completeopt=menuone                 " Auto completion menu
 set synmaxcol=128 lazyredraw ttyfast    " Performance
 syntax sync minlines=50 maxlines=200    " Performance
 silent! set nowildignorecase            " Vim >= 7.3.072 only
