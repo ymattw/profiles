@@ -27,13 +27,15 @@ let g:NERDTreeQuitOnOpen = 1
 
 " neocomplete can beat YouCompleteMe in both functionality and installation
 " friendly, it also replaces supertab and AutoComplPop.  NOTE! to auto complete
-" in golang, install 'gocode' to work with 'vim-go' (:GoInstallBinaries)
+" in golang, install 'gocode' to work with 'vim-go'.  For example run this from
+" command line: GOPATH=~ vim a.go +GoInstallBinaries +qall
 "
 if has('lua')
     Plug 'Shougo/neocomplete.vim'
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
     let g:neocomplete#min_keyword_length = 3
+    let g:neocomplete#auto_completion_start_length = 1
     inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"  " Tab completion
 else
     Plug 'ervandew/supertab'
