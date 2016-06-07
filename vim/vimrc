@@ -16,6 +16,7 @@ Plug 'moll/vim-node', {'for': 'javascript'}
 Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
 Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'Valloric/MatchTagAlways', {'for': 'html'}
+Plug 'tpope/vim-commentary'             " gcc, gc<textobj> to toggle comments
 Plug 'ymattw/vim-fold-paragraph'        " My own folding preference
 
 Plug 'elzr/vim-json', {'for': 'json'}
@@ -216,10 +217,6 @@ cmap w!!         w !sudo tee % > /dev/null
 "
 autocmd FileType markdown nmap <buffer> T
               \ vip:Tabularize /\|<CR>| " Tabularize markdown tables
-autocmd FileType c,cpp,javascript,css nmap <buffer> <leader>c
-              \ I/* <ESC>A */<ESC>|     " Comment out current line with /* */
-autocmd FileType c,cpp,javascript,css nmap <leader>u
-              \ 0f*h3x$3x|              " Comment out /* */
 autocmd Filetype html nmap <buffer> %
               \ :MtaJumpToOtherTag<CR>| " See MatchTagAlways
 
