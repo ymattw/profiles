@@ -93,7 +93,7 @@ silent! set nofileignorecase            " Vim >= 7.3.872 only
 silent! set nofoldenable                " Default off, often n/a in containder
 silent! set foldmethod=manual           " Work with ymattw/vim-fold-paragraph
 
-" Highlight invisible chars andt trailing spaces, also displays extend and
+" Highlight invisible chars and trailing spaces, also displays extend and
 " precede chars for nowrap mode.  Poor Windows users: switch to Mac/Linux or
 " use alternate chars such as >, _, . instead  (:h dig to see more)
 "
