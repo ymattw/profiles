@@ -17,6 +17,7 @@ Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
 Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'Valloric/MatchTagAlways', {'for': 'html'}
 Plug 'tpope/vim-commentary'             " gcc, gc<textobj> to toggle comments
+Plug 'tpope/vim-endwise'
 Plug 'ymattw/vim-fold-paragraph'        " My own folding preference
 
 Plug 'elzr/vim-json', {'for': 'json'}
