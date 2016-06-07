@@ -24,10 +24,6 @@ let g:vim_json_syntax_conceal = 0       " Do not hide quotes
 Plug 'rking/ag.vim'
 let g:ag_working_path_mode = 'r'
 
-" Load NERDTree on demand, 'gn' to toggle (see nmaps section)
-Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
-let g:NERDTreeQuitOnOpen = 1
-
 " neocomplete can beat YouCompleteMe in both functionality and installation
 " friendly, it also replaces supertab and AutoComplPop.  NOTE! to auto complete
 " in golang, install 'gocode' to work with 'vim-go'.  For example run this from
@@ -181,7 +177,6 @@ nmap <C-J>      <C-W>w|                 " Cycle to next window
 nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " Remove trailing blank
 nmap <C-N>      :set nu!<CR>|           " Ctrl-n to toggle :set number
 nmap <C-P>      :set paste!<CR>|        " Ctrl-p to toggle paste mode
-nnoremap gn     :NERDTreeToggle<CR>|    " Toggle NERDTree window
 nmap -          :call ToggleFoldParagraph()<CR>|
 nmap _          :silent! set cursorline!<CR>
 nmap \|         :silent! set cursorcolumn!<CR>
