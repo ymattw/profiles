@@ -194,6 +194,7 @@ nmap <leader><Tab>
 nmap <leader>\| :call ToggleColorColumn()<CR>
 nmap <leader>2  :set et sts=2 sw=2<CR>| " Use 2-space indent
 nmap <leader>4  :set et sts=4 sw=4<CR>| " Use 4-space indent
+nmap <Leader>d  :cd %:h<CR>:pwd<CR>|    " Switch to dir of current file
 nmap <leader>w  :w<CR>|                 " Save 2 key strokes
 nmap <leader>q  :q<CR>|                 " Quickly quit vim
 nmap <leader>r  :call RunMe()<CR>|      " Run current file
@@ -207,6 +208,8 @@ nmap <Leader>P "+P
 
 " imaps
 imap <C-J>      <ESC>kJA|               " Join to prev line (undo auto wrap)
+imap <C-A>      <C-O>I
+imap <C-E>      <C-O>A
 inoremap <C-F>  <C-X><C-F>|             " Complete filename
 inoremap <C-K>  <C-X><C-K>|             " Complete spell from words
 
