@@ -210,6 +210,12 @@ imap <C-J>      <ESC>kJA|               " Join to prev line (undo auto wrap)
 inoremap <C-F>  <C-X><C-F>|             " Complete filename
 inoremap <C-K>  <C-X><C-K>|             " Complete spell from words
 
+" Auto close parenthesis when <enter> is pressed after a open parenthesis,
+" inspired by tpope/endwise
+"
+inoremap (<CR>  (<CR>)<Esc>O
+inoremap {<CR>  {<CR>}<Esc>O
+
 " cmaps
 cmap w!!         w !sudo tee % > /dev/null
 
