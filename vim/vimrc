@@ -1,5 +1,7 @@
-" Matthew Wang's vimrc with plugin manager https://github.com/junegunn/vim-plug
+" Matthew Wang's vimrc, see more at https://github.com/ymattw/profiles
 
+" Plugins managed by https://github.com/junegunn/vim-plug
+"
 if empty(glob('~/.vim/autoload/plug.vim'))
     echomsg "*** vim-plug is missing, see https://github.com/junegunn/vim-plug"
     finish
@@ -81,7 +83,7 @@ silent! set formatoptions+=j            " Vim >= 7.3.541 only
 set wildmode=list:full                  " Misc: complete and list matched files
 set isfname-==                          " Misc: '=' is not part of filename
 set matchpairs+=<:>                     " Misc: '%' can match <> pair in html
-set smarttab shiftround shiftwidth=4    " Tab behaviour
+set smarttab shiftround shiftwidth=4    " Tab: default behaviour
 set expandtab softtabstop=4 tabstop=8   " Tab: default to 4-space soft tab
 set smartindent autoindent copyindent   " Indenting
 set spelllang=en_us complete+=kspell    " Spell completion, see imap <C-K>
@@ -131,30 +133,28 @@ highlight! DiffText cterm=underline ctermfg=142 ctermbg=0
 highlight! link ColorColumn Search
 highlight! link CharAtCol80 WarningMsg
 highlight! link SpecialChars ErrorMsg
-match CharAtCol80 /\%80v/               " Mark char at column 80 in red
-2match SpecialChars /\%xa0\|[“”‘’—]/    " Mark 'nbsp' copied from alternote
-                                        " and 'smartly' replaced chars
+match CharAtCol80 /\%80v/                       " Mark char at column 80 in red
+2match SpecialChars /\%xa0\|[“”‘’—]/            " nbsp & smartly replaced chars
 
 " Powerful statusline, underlined status line looks better with cursor line
 "
-set noruler laststatus=2                " No ruler, always show status line
-set stl=                                " Reset
-set stl+=\ %0*%n%*                      " Buffer number
-set stl+=\ %0*%f%*                      " Short pathname
-set stl+=\ %3*%m%*                      " Modified flag
-set stl+=\ %3*%r%*                      " Readonly flag
-set stl+=\ %1*[%{&ft}]%*                " File type
-set stl+=\ %1*%{&enc}%*                 " File encoding
-set stl+=\ %3*%{&ff=='dos'?'dos':''}%*  " Dos format flag
-set stl+=\ %3*%{&ic?'ic':'noic'}%*      " Ignorecase flag
-set stl+=\ %3*%{&et?'et:'.&sts:'noet:'.&ts}%*
-                                        " Expandtab and (soft)tabstop
-set stl+=\ %2*%{&hls?'hls':''}%*        " Highlight search flag
-set stl+=\ %2*%{&list?'list':''}%*      " List mode flag
-set stl+=\ %3*%{&paste?'paste':''}%*    " Paste mode flag
-set stl+=\ %0*%=%*                      " Start to align right
-set stl+=\ %0*%4l,%-2v%*                " Line and column info
-set stl+=\ %0*%3p%%%*                   " Line percentage
+set noruler laststatus=2                        " Always show status line
+set stl=                                        " Reset
+set stl+=\ %0*%n%*                              " Buffer number
+set stl+=\ %0*%f%*                              " Short pathname
+set stl+=\ %3*%m%*                              " Modified flag
+set stl+=\ %3*%r%*                              " Readonly flag
+set stl+=\ %1*[%{&ft}]%*                        " File type
+set stl+=\ %1*%{&enc}%*                         " File encoding
+set stl+=\ %3*%{&ff=='dos'?'dos':''}%*          " Dos format flag
+set stl+=\ %3*%{&ic?'ic':'noic'}%*              " Ignorecase flag
+set stl+=\ %3*%{&et?'et:'.&sts:'noet:'.&ts}%*   " Expandtab and (soft)tabstop
+set stl+=\ %2*%{&hls?'hls':''}%*                " Highlight search flag
+set stl+=\ %2*%{&list?'list':''}%*              " List mode flag
+set stl+=\ %3*%{&paste?'paste':''}%*            " Paste mode flag
+set stl+=\ %0*%=%*                              " Start to align right
+set stl+=\ %0*%4l,%-2v%*                        " Line and column info
+set stl+=\ %0*%3p%%%*                           " Line percentage
 highlight! User1 cterm=underline ctermfg=white
                \ gui=underline guibg=#ccc6b3 guifg=#fdf6e3
 highlight! User2 cterm=underline ctermfg=magenta
@@ -168,30 +168,24 @@ highlight! StatusLineNC cterm=underline ctermfg=grey
 
 " Global key maps. Make sure <BS> and <C-H> are different in terminal setting!
 "
-"
 let mapleader = ' '
 
-" nmaps
-nnoremap <CR>   :set spell!<CR>|        " Toggle spell
-nnoremap <BS>   :set ic!<CR>|           " Toggle ignore case
-nnoremap <C-A>  <Nop>|                  " Avoid accidental edit
-nnoremap <C-H>  :nohlsearch<CR>|        " Stop highlight search temporarily
-nnoremap <C-J>  <C-W>w|                 " Cycle to next window
-nnoremap <C-K>  :%s/[ \t]\+$//<CR>|     " Remove trailing blank
-nnoremap <C-N>  :set nu!<CR>|           " Ctrl-n to toggle :set number
-nnoremap <C-P>  :set paste!<CR>|        " Ctrl-p to toggle paste mode
-nnoremap -      :call ToggleFoldParagraph()<CR>|
-nnoremap _      :silent! set cursorline!<CR>
-nnoremap \|     :silent! set cursorcolumn!<CR>
-nnoremap q:     :q|                     " q: is boring
-nnoremap !!     :q!<CR>|                " Quit without saving
-nnoremap Q      gqip|                   " Format current paragraph
-nnoremap qq     :q<CR>|                 " Quickly quit vim
-
-nnoremap <leader><Space>
-                  \ :set list!<CR>
-nnoremap <leader><Tab>
-                  \ :call ToggleTab()<CR>   " Toggle hard/soft tab
+" Maps for normal mode
+nnoremap <CR>       :set spell!<CR>|        " Toggle spell
+nnoremap <BS>       :set ic!<CR>|           " Toggle ignore case
+nnoremap <C-A>      <Nop>|                  " Avoid accidental edit
+nnoremap <C-H>      :nohlsearch<CR>|        " Stop highlight search temporarily
+nnoremap <C-J>      <C-W>w|                 " Cycle to next window
+nnoremap <C-K>      :%s/[ \t]\+$//<CR>|     " Remove trailing blank
+nnoremap <C-N>      :set nu!<CR>|           " Ctrl-n to toggle :set number
+nnoremap <C-P>      :set paste!<CR>|        " Ctrl-p to toggle paste mode
+nnoremap -          :call ToggleFoldParagraph()<CR>|
+nnoremap _          :silent! set cursorline!<CR>
+nnoremap \|         :silent! set cursorcolumn!<CR>
+nnoremap q:         :q|                     " q: is boring
+nnoremap !!         :q!<CR>|                " Quit without saving
+nnoremap Q          gqip|                   " Format current paragraph
+nnoremap qq         :q<CR>|                 " Quickly quit vim
 nnoremap <leader>\| :call ToggleColorColumn()<CR>
 nnoremap <leader>2  :set et sts=2 sw=2<CR>| " Use 2-space indent
 nnoremap <leader>4  :set et sts=4 sw=4<CR>| " Use 4-space indent
@@ -200,54 +194,53 @@ nnoremap <leader>w  :w<CR>|                 " Save 2 key strokes
 nnoremap <leader>q  :q<CR>|                 " Quickly quit vim
 nnoremap <leader>r  :call RunMe()<CR>|      " Run current file
 nnoremap <leader>s  :Ag <cword><CR>|        " Quick search word under cursor
+nnoremap <Leader>p  "+p|                    " Paste below from system clipboard
+nnoremap <Leader>P  "+P|                    " Paste above from system clipboard
+nnoremap <leader><Space>    :set list!<CR>
+nnoremap <leader><Tab>      :call ToggleTab()<CR>
 
-" Copy/cut to & paste from system clipboard
-vnoremap <Leader>y "+y
-vnoremap <Leader>d "+d
-nnoremap <Leader>p "+p
-nnoremap <Leader>P "+P
+" Maps for insert mode
+inoremap <C-J>      <ESC>kJA|               " Join to prev line (undo auto wrap)
+inoremap <C-A>      <C-O>I|                 " Emacs style Home
+inoremap <C-E>      <C-O>A|                 " Emacs style End
+inoremap <C-F>      <C-X><C-F>|             " Complete filename
+inoremap <C-K>      <C-X><C-K>|             " Complete spell from words
+inoremap (<CR>      (<CR>)<Esc>O|           " Auto close if CR pressed after (
+inoremap {<CR>      {<CR>}<Esc>O|           " Auto close if CR pressed after {
+inoremap [<CR>      [<CR>]<Esc>O|           " Auto close if CR pressed after [
 
-" imaps
-inoremap <C-J>  <ESC>kJA|               " Join to prev line (undo auto wrap)
-inoremap <C-A>  <C-O>I|                 " Emacs style Home
-inoremap <C-E>  <C-O>A|                 " Emacs style End
-inoremap <C-F>  <C-X><C-F>|             " Complete filename
-inoremap <C-K>  <C-X><C-K>|             " Complete spell from words
+" Maps for visual mode
+vnoremap <Leader>y  "+y|                    " Yank (copy) to system clipboard
+vnoremap <Leader>d  "+d|                    " Cut (delete) to system clipboard
 
-" Auto close parenthesis when <enter> is pressed after a open parenthesis,
-" inspired by tpope/endwise
-"
-inoremap (<CR>  (<CR>)<Esc>O
-inoremap {<CR>  {<CR>}<Esc>O
-
-" cmaps
-cnoremap w!!    w !sudo tee % > /dev/null
+" Maps for command mode
+cnoremap w!!        w !sudo tee % > /dev/null
 
 " File type key mappings. (NOTE! Do not use autocmd! as it overwrites previous
 " definitions)
 "
-autocmd FileType markdown nmap <buffer> T
-              \ vip:Tabularize /\|<CR>| " Tabularize markdown tables
-autocmd Filetype html nmap <buffer> %
-              \ :MtaJumpToOtherTag<CR>| " See MatchTagAlways
+autocmd FileType markdown   nmap <buffer> T
+              \ vip:Tabularize /\|<CR>|     " Tabularize markdown tables
+autocmd Filetype html       nmap <buffer> %
+              \ :MtaJumpToOtherTag<CR>|     " See MatchTagAlways
 
 " Mode key mappings
 "
 if exists('&diff') && &diff
-    nnoremap qq :qa<CR>|                " Close all windows
-    nnoremap <Up>   [c|                 " Previous change
-    nnoremap <Down> ]c|                 " Next change
-    nnoremap <Left> <C-w>h|             " Left window
-    nnoremap <Right> <C-w>l|            " Right window
-    nnoremap <C-L> :diffupdate<CR>|     " Refresh diff
+    nnoremap qq         :qa<CR>|            " Close all windows
+    nnoremap <Up>       [c|                 " Previous change
+    nnoremap <Down>     ]c|                 " Next change
+    nnoremap <Left>     <C-w>h|             " Left window
+    nnoremap <Right>    <C-w>l|             " Right window
+    nnoremap <C-L>      :diffupdate<CR>|    " Refresh diff
 endif
 
 " Misc
 "
 let python_highlight_all = 1
 
-autocmd VimResized * :wincmd =          " Realign vim window size
-autocmd InsertLeave * set nopaste       " Saves a <C-P>
+autocmd VimResized * :wincmd =              " Realign vim window size
+autocmd InsertLeave * set nopaste           " Saves a <C-P>
 
 " Remember last cursor postion, :h last-position-jump
 set viminfo='10,\"10,<50,s10,%,h,f10
@@ -281,8 +274,8 @@ function! ToggleColorColumn()
     exe expr
 endfunction
 
-" Execute current file and pipe output to new window below, window height will
-" be 1/3 of the vim window size
+" Execute current file and pipe output to new scratch window below, window
+" height will be 1/3 of the vim window size
 "
 function! RunMe()
     let file = expand("%:p")
