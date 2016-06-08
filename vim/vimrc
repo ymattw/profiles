@@ -168,48 +168,49 @@ highlight! StatusLineNC cterm=underline ctermfg=grey
 
 " Global key maps. Make sure <BS> and <C-H> are different in terminal setting!
 "
+"
 let mapleader = ' '
 
 " nmaps
-nmap <CR>       :set spell!<CR>|        " Toggle spell
-nmap <BS>       :set ic!<CR>|           " Toggle ignore case
-nmap <C-A>      <Nop>|                  " Avoid accidental edit
-nmap <C-H>      :nohlsearch<CR>|        " Stop highlight search temporarily
-nmap <C-J>      <C-W>w|                 " Cycle to next window
-nmap <C-K>      :%s/[ \t]\+$//g<CR>|    " Remove trailing blank
-nmap <C-N>      :set nu!<CR>|           " Ctrl-n to toggle :set number
-nmap <C-P>      :set paste!<CR>|        " Ctrl-p to toggle paste mode
-nmap -          :call ToggleFoldParagraph()<CR>|
-nmap _          :silent! set cursorline!<CR>
-nmap \|         :silent! set cursorcolumn!<CR>
-nmap q:         :q|                     " q: is boring
-nmap !!         :q!<CR>|                " Quit without saving
-nmap Q          gqip|                   " Format current paragraph
-nmap qq         :q<CR>|                 " Quickly quit vim
+nnoremap <CR>   :set spell!<CR>|        " Toggle spell
+nnoremap <BS>   :set ic!<CR>|           " Toggle ignore case
+nnoremap <C-A>  <Nop>|                  " Avoid accidental edit
+nnoremap <C-H>  :nohlsearch<CR>|        " Stop highlight search temporarily
+nnoremap <C-J>  <C-W>w|                 " Cycle to next window
+nnoremap <C-K>  :%s/[ \t]\+$//<CR>|     " Remove trailing blank
+nnoremap <C-N>  :set nu!<CR>|           " Ctrl-n to toggle :set number
+nnoremap <C-P>  :set paste!<CR>|        " Ctrl-p to toggle paste mode
+nnoremap -      :call ToggleFoldParagraph()<CR>|
+nnoremap _      :silent! set cursorline!<CR>
+nnoremap \|     :silent! set cursorcolumn!<CR>
+nnoremap q:     :q|                     " q: is boring
+nnoremap !!     :q!<CR>|                " Quit without saving
+nnoremap Q      gqip|                   " Format current paragraph
+nnoremap qq     :q<CR>|                 " Quickly quit vim
 
-nmap <leader><Space>
-              \ :set list!<CR>|         " Toggle list mode
-nmap <leader><Tab>
-              \ :call ToggleTab()<CR>|  " Toggle hard/soft tab
-nmap <leader>\| :call ToggleColorColumn()<CR>
-nmap <leader>2  :set et sts=2 sw=2<CR>| " Use 2-space indent
-nmap <leader>4  :set et sts=4 sw=4<CR>| " Use 4-space indent
-nmap <Leader>d  :cd %:h<CR>:pwd<CR>|    " Switch to dir of current file
-nmap <leader>w  :w<CR>|                 " Save 2 key strokes
-nmap <leader>q  :q<CR>|                 " Quickly quit vim
-nmap <leader>r  :call RunMe()<CR>|      " Run current file
-nmap <leader>s  :Ag <cword><CR>|        " Quick search word under cursor
+nnoremap <leader><Space>
+                  \ :set list!<CR>
+nnoremap <leader><Tab>
+                  \ :call ToggleTab()<CR>   " Toggle hard/soft tab
+nnoremap <leader>\| :call ToggleColorColumn()<CR>
+nnoremap <leader>2  :set et sts=2 sw=2<CR>| " Use 2-space indent
+nnoremap <leader>4  :set et sts=4 sw=4<CR>| " Use 4-space indent
+nnoremap <Leader>d  :cd %:h<CR>:pwd<CR>|    " Switch to dir of current file
+nnoremap <leader>w  :w<CR>|                 " Save 2 key strokes
+nnoremap <leader>q  :q<CR>|                 " Quickly quit vim
+nnoremap <leader>r  :call RunMe()<CR>|      " Run current file
+nnoremap <leader>s  :Ag <cword><CR>|        " Quick search word under cursor
 
 " Copy/cut to & paste from system clipboard
-vmap <Leader>y "+y
-vmap <Leader>d "+d
-nmap <Leader>p "+p
-nmap <Leader>P "+P
+vnoremap <Leader>y "+y
+vnoremap <Leader>d "+d
+nnoremap <Leader>p "+p
+nnoremap <Leader>P "+P
 
 " imaps
-imap <C-J>      <ESC>kJA|               " Join to prev line (undo auto wrap)
-imap <C-A>      <C-O>I
-imap <C-E>      <C-O>A
+inoremap <C-J>  <ESC>kJA|               " Join to prev line (undo auto wrap)
+inoremap <C-A>  <C-O>I|                 " Emacs style Home
+inoremap <C-E>  <C-O>A|                 " Emacs style End
 inoremap <C-F>  <C-X><C-F>|             " Complete filename
 inoremap <C-K>  <C-X><C-K>|             " Complete spell from words
 
@@ -220,7 +221,7 @@ inoremap (<CR>  (<CR>)<Esc>O
 inoremap {<CR>  {<CR>}<Esc>O
 
 " cmaps
-cmap w!!         w !sudo tee % > /dev/null
+cnoremap w!!    w !sudo tee % > /dev/null
 
 " File type key mappings. (NOTE! Do not use autocmd! as it overwrites previous
 " definitions)
@@ -233,11 +234,11 @@ autocmd Filetype html nmap <buffer> %
 " Mode key mappings
 "
 if exists('&diff') && &diff
-    nmap qq :qa<CR>|                    " Close all windows
-    nmap <Up>   [c|                     " Previous change
-    nmap <Down> ]c|                     " Next change
-    nmap <Left> <C-w>h|                 " Left window
-    nmap <Right> <C-w>l|                " Right window
+    nnoremap qq :qa<CR>|                " Close all windows
+    nnoremap <Up>   [c|                 " Previous change
+    nnoremap <Down> ]c|                 " Next change
+    nnoremap <Left> <C-w>h|             " Left window
+    nnoremap <Right> <C-w>l|            " Right window
     nnoremap <C-L> :diffupdate<CR>|     " Refresh diff
 endif
 
