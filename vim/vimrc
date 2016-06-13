@@ -222,9 +222,9 @@ cnoremap w!!        w !sudo tee % > /dev/null
 " File type key mappings. (NOTE! Do not use autocmd! as it overwrites previous
 " definitions)
 "
-autocmd FileType markdown   nmap <buffer> T
+autocmd FileType markdown   nnoremap <buffer> T
               \ vip:Tabularize /\|<CR>|     " Tabularize markdown tables
-autocmd Filetype html       nmap <buffer> %
+autocmd Filetype html       nnoremap <buffer> %
               \ :MtaJumpToOtherTag<CR>|     " See MatchTagAlways
 
 " Mode key mappings
