@@ -202,6 +202,7 @@ nnoremap <leader><Space>    :set list!<CR>
 nnoremap <leader><Tab>      :call ToggleTab()<CR>
 
 " Maps for insert mode
+inoremap jj         <ESC>|                  " Escape without move fingers away
 inoremap <C-J>      <ESC>kJA|               " Join to prev line (undo auto wrap)
 inoremap <C-A>      <C-O>I|                 " Emacs style Home
 inoremap <C-E>      <C-O>A|                 " Emacs style End
