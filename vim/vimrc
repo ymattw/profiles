@@ -26,6 +26,8 @@ Plug 'elzr/vim-json', {'for': 'json'}
 let g:vim_json_syntax_conceal = 0       " Do not hide quotes
 
 Plug 'rking/ag.vim'
+let g:ag_prg = 'ag --vimgrep --smart-case'
+let g:ag_highlight = 1
 let g:ag_working_path_mode = 'r'
 
 " neocomplete can beat YouCompleteMe in both functionality and installation
