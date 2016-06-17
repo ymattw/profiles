@@ -16,7 +16,8 @@ cp -p $SELF_DIR/vimrc ~/.vimrc
 
 vim --version | grep -Fq "+lua" || {
     echo "*** Your vim doesn't support lua, highly recommended to" \
-         "upgrade/rebuild to leverage neocomplete for auto completion" >&2
+         "install 'vim-nox' or rebuild to leverage neocomplete for" \
+         "auto completion, see https://github.com/Shougo/neocomplete.vim" >&2
 }
 
 type -P ag >& /dev/null || {
