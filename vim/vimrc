@@ -198,6 +198,7 @@ nnoremap <leader>r  :call RunMe()<CR>|      " Run current file
 nnoremap <leader>s  :Ag <cword><CR>|        " Quick search word under cursor
 nnoremap <Leader>p  "+p|                    " Paste below from system clipboard
 nnoremap <Leader>P  "+P|                    " Paste above from system clipboard
+nnoremap <leader><CR>       :set wrap!<CR>
 nnoremap <leader><Space>    :set list!<CR>
 nnoremap <leader><Tab>      :call ToggleTab()<CR>
 
