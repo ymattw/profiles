@@ -3,6 +3,7 @@
 Scripts to be placed into my `~/bin`, or just clone the whole repo into
 `~/bin`.
 
+- di - display major info of a docker container filtering by name
 - dr - start an interactive docker container
 - git-get - wrapper of `git clone` to clone into an author/repo dir
 - git-id - list or switch git ids defined in ~/.git-ids
