@@ -76,6 +76,12 @@ endif
 " Basic settings
 "
 set noswapfile nobackup                 " No tmp files
+set suffixes+=.a,.so,.la,.class,.pyc    " Ignore list for file completion
+set suffixes+=.jpg,.png,.gif,.pdf,.doc,.tar,.tgz,.gz,.bz2,.zip
+set wildignore+=.git,*.o,*.a,*.so,*.la  " Ignore list for wildmenu completion
+set wildignore+=,*.class,*.pyc,*.swp
+set wildignore+=*.jpg,*.png,*.gif,*.pdf,*.doc
+set wildignore+=*.tar,*.gz,*.tgz,*.bz2,*.zip
 set incsearch smartcase ignorecase hls  " Searching
 set showmatch matchtime=2 scrolloff=4   " Interface
 set encoding=utf-8 textwidth=79         " Editing
