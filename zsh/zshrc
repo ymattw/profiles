@@ -17,6 +17,7 @@ function __main
         __setup_dir_colors \
         __setup_ssh_agent \
         __setup_prompt \
+        __setup_custom_profiles \
     ; do
         $fn; unset -f $fn
     done
@@ -230,6 +231,20 @@ function __setup_prompt
     PROMPT+=" ${_DC}"$'⤾\n'                             # cyan wrap char, newline
     PROMPT+="\$([[ -z \$(jobs) ]] || echo '${_RV}')"    # reverse bg job indicator
     PROMPT+="%#${_NC} "                                 # % or #
+}
+
+# Load custom settings from ~/.profile.d/*.sh, typical settings are
+# docker-machine env, GOPATH, customized PATH etc.
+#
+function __setup_custom_profiles
+{
+    local p
+
+    ls ~/.profiles.d/*.sh >& /dev/null || return 0
+
+    for p in ~/.profiles.d/*.sh; do
+        source $p
+    done
 }
 
 # Find a file which name matches given pattern (ERE, case insensitive)
