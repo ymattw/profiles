@@ -13,7 +13,7 @@ function inspect
     local ports=$(docker inspect --format='{{range $p, $conf := .NetworkSettings.Ports}} {{$p}}->{{$conf}} {{end}}' $id)
     local logpath=$(docker inspect --format='{{.LogPath}}' $id)
 
-    echo -e $"\e[32m${name#/}\e[0m ($image)"
+    echo -e $'\e[32m'${name#/}$'\e[0m'" ($image)"
     echo "  $ip $ports"
     echo "  $logpath"
 }
