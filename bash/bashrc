@@ -93,6 +93,8 @@ function __setup_completions
 
 function __setup_aliases
 {
+    local lsprog="/bin/ls"
+
     alias ..='cd ..'
     alias ...='cd ../..'
     alias ....='cd ../../..'
@@ -103,18 +105,20 @@ function __setup_aliases
 
     case $(uname -s) in
         Linux)
-            alias ls='/bin/ls -F --color=auto'
-            alias l='/bin/ls -lF --color=auto'
+            lsprog="/bin/ls --color=auto"
+            alias ls="$lsprog -F"
+            alias l="$lsprog -lF"
             alias lsps='ps -ef f | grep -vw grep | grep -i'
             ;;
         Darwin)
-            alias ls='/bin/ls -F'
-            alias l='/bin/ls -lF'
+            type gls >& /dev/null && lsprog="gls --color=auto"
+            alias ls="$lsprog -F"
+            alias l="$lsprog -lF"
             alias lsps='ps -ax -o user,pid,ppid,stime,tty,time,command | grep -vw grep | grep -i'
             ;;
         *)
-            alias ls='/bin/ls -F'
-            alias l='/bin/ls -lF'
+            alias ls="$lsprog -F"
+            alias l="$lsprog -lF"
             alias lsps='ps -auf | grep -vw grep | grep -i'
             ;;
     esac
@@ -122,8 +126,11 @@ function __setup_aliases
 
 function __setup_dir_colors
 {
-    if type dircolors >& /dev/null && [[ -f ~/.dircolors ]]; then
-        eval $(dircolors -b ~/.dircolors)
+    local prog=dircolors
+
+    [[ $(uname -s) != Darwin ]] || prog=gdircolors
+    if type $prog >& /dev/null && [[ -f ~/.dircolors ]]; then
+        eval $($prog -b ~/.dircolors)
     fi
 }
 
