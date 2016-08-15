@@ -187,6 +187,8 @@ nnoremap <C-J>      <C-W>w|                 " Cycle to next window
 nnoremap <C-K>      :%s/[ \t]\+$//<CR>|     " Remove trailing blank
 nnoremap <C-N>      :set nu!<CR>|           " Ctrl-n to toggle :set number
 nnoremap <C-P>      :set paste!<CR>|        " Ctrl-p to toggle paste mode
+nnoremap <C-\>      :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+                                            " Ctrl-\ to open tag in vsplit
 nnoremap -          :call ToggleFoldParagraph()<CR>|
 nnoremap _          :silent! set cursorline!<CR>
 nnoremap \|         :silent! set cursorcolumn!<CR>
