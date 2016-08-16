@@ -206,7 +206,7 @@ nnoremap <Leader>d  :cd %:h<CR>:pwd<CR>|    " Switch to dir of current file
 nnoremap <leader>w  :w<CR>|                 " Save 2 key strokes
 nnoremap <leader>q  :q<CR>|                 " Quickly quit vim
 nnoremap <leader>r  :call RunMe()<CR>|      " Run current file
-nnoremap <leader>s  :Ag <cword><CR>|        " Quick search word under cursor
+nnoremap <leader>s  :Ack! -w <cword><CR>|   " Quick search word under cursor
 nnoremap <Leader>p  "+p|                    " Paste below from system clipboard
 nnoremap <Leader>P  "+P|                    " Paste above from system clipboard
 nnoremap <leader><CR>       :set wrap!<CR>
