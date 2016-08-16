@@ -248,6 +248,11 @@ if exists('&diff') && &diff
     nnoremap <Left>     <C-w>h|             " Left window
     nnoremap <Right>    <C-w>l|             " Right window
     nnoremap <C-L>      :diffupdate<CR>|    " Refresh diff
+else
+    nnoremap <Up>       <C-w>k|             " Upper window
+    nnoremap <Down>     <C-w>j|             " Bottom window
+    nnoremap <Left>     :tabprevious<CR>|   " Left & right preserved for tabs
+    nnoremap <Right>    :tabnext<CR>|       " Use <C-J> to cycle in vsplits
 endif
 
 " Misc
