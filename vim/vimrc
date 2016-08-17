@@ -198,11 +198,13 @@ nnoremap \|         :silent! set cursorcolumn!<CR>
 nnoremap q:         :q|                     " q: is boring
 nnoremap !!         :q!<CR>|                " Quit without saving
 nnoremap Q          gqip|                   " Format current paragraph
-nnoremap qq         :q<CR>|                 " Quickly quit vim
+nnoremap qq         :q<CR>|                 " Quickly close current window
+nnoremap qa         :qa<CR>|                " Quickly close all windows
 nnoremap <leader>\| :call ToggleColorColumn()<CR>
 nnoremap <leader>2  :set et sts=2 sw=2<CR>| " Use 2-space indent
 nnoremap <leader>4  :set et sts=4 sw=4<CR>| " Use 4-space indent
 nnoremap <Leader>d  :cd %:h<CR>:pwd<CR>|    " Switch to dir of current file
+nnoremap <Leader>f  <C-w>gf|                " Open file under cursor in new tab
 nnoremap <leader>w  :w<CR>|                 " Save 2 key strokes
 nnoremap <leader>q  :q<CR>|                 " Quickly quit vim
 nnoremap <leader>r  :call RunMe()<CR>|      " Run current file
@@ -248,11 +250,19 @@ if exists('&diff') && &diff
     nnoremap <Left>     <C-w>h|             " Left window
     nnoremap <Right>    <C-w>l|             " Right window
     nnoremap <C-L>      :diffupdate<CR>|    " Refresh diff
+    nnoremap <Leader>k  [c|                 " Previous change
+    nnoremap <Leader>j  ]c|                 " Next change
+    nnoremap <Leader>h  <C-w>h|             " Left window
+    nnoremap <Leader>l  <C-w>l|             " Right window
 else
     nnoremap <Up>       <C-w>k|             " Upper window
     nnoremap <Down>     <C-w>j|             " Bottom window
     nnoremap <Left>     :tabprevious<CR>|   " Left & right preserved for tabs
     nnoremap <Right>    :tabnext<CR>|       " Use <C-J> to cycle in vsplits
+    nnoremap <Leader>k  <C-w>k|             " Upper window
+    nnoremap <Leader>j  <C-w>j|             " Bottom window
+    nnoremap <Leader>h  :tabprevious<CR>|   " Preserved for tabs
+    nnoremap <Leader>l  :tabnext<CR>|       " Use <C-J> to cycle in vsplits
 endif
 
 " Misc
