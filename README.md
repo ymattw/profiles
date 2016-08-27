@@ -7,6 +7,7 @@ Run `./install.sh [component]` to install them to `$HOME` directory.
 - `bin`: useful small scripts to be put into ~/bin
 - `dircolors`: ls color scheme be placed as ~/.dircolors
 - `git`: script to configure git perferences
+- `mac-defaults`: script to write useful defaults for Mac OS X
 - `screen`: config file for GNU screen (date/time in status line)
 - `tmux`: tmux profile with lots of cool stuff
 - `vim`: vim profile that use vim-plug to manage plugins
