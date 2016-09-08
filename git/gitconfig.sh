@@ -18,17 +18,13 @@ git config --global alias.ff "merge --ff-only"
 git config --global alias.noff "merge --no-ff"
 git config --global alias.tr "branch --set-upstream-to"
 
-# Convert git ssh url to clickable hyperlink
-git config --global alias.url \
-    "!git remote -v | perl -pe 's,(.*\sgit@|.*://|\.git .*),,g; s,:,/,' | sort -u"
-
 git config --global core.editor vim
 git config --global color.ui true
 git config --global log.abbrevcommit true
 git config --global log.decorate short
 git config --global diff.noprefix true
 
-# The layout (LOCAL means local version in current branch):
+# The layout (REMOTE has patches to apply to BASE version):
 #
 #   LOCAL | BASE | REMOTE
 #   ---------------------
