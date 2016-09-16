@@ -59,6 +59,7 @@ function __setup_path
 
 function __setup_shell_options
 {
+    set -o shwordsplit                  # ARG="foo bar"; $ARG => "foo" "bar"
     setopt prompt_subst
     setopt interactive_comments
     setopt nocase_glob
