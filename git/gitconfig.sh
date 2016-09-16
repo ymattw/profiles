@@ -18,6 +18,12 @@ git config --global alias.ff "merge --ff-only"
 git config --global alias.noff "merge --no-ff"
 git config --global alias.tr "branch --set-upstream-to"
 
+# Use https://github.com/ymattw/cdiff
+git config --global alias.d '!cdiff -sw0'
+
+git config --global alias.rb \
+        '!fn() { git stash && git rebase "$@" && git stash pop; }; fn'
+
 git config --global core.editor vim
 git config --global color.ui true
 git config --global log.abbrevcommit true
