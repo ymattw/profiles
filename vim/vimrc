@@ -204,12 +204,14 @@ nnoremap <leader>\| :call ToggleColorColumn()<CR>
 nnoremap <leader>2  :set et sts=2 sw=2<CR>| " Use 2-space indent
 nnoremap <leader>4  :set et sts=4 sw=4<CR>| " Use 4-space indent
 nnoremap <Leader>d  :cd %:h<CR>:pwd<CR>|    " Switch to dir of current file
+nnoremap <Leader>-  :cd -<CR>:pwd<CR>|      " Switch back to previous dir
+nnoremap <Leader>e  :tabedit %<CR>|         " Dup buf to new tab (for jump etc)
 nnoremap <Leader>f  <C-w>gf|                " Open file under cursor in new tab
 nnoremap <Leader>h  :tabprevious<CR>|       " Preserved for tabs
 nnoremap <Leader>l  :tabnext<CR>|           " Use <C-J> to cycle in vsplits
 nnoremap <Leader>p  "+p|                    " Paste below from system clipboard
 nnoremap <Leader>P  "+P|                    " Paste above from system clipboard
-nnoremap <leader>q  :q<CR>|                 " Quickly quit vim
+nnoremap <leader>q  :qall<CR>|              " Quickly quit vim
 nnoremap <leader>r  :call RunMe()<CR>|      " Run current file
 nnoremap <leader>s  :Ack! -w <cword><CR>|   " Quick search word under cursor
 nnoremap <Leader>t  <C-w><C-]><C-w>T|       " Open tag in new tab
@@ -237,9 +239,11 @@ cnoremap w!!        w !sudo tee % > /dev/null
 " definitions)
 "
 autocmd FileType markdown   nnoremap <buffer> T
-              \ vip:Tabularize /\|<CR>|     " Tabularize markdown tables
+            \ vip:Tabularize /\|<CR>|     " Tabularize markdown tables
 autocmd Filetype html       nnoremap <buffer> %
-              \ :MtaJumpToOtherTag<CR>|     " See MatchTagAlways
+            \ :MtaJumpToOtherTag<CR>|     " See MatchTagAlways
+autocmd FileType go         nnoremap <leader>t
+            \ <Plug>(go-def-tab)          " Open definition in new tab
 
 " Mode key mappings
 "
