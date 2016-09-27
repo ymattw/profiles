@@ -30,8 +30,8 @@ let g:ackprg = 'ag --vimgrep --smart-case'
 let g:ackhighlight = 1
 cnoreabbrev Ag Ack!
 cnoreabbrev ag Ack!
-cnoreabbrev Af AckFile
-cnoreabbrev af AckFile
+cnoreabbrev Af AckFile!
+cnoreabbrev af AckFile!
 
 " neocomplete can beat YouCompleteMe in both functionality and installation
 " friendly, it also replaces supertab and AutoComplPop.  NOTE! to auto complete
