@@ -1,0 +1,14 @@
+{
+  "profiles": [
+    {
+      "__comment__": "Put this to ~/.karabiner.d/configuration/karabiner.json",
+      "name": "Default profile",
+      "selected": true,
+      "simple_modifications": {
+        "caps_lock": "f8",
+        "right_command": "page_up",
+        "right_option": "page_down"
+      }
+    }
+  ]
+}
