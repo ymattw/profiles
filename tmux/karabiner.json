@@ -1,11 +1,11 @@
 {
   "profiles": [
     {
-      "__comment__": "Put this to ~/.karabiner.d/configuration/karabiner.json",
+      "__comment__": "mkdir -p ~/.karabiner.d/configuration && cp karabiner.json ~/.karabiner.d/configuration/",
       "name": "Default profile",
       "selected": true,
       "simple_modifications": {
-        "caps_lock": "f8",
+        "caps_lock": "f13",
         "right_command": "page_up",
         "right_option": "page_down"
       }
