@@ -194,12 +194,15 @@ function _git_active_branch
 
     # XXX: $_DR and $_DG won't expand here
     if [[ -z $info ]]; then
-        print -nP "%{\e[32m%} ($branch) %{\e[36m%}[${age}${track}]"
+        print -nP "%{\e[32m%}"
     elif [[ -z $(echo "$info" | grep -v '^??') ]]; then
-        print -nP "%{\e[35m%} ($branch) %{\e[36m%}[${age}${track}]"
+        print -nP "%{\e[35m%}"
     else
-        print -nP "%{\e[31m%} ($branch) %{\e[36m%}[${age}${track}]"
+        print -nP "%{\e[31m%}"
     fi
+
+    print -n " ($branch) "  # No '-P' which does command expansion
+    print -nP "%{\e[36m%}[${age}${track}]"
 }
 
 # Fancy PROMPT, prompt exit status of last command, currenet time, hostname,
