@@ -1,7 +1,7 @@
 {
   "profiles": [
     {
-      "__comment__": "mkdir -p ~/.karabiner.d/configuration && cp karabiner.json ~/.karabiner.d/configuration/",
+      "__comment__": "mkdir -p ~/.config/karabiner && cp karabiner.json ~/.config/karabiner/karabiner.json",
       "name": "Default profile",
       "selected": true,
       "simple_modifications": {
