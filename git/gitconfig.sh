@@ -5,7 +5,7 @@ git config --global alias.ci commit
 git config --global alias.info "remote -v show -n"
 git config --global alias.vi "difftool -y -x vimdiff"
 git config --global alias.mt "mergetool -y --tool vi"
-git config --global alias.br branch
+git config --global alias.br "branch --sort=-committerdate"
 git config --global alias.co checkout
 git config --global alias.ls \
     "log --name-status --pretty=format:'%C(yellow)%h%C(red)%d%Creset %s %C(blue)- %an, %ar%Creset'"
