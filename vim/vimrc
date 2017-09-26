@@ -205,7 +205,7 @@ nnoremap <leader>2  :set et sts=2 sw=2<CR>| " Use 2-space indent
 nnoremap <leader>4  :set et sts=4 sw=4<CR>| " Use 4-space indent
 nnoremap <Leader>d  :cd %:h<CR>:pwd<CR>|    " Switch to dir of current file
 nnoremap <Leader>-  :cd -<CR>:pwd<CR>|      " Switch back to previous dir
-nnoremap <Leader>e  :tabedit %<CR>|         " Dup buf to new tab (for jump etc)
+nnoremap <Leader>e  :tabedit |              " Quick tabedit new file
 nnoremap <Leader>f  <C-w>gf|                " Open file under cursor in new tab
 nnoremap <Leader>h  :tabprevious<CR>|       " Preserved for tabs
 nnoremap <Leader>l  :tabnext<CR>|           " Use <C-J> to cycle in vsplits
@@ -221,7 +221,6 @@ nnoremap <leader><Space>    :set list!<CR>
 nnoremap <leader><Tab>      :call ToggleTab()<CR>
 
 " Maps for insert mode
-inoremap jj         <ESC>|                  " Escape without move fingers away
 inoremap <C-J>      <ESC>kJA|               " Join to prev line (undo auto wrap)
 inoremap <C-A>      <C-O>I|                 " Emacs style Home
 inoremap <C-E>      <C-O>A|                 " Emacs style End

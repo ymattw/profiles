@@ -237,7 +237,7 @@ function __setup_prompt
     if [[ -n $container_uuid ]] || [[ -f /.dockerenv ]]; then
         PROMPT+="${_RV}${_DG}"
     fi
-    PROMPT+="$(hostname -f)"
+    PROMPT+="$(hostname -f | cut -d. -f1-2)"            # 2 hostname components
     PROMPT+="${_NC}:${_DY}%~${_NC}"                     # yellow cwd
     PROMPT+='$(_git_active_branch)'                     # colorful git branch name
     PROMPT+=" ${_DC}"$'⤾\n'                             # cyan wrap char, newline
