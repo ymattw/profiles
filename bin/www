@@ -51,5 +51,5 @@ done
 EXTERNAL_IP=$(get_external_ip)
 cd $DIR && DIR=$(pwd)
 
-echo "Will serve $DIR as http://$EXTERNAL_IP:$PORT"
+echo "Serving $DIR as http://$(hostname -f):$PORT (http://$EXTERNAL_IP:$PORT)"
 python -m SimpleHTTPServer $PORT
