@@ -143,6 +143,9 @@ function __setup_ssh_agent
 {
     local rc=~/.ssh-agent.rc
 
+    # Skip in typical corporation environment
+    [[ -z $SK_SIGNING_PLUGIN ]] || return 0
+
     __has_ssh_key || return 0
     [[ ! -f $rc ]] || source $rc
     if [[ $(ssh-add -l >& /dev/null; echo $?) == 2 ]]; then
