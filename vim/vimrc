@@ -1,4 +1,4 @@
-" Matthew Wang's vimrc, see more at https://github.com/ymattw/profiles
+" Matt Wang's vimrc, see more at https://github.com/ymattw/profiles
 
 " Plugins managed by https://github.com/junegunn/vim-plug
 "
@@ -10,12 +10,16 @@ endif
 set nocompatible
 call plug#begin('~/.vim/plugged')
 
+" Put corp specific styles in separate private file
+if !filereadable(glob('~/.vim/corp-styles.vim'))
+    Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
+endif
+
 " No vim-polyglot, which has poor performance
 Plug 'tpope/vim-markdown', {'for': 'markdown'}
 Plug 'godlygeek/tabular', {'for': 'markdown'}
 Plug 'digitaltoad/vim-jade', {'for': 'jade'}
 Plug 'moll/vim-node', {'for': 'javascript'}
-Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
 Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'Valloric/MatchTagAlways', {'for': 'html'}
 Plug 'tpope/vim-commentary'             " gcc, gc<textobj> to toggle comments
@@ -329,5 +333,9 @@ function! RunMe()
 
     exe ".!" . intepreter . " " . file
 endfunction
+
+if filereadable(glob('~/.vim/corp-styles.vim'))
+    source ~/.vim/corp-styles.vim
+endif
 
 " EOF
