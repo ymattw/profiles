@@ -1,4 +1,4 @@
-# Matthew Wang's zsh profile for general Linux/Unix
+# Matt Wang's zsh profile for general Linux/Unix
 #
 # Implementation note: all functions with name starts with '__' are considered
 # private and will be unset at the end.
@@ -23,7 +23,6 @@ function __main
     done
 }
 
-# This has to be done before ChefDK can load its completion setup
 function __init_completion
 {
     [[ ! -d ~/.zsh-completions ]] || fpath=(~/.zsh-completions/src $fpath)
@@ -43,13 +42,6 @@ function __setup_path
     for x in /sbin /usr/sbin /bin /usr/bin /usr/local/bin; do
         __prepend_path $x
     done
-
-    # Try load ChefDK if installed, or else rbenv if installed
-    if [[ -x /opt/chefdk/bin/chef ]]; then
-        eval "$(/opt/chefdk/bin/chef shell-init zsh)"
-    elif whence -p rbenv > /dev/null; then
-        eval "$(rbenv init -)"
-    fi
 
     # ~/bin takes precedence
     __prepend_path ~/bin
@@ -114,7 +106,6 @@ function __setup_aliases
     alias ...='cd ../..'
     alias ....='cd ../../..'
     alias .....='cd ../../../..'
-    alias pd='popd'
     # Skip system wide vimrc to reduce startup time
     ! type vim >& /dev/null || alias vi='vim -Xn -u ~/.vimrc'
     ! type ag >& /dev/null || alias ag='command ag --nogroup'
@@ -275,31 +266,8 @@ function vif
     f "$@" > $tmpf && vi -c "/$1" $tmpf && rm -f $tmpf
 }
 
-# Grep a ERE pattern in cwd or given path
-function g
-{
-    local string_pat=${1:?"Usage: g ERE-pattern [grep opts] [path...]"}
-    shift
-    local grep_opts="--color=auto"
-    local paths
-
-    while (( $# > 0 )); do
-        case "$1" in
-            -*) grep_opts="$grep_opts $1"; shift;;
-            *) paths="$paths $1"; shift;;
-        esac
-    done
-    paths=${paths# }
-    grep_opts=${grep_opts# }
-    [[ -n "$paths" ]] || paths="."
-
-    find $paths \( -path '*/.svn' -o -path '*/.git' -o -path '*/.idea' \) \
-        -prune -o -type f -print0 -follow \
-        | eval "xargs -0 -P128 grep -EH $grep_opts '$string_pat'"
-}
-
 ########################################################################
-# Setup everything and unset "private" functions
+# Setup everything and unset the rest "private" functions
 ########################################################################
 
 __main

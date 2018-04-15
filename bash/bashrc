@@ -1,4 +1,4 @@
-# Matthew Wang's bash profile for general Linux/Unix
+# Matt Wang's bash profile for general Linux/Unix
 #
 # Suggestion: ln -sf .bashrc .bash_profile
 #
@@ -42,13 +42,6 @@ function __setup_path
         __prepend_path $x
     done
 
-    # Try load ChefDK if installed, or else rbenv if installed
-    if [[ -x /opt/chefdk/bin/chef ]]; then
-        eval "$(/opt/chefdk/bin/chef shell-init bash)"
-    elif type -P rbenv > /dev/null; then
-        eval "$(rbenv init -)"
-    fi
-
     # ~/bin takes precedence
     __prepend_path ~/bin
 
@@ -85,7 +78,7 @@ function _host_complete
 
 function __setup_completions
 {
-    # https://raw.github.com/git/git/master/contrib/completion/git-completion.bash
+    # git-completion.bash is installed by install.sh
     [[ ! -f ~/.git-completion.bash ]] || . ~/.git-completion.bash
     complete -F _host_complete ssh scp host nc ping telnet
     complete -A export unset
@@ -257,29 +250,8 @@ function vif
     f "$@" > $tmpf && vi -c "/$1" $tmpf && rm -f $tmpf
 }
 
-# Grep a ERE pattern in cwd or given path
-function g
-{
-    local string_pat=${1:?"Usage: g ERE-pattern [grep opts] [path...]"}
-    shift
-    local grep_opts="--color=auto"
-    local paths
-
-    while (( $# > 0 )); do
-        case "$1" in
-            -*) grep_opts="$grep_opts $1"; shift;;
-            *) paths="$paths $1"; shift;;
-        esac
-    done
-    [[ -n "$paths" ]] || paths="."
-
-    find $paths \( -path '*/.svn' -o -path '*/.git' -o -path '*/.idea' \) \
-        -prune -o -type f -print0 -follow \
-        | eval "xargs -0 -P128 grep -EH $grep_opts '$string_pat'"
-}
-
 ########################################################################
-# Setup everything and unset "private" functions
+# Setup everything and unset the rest "private" functions
 ########################################################################
 
 __main
