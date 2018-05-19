@@ -3,7 +3,8 @@
 git config --global alias.st status
 git config --global alias.ci commit
 git config --global alias.info "remote -v show -n"
-git config --global alias.vi "difftool -y -x vimdiff"
+git config --global alias.vi \
+    "difftool -y -x 'vimdiff -M \"+wincmd l\" \"+set modifiable write\"'"
 git config --global alias.mt "mergetool -y --tool vi"
 git config --global alias.br "branch --sort=-committerdate"
 git config --global alias.co checkout
@@ -41,7 +42,7 @@ git config --global diff.noprefix true
 # quote in shell)
 #
 git config --global mergetool.vi.cmd \
-    'vimdiff "$LOCAL" "$BASE" "$REMOTE" '\''+botright diffsplit '\''"$MERGED"'
+    'vimdiff -M "$LOCAL" "$BASE" "$REMOTE" '\''+botright diffsplit '\''"$MERGED" "+set modifiable write"'
 
 git config --global push.default simple
 
