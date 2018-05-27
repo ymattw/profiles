@@ -80,6 +80,9 @@ else
     set t_ti= t_te=                     " Prevent clear screen after exit
 endif
 
+" Override solarized setting to work with tmux config 'window-style'
+highlight! Normal ctermbg=none
+
 " Basic settings
 "
 set noswapfile nobackup                 " No tmp files
