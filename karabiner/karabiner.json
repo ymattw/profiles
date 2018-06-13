@@ -154,22 +154,6 @@
                         },
                         {
                             "from": {
-                                "key_code": "right_option"
-                            },
-                            "to": {
-                                "key_code": "pause"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "right_shift"
-                            },
-                            "to": {
-                                "key_code": "page_up"
-                            }
-                        },
-                        {
-                            "from": {
                                 "key_code": "delete_forward"
                             },
                             "to": {
@@ -178,6 +162,14 @@
                         },
                         {
                             "from": {
+                                "key_code": "left_command"
+                            },
+                            "to": {
+                                "key_code": "left_option"
+                            }
+                        },
+                        {
+                            "from": {
                                 "key_code": "left_option"
                             },
                             "to": {
@@ -186,10 +178,18 @@
                         },
                         {
                             "from": {
-                                "key_code": "left_command"
+                                "key_code": "right_option"
                             },
                             "to": {
-                                "key_code": "left_option"
+                                "consumer_key_code": "play_or_pause"
+                            }
+                        },
+                        {
+                            "from": {
+                                "key_code": "right_shift"
+                            },
+                            "to": {
+                                "key_code": "page_up"
                             }
                         }
                     ]
