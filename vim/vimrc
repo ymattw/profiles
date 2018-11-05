@@ -96,6 +96,7 @@ set incsearch smartcase ignorecase hls  " Searching
 set showmatch matchtime=2 scrolloff=4   " Interface
 set encoding=utf-8 textwidth=79         " Editing
 set backspace=indent,eol,start          " Editing
+set comments-=:%                        " Do not let '%' lead a comment line
 set formatoptions=tcqron1MB             " Formatting, MB for multi-byte chars
 silent! set formatoptions+=j            " Vim >= 7.3.541 only
 set wildmode=list:full                  " Misc: complete and list matched files
