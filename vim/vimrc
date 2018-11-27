@@ -94,7 +94,7 @@ set wildignore+=*.jpg,*.png,*.gif,*.pdf,*.doc
 set wildignore+=*.tar,*.gz,*.tgz,*.bz2,*.zip
 set incsearch smartcase ignorecase hls  " Searching
 set showmatch matchtime=2 scrolloff=4   " Interface
-set encoding=utf-8 textwidth=79         " Editing
+set encoding=utf-8 textwidth=80         " Editing
 set backspace=indent,eol,start          " Editing
 set comments-=:%                        " Do not let '%' lead a comment line
 set formatoptions=tcqron1MB             " Formatting, MB for multi-byte chars
@@ -150,9 +150,9 @@ highlight! DiffText cterm=underline ctermfg=142 ctermbg=0
 " More colors suitable for Solarized dark background
 "
 highlight! link ColorColumn Search
-highlight! link CharAtCol80 WarningMsg
+highlight! link CharAtCol81 WarningMsg
 highlight! link SpecialChars ErrorMsg
-match CharAtCol80 /\%80v/                       " Mark char at column 80 in red
+match CharAtCol81 /\%81v/                       " Mark char at column 81 in red
 2match SpecialChars /\%xa0\|[“”‘’—]/            " nbsp & smartly replaced chars
 
 " Powerful statusline, underlined status line looks better with cursor line
