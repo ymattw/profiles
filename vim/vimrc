@@ -211,6 +211,9 @@ nnoremap !!         :q!<CR>|                " Quit without saving
 nnoremap Q          gqip|                   " Format current paragraph
 nnoremap qq         :q<CR>|                 " Quickly close current window
 nnoremap qa         :qa<CR>|                " Quickly close all windows
+nnoremap [          :tabprevious<CR>|       " Previous tab
+nnoremap ]          :tabnext<CR>|           " Next tab
+
 nnoremap <leader>\| :call ToggleColorColumn()<CR>
 nnoremap <leader>2  :set et sts=2 sw=2<CR>| " Use 2-space indent
 nnoremap <leader>4  :set et sts=4 sw=4<CR>| " Use 4-space indent
@@ -219,8 +222,8 @@ nnoremap <Leader>-  :cd -<CR>:pwd<CR>|      " Switch back to previous dir
 nnoremap <Leader>e  :tabedit |              " Quick tabedit new file
 nnoremap <Leader>E  :tabedit %:h/<Tab>|     " Quick tabedit file from same dir
 nnoremap <Leader>f  <C-w>gf|                " Open file under cursor in new tab
-nnoremap <Leader>h  :tabprevious<CR>|       " Preserved for tabs
-nnoremap <Leader>l  :tabnext<CR>|           " Use <C-J> to cycle in vsplits
+nnoremap <Leader>h  :tabprevious<CR>|       " Previous tab
+nnoremap <Leader>l  :tabnext<CR>|           " Next tab
 nnoremap <Leader>p  "+p|                    " Paste below from system clipboard
 nnoremap <Leader>P  "+P|                    " Paste above from system clipboard
 nnoremap <leader>q  :qall<CR>|              " Quickly quit vim
