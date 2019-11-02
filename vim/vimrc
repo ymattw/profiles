@@ -96,6 +96,7 @@ set incsearch smartcase ignorecase hls  " Searching
 set showmatch matchtime=2 scrolloff=4   " Interface
 set encoding=utf-8 textwidth=80         " Editing
 set backspace=indent,eol,start          " Editing
+set timeoutlen=150                      " Shorter waiting time for mapped keys
 set comments-=:%                        " Do not let '%' lead a comment line
 set formatoptions=tcqron1MB             " Formatting, MB for multi-byte chars
 silent! set formatoptions+=j            " Vim >= 7.3.541 only
@@ -237,6 +238,7 @@ inoremap <C-A>      <C-O>I|                 " Emacs style Home
 inoremap <C-E>      <C-O>A|                 " Emacs style End
 inoremap <C-F>      <C-X><C-F>|             " Complete filename
 inoremap <C-K>      <C-X><C-K>|             " Complete spell from words
+inoremap jj         <ESC>|                  " Work around fucking Mac touch bar
 
 " Maps for visual mode
 vnoremap <Leader>y  "+y|                    " Yank (copy) to system clipboard
