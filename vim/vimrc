@@ -96,7 +96,7 @@ set incsearch smartcase ignorecase hls  " Searching
 set showmatch matchtime=2 scrolloff=4   " Interface
 set encoding=utf-8 textwidth=80         " Editing
 set backspace=indent,eol,start          " Editing
-set timeoutlen=150                      " Shorter waiting time for mapped keys
+set timeoutlen=2000 ttimeoutlen=100     " Waiting time for mappings and key code
 set comments-=:%                        " Do not let '%' lead a comment line
 set formatoptions=tcqron1MB             " Formatting, MB for multi-byte chars
 silent! set formatoptions+=j            " Vim >= 7.3.541 only
