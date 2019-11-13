@@ -32,4 +32,4 @@ defaults write com.apple.TextEdit RichText -int 0
 defaults write -g ApplePressAndHoldEnabled -bool false
 
 # Disable the chime when your laptop is plugged in with command
-defaults write com.apple.PowerChime ChimeOnNoHardware -bool true && killall PowerChime
+defaults write com.apple.PowerChime ChimeOnAllHardware -bool false && killall PowerChime
