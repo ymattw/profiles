@@ -5,4 +5,4 @@ set -o nounset
 
 readonly SELF_DIR=$(cd $(dirname $0) && pwd)
 
-cp dircolors ~/.dircolors
+cp $SELF_DIR/dircolors ~/.dircolors
