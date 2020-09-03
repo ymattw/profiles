@@ -44,7 +44,7 @@ git config --global diff.noprefix true
 git config --global mergetool.vi.cmd \
     'vimdiff -M "$LOCAL" "$BASE" "$REMOTE" '\''+botright diffsplit '\''"$MERGED" "+set modifiable write"'
 
-git config --global push.default simple
+git config --global push.default current
 
 # Leave user.name as per repo setting
 # Leave user.email as per repo setting
