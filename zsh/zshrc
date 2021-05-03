@@ -275,7 +275,7 @@ function __setup_prompt
     PROMPT+="%#${_NC} "                                 # % or #
 }
 
-# Load custom settings from ~/.profile.d/*.sh, typical settings are
+# Load custom settings from ~/.profiles.d/*.sh, typical settings are
 # docker-machine env, GOPATH, customized PATH etc.
 #
 function __setup_custom_profiles
