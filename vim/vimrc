@@ -42,7 +42,7 @@ cnoreabbrev af AckFile!
 " in golang, install 'gocode' to work with 'vim-go'.  For example run this from
 " command line: GOPATH=~ vim a.go +GoInstallBinaries +qall
 "
-if has('lua')
+if has('lua') && version < 802
     Plug 'Shougo/neocomplete.vim'
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
