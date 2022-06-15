@@ -13,6 +13,12 @@ call plug#begin('~/.vim/plugged')
 " Put corp specific styles in separate private file
 if !filereadable(glob('~/.vim/corp-styles.vim'))
     Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
+else
+    " Experimental, only for corp internal use, related settings are in
+    " ~/.vim/corp-style.vim.
+    Plug 'prabirshrestha/vim-lsp'
+    Plug 'prabirshrestha/asyncomplete.vim'
+    Plug 'prabirshrestha/asyncomplete-lsp.vim'
 endif
 
 " No vim-polyglot, which has poor performance
@@ -39,22 +45,27 @@ cnoreabbrev af AckFile!
 " neocomplete can beat YouCompleteMe in both functionality and installation
 " friendly, it also replaces supertab and AutoComplPop.
 "
-if has('lua') && version < 802
-    Plug 'Shougo/neocomplete.vim'
-    let g:neocomplete#enable_at_startup = 1
-    let g:neocomplete#enable_smart_case = 1
-    let g:neocomplete#min_keyword_length = 3
-    let g:neocomplete#auto_completion_start_length = 1
-    inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"  " Tab completion
+if exists('g:asyncomplete_loaded')
+    " Automatically show completion options
+    let g:asyncomplete_auto_popup = 1
 else
-    Plug 'ervandew/supertab'
-    let g:SuperTabDefaultCompletionType = "context"
-    let g:SuperTabContextDefaultCompletionType = "<c-n>"
-    let g:SuperTabNoCompleteAfter =
-        \ ['^', '\s', '[^-]>', "'", '[~`!@#$%^&*()+={},</?\"\[\]\|-]']
+    if has('lua') && version < 802
+        Plug 'Shougo/neocomplete.vim'
+        let g:neocomplete#enable_at_startup = 1
+        let g:neocomplete#enable_smart_case = 1
+        let g:neocomplete#min_keyword_length = 3
+        let g:neocomplete#auto_completion_start_length = 1
+        inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"  " Tab completion
+    else
+        Plug 'ervandew/supertab'
+        let g:SuperTabDefaultCompletionType = "context"
+        let g:SuperTabContextDefaultCompletionType = "<c-n>"
+        let g:SuperTabNoCompleteAfter =
+            \ ['^', '\s', '[^-]>', "'", '[~`!@#$%^&*()+={},</?\"\[\]\|-]']
 
-    " With my own fix for #53 on bitbucket
-    Plug 'ymattw/AutoComplPop', {'branch': 'dev'}
+        " With my own fix for #53 on bitbucket
+        Plug 'ymattw/AutoComplPop', {'branch': 'dev'}
+    endif
 endif
 
 " Remember to change terminal type to xterm-256color!
