@@ -20,7 +20,6 @@ Plug 'tpope/vim-markdown', {'for': 'markdown'}
 Plug 'godlygeek/tabular', {'for': 'markdown'}
 Plug 'digitaltoad/vim-jade', {'for': 'jade'}
 Plug 'moll/vim-node', {'for': 'javascript'}
-Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'Valloric/MatchTagAlways', {'for': 'html'}
 Plug 'tpope/vim-commentary'             " gcc, gc<textobj> to toggle comments
 Plug 'tpope/vim-endwise'
@@ -38,9 +37,7 @@ cnoreabbrev Af AckFile!
 cnoreabbrev af AckFile!
 
 " neocomplete can beat YouCompleteMe in both functionality and installation
-" friendly, it also replaces supertab and AutoComplPop.  NOTE! to auto complete
-" in golang, install 'gocode' to work with 'vim-go'.  For example run this from
-" command line: GOPATH=~ vim a.go +GoInstallBinaries +qall
+" friendly, it also replaces supertab and AutoComplPop.
 "
 if has('lua') && version < 802
     Plug 'Shougo/neocomplete.vim'
