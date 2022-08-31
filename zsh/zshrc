@@ -23,6 +23,13 @@ function vif
     f "$@" > $tmpf && vi -c "/$1" $tmpf && rm -f $tmpf
 }
 
+# Execute a command, pipe output to fzf and load result file into vi (alias).
+# Get fzf at https://github.com/junegunn/fzf. Example: vio hg ls
+function vio
+{
+  vi $("$@" | fzf || echo +q)
+}
+
 # "Protected" helper to decorate CWD used to setup PROMPT
 function _source_control_cwd
 {
