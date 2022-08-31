@@ -27,7 +27,7 @@ function vif
 # Get fzf at https://github.com/junegunn/fzf. Example: vio hg ls
 function vio
 {
-  vi $("$@" | fzf || echo +q)
+    vi $("$@" | fzf || echo +q)
 }
 
 # "Protected" helper to decorate CWD used to setup PROMPT
