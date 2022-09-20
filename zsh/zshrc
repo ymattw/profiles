@@ -257,7 +257,7 @@ function __setup_prompt
     local _RV=$'%{\e[7m%}'        # reverse
     local _NC=$'%{\e[0m%}'        # reset color
 
-    PROMPT="\$([[ \$? == 0 ]] && echo '${_DG}✔' || echo '${_DR}✘') %* "
+    PROMPT=$'\n'"\$([[ \$? == 0 ]] && echo '${_DG}✔' || echo '${_DR}✘') %* "
 
     # Detect whether this box has ssh keys, distinguish hostname color and setup
     # ssh-agent related environment accordingly
