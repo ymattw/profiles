@@ -217,7 +217,7 @@ function __has_ssh_key
 
 function __load_ssh_key
 {
-    [[ ! -f "${1:?}" ]] || ssh-add -L | grep -qw "$1" || ssh-add "$1"
+    [[ ! -f "${1:?}" ]] || /usr/bin/ssh-add -L | grep -qw "$1" || /usr/bin/ssh-add "$1"
 }
 
 # ssh-add -l exits code 2 when unable to connect to the agent
@@ -225,15 +225,18 @@ function __setup_ssh_agent
 {
     local rc=~/.ssh-agent.rc
 
-    # Skip in typical corporation environment
+    # Skip in typical corporation environment. Tip: if you often ssh login to
+    # your personal servers from a corp device that has predefined system wide
+    # profile(s), set up a separate iTerm profile and use a customized login
+    # command: /bin/zsh --no-globalrcs --login
     [[ -z $SK_SIGNING_PLUGIN ]] || return 0
 
     __has_ssh_key || return 0
     [[ ! -f $rc ]] || source $rc
-    if [[ $(ssh-add -l >& /dev/null; echo $?) == 2 ]]; then
+    if [[ $(/usr/bin/ssh-add -l >& /dev/null; echo $?) == 2 ]]; then
         print -P "%{\e[31m%}Starting a new ssh-agent process...%{\e[0m%}" >&2
         rm -f ~/.ssh-agent.sock
-        ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > $rc
+        /usr/bin/ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > $rc
         source $rc
     fi
 
