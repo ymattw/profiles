@@ -210,20 +210,11 @@ function __setup_dir_colors
     fi
 }
 
-function __has_ssh_key
-{
-    [[ -f ~/.ssh/$USER.key ]] || ls ~/.ssh/id_?sa >& /dev/null
-}
-
-function __load_ssh_key
-{
-    [[ ! -f "${1:?}" ]] || /usr/bin/ssh-add -L | grep -qw "$1" || /usr/bin/ssh-add "$1"
-}
-
-# ssh-add -l exits code 2 when unable to connect to the agent
 function __setup_ssh_agent
 {
+    local key=~/.ssh/$USER.key
     local rc=~/.ssh-agent.rc
+    local start_new=false
 
     # Skip in typical corporation environment. Tip: if you often ssh login to
     # your personal servers from a corp device that has predefined system wide
@@ -231,18 +222,27 @@ function __setup_ssh_agent
     # command: /bin/zsh --no-globalrcs --login
     [[ -z $SK_SIGNING_PLUGIN ]] || return 0
 
-    __has_ssh_key || return 0
-    [[ ! -f $rc ]] || source $rc
-    if [[ $(/usr/bin/ssh-add -l >& /dev/null; echo $?) == 2 ]]; then
+    # Assume personal environment from here.
+    alias ssh='/usr/bin/ssh'
+    alias ssh-add='/usr/bin/ssh-add'
+    alias ssh-keygen='/usr/bin/ssh-keygen'
+    alias sftp='/usr/bin/sftp'
+
+    [[ -f $key ]] || return 0
+    if [[ -f $rc ]]; then
+        source $rc
+        /usr/bin/ssh-add -L | grep -qw "$key" || start_new=true
+    else
+        start_new=true
+    fi
+
+    if $start_new; then
         print -P "%{\e[31m%}Starting a new ssh-agent process...%{\e[0m%}" >&2
         rm -f ~/.ssh-agent.sock
         /usr/bin/ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > $rc
         source $rc
+        /usr/bin/ssh-add $key
     fi
-
-    __load_ssh_key ~/.ssh/$USER.key
-    __load_ssh_key ~/.ssh/id_rsa
-    __load_ssh_key ~/.ssh/id_dsa
 }
 
 # Fancy PROMPT, prompt exit status of last command, currenet time, hostname,
@@ -265,7 +265,7 @@ function __setup_prompt
     # Detect whether this box has ssh keys, distinguish hostname color and setup
     # ssh-agent related environment accordingly
     #
-    if __has_ssh_key; then
+    if [[ -f ~/.ssh/$USER.key ]]; then
         # I am on my own machine, try load ssh-agent related environments
         PROMPT+="${_DB}"                                # blue hostname
     else
@@ -304,6 +304,6 @@ function __setup_custom_profiles
 ########################################################################
 
 __main
-unset -f __prepend_path __has_ssh_key __load_ssh_key __main
+unset -f __prepend_path __main
 
 # vim:set et sts=4 sw=4 ft=zsh:
