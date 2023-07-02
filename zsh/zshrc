@@ -250,7 +250,8 @@ function __setup_ssh_agent
 
 # Fancy PROMPT, prompt exit status of last command, currenet time, hostname,
 # time, cwd, git status and branch, also prompt the '%' in reverse color when
-# we have background jobs.
+# we have background jobs. NOTE: some symbols may not show correctly inside
+# tmux, run tmux with option "-u" should fix it.
 #
 function __setup_prompt
 {
