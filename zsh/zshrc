@@ -99,6 +99,7 @@ function __init_completion
 
 function __prepend_path
 {
+    [[ -d $1 ]] || return 0
     [[ :$PATH: == *:${1:?}:* ]] || PATH=$1:$PATH
 }
 
@@ -110,6 +111,8 @@ function __setup_path
     for x in /sbin /usr/sbin /bin /usr/bin /usr/local/bin; do
         __prepend_path $x
     done
+
+    [[ $(uname -s) != Darwin ]] || __prepend_path /opt/homebrew/bin
 
     # ~/bin takes precedence
     __prepend_path ~/bin
