@@ -249,7 +249,6 @@ inoremap <C-A>      <C-O>I|                 " Emacs style Home
 inoremap <C-E>      <C-O>A|                 " Emacs style End
 inoremap <C-F>      <C-X><C-F>|             " Complete filename
 inoremap <C-K>      <C-X><C-K>|             " Complete spell from words
-inoremap jj         <ESC>|                  " Work around fucking Mac touch bar
 
 " Maps for visual mode
 vnoremap <Leader>y  "+y|                    " Yank (copy) to system clipboard
