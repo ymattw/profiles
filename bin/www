@@ -18,7 +18,7 @@ function get_external_ip
             ip=$(/sbin/ifconfig $interface | grep -w inet | awk '{print $2}')
             ;;
         Linux)
-            ip=$(/sbin/ip route get 1.1.1.1 | sed -n 's/.*src \(.*\) \?$/\1/p')
+            ip=$(/sbin/ip route get 1.1.1.1 | awk '{print $7}')
             ;;
         *)
             echo "Unsupported system '$os'" >&2
