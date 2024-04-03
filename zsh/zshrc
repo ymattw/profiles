@@ -33,8 +33,7 @@ function vio
 # "Protected" helper to decorate CWD used to setup PROMPT
 function _source_control_cwd
 {
-    [[ $PWD != ${HOME}* ]] || { echo ${PWD/$HOME/\~}; return 0; }
-    echo $PWD
+    echo "%~"
 }
 
 # "Protected" helper to decorate source control information used to setup
@@ -255,36 +254,30 @@ function __setup_ssh_agent
 #
 function __setup_prompt
 {
-    local _DR=$'%{\e[31m%}'       # red
-    local _DG=$'%{\e[32m%}'       # green
-    local _DY=$'%{\e[33m%}'       # yellow
-    local _DB=$'%{\e[34m%}'       # blue
-    local _DM=$'%{\e[35m%}'       # magenta
-    local _DC=$'%{\e[36m%}'       # cyan
     local _RV=$'%{\e[7m%}'        # reverse
     local _NC=$'%{\e[0m%}'        # reset color
 
-    PROMPT=$'\n'"\$([[ \$? == 0 ]] && echo '${_DG}✔' || echo '${_DR}✘') %* "
+    PROMPT=$'\n'"%(?.%F{green}✔.%F{red}✘) %*%f "        # exit code and time
 
     # Detect whether this box has ssh keys, distinguish hostname color and setup
     # ssh-agent related environment accordingly
     #
     if [[ -f ~/.ssh/$USER.key ]]; then
         # I am on my own machine, try load ssh-agent related environments
-        PROMPT+="${_DB}"                                # blue hostname
+        PROMPT+="%F{blue}"                              # blue hostname
     else
         # Otherwise assume I am on other's box, highlight hostname in magenta
-        PROMPT+="${_DM}"                                # magenta hostname
+        PROMPT+="%F{magenta}"                           # magenta hostname
     fi
 
     # Highlight hostname in reverse green if inside a container
     if [[ -n $container_uuid ]] || [[ -f /.dockerenv ]]; then
-        PROMPT+="${_RV}${_DG}"
+        PROMPT+="${_RV}%F{green}"
     fi
-    PROMPT+="$(hostname -f | cut -d. -f1-2)"            # 2 hostname components
-    PROMPT+="${_NC}:${_DY}\$(_source_control_cwd)"      # yellow cwd
-    PROMPT+="${_NC}\$(_source_control_info)"            # source control info
-    PROMPT+=" ${_DC}"$'⤾\n'                             # cyan wrap char, NL
+    PROMPT+="%2m"                                       # 2 hostname components
+    PROMPT+="%f:%F{yellow}\$(_source_control_cwd)"      # yellow cwd
+    PROMPT+="%f\$(_source_control_info)"                # source control info
+    PROMPT+=" %F{cyan}"$'⤾\n'                           # cyan wrap char, NL
     PROMPT+="\$([[ -z \$(jobs) ]] || echo '${_RV}')"    # reverse bg job
     PROMPT+="%#${_NC} "                                 # % or #
 }
