@@ -278,7 +278,7 @@ function __setup_prompt
     PROMPT+="%f:%F{yellow}\$(_source_control_cwd)"      # yellow cwd
     PROMPT+="%f\$(_source_control_info)"                # source control info
     PROMPT+=" %F{cyan}"$'⤾\n'                           # cyan wrap char, NL
-    PROMPT+="\$([[ -z \$(jobs) ]] || echo '${_RV}')"    # reverse bg job
+    PROMPT+="%(1j.${_RV}.)"                             # reverse bg job
     PROMPT+="%#${_NC} "                                 # % or #
 }
 
