@@ -214,21 +214,19 @@ function __setup_dir_colors
 
 function __setup_ssh_agent
 {
-    local key=~/.ssh/$USER.key
-    local rc=~/.ssh-agent.rc
-    local start_new=false
-
-    # Skip in typical corporation environment. Tip: if you often ssh login to
-    # your personal servers from a corp device that has predefined system wide
-    # profile(s), set up a separate iTerm profile and use a customized login
-    # command: /bin/zsh --no-globalrcs --login
-    [[ -z $SK_SIGNING_PLUGIN ]] || return 0
+    # Skip setting up ssh agent for "Work" profile. Expects user to use
+    # different iTerm profiles "Work" and "Personal".
+    [[ -n $ITERM_PROFILE ]] && [[ ${(U)ITERM_PROFILE} != "WORK" ]] || return 0
 
     # Assume personal environment from here.
     alias ssh='/usr/bin/ssh'
     alias ssh-add='/usr/bin/ssh-add'
     alias ssh-keygen='/usr/bin/ssh-keygen'
     alias sftp='/usr/bin/sftp'
+
+    local key=~/.ssh/$USER.key
+    local rc=~/.ssh-agent.rc
+    local start_new=false
 
     [[ -f $key ]] || return 0
     if [[ -f $rc ]]; then
