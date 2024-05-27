@@ -252,19 +252,17 @@ function __setup_ssh_agent
 #
 function __setup_prompt
 {
-    local _RV=$'%{\e[7m%}'        # reverse
     local _NC=$'%{\e[0m%}'        # reset color
+    local _BD=$'%{\e[1m%}'        # bold
+    local _RV=$'%{\e[7m%}'        # reverse
 
-    PROMPT=$'\n'"%(?.%F{green}✔.%F{red}✘) %*%f "        # exit code and time
+    PROMPT=$'\n'"${_BD}╭─ ${_NC}"                       # NL, bold, box start
+    PROMPT+="%(?.%F{green}✔.%F{red}✘) %*%f "            # exit code and time
 
-    # Detect whether this box has ssh keys, distinguish hostname color and setup
-    # ssh-agent related environment accordingly
-    #
+    # Detect whether this box has ssh keys, distinguish hostname color
     if [[ -f ~/.ssh/$USER.key ]]; then
-        # I am on my own machine, try load ssh-agent related environments
         PROMPT+="%F{blue}"                              # blue hostname
     else
-        # Otherwise assume I am on other's box, highlight hostname in magenta
         PROMPT+="%F{magenta}"                           # magenta hostname
     fi
 
@@ -272,12 +270,19 @@ function __setup_prompt
     if [[ -n $container_uuid ]] || [[ -f /.dockerenv ]]; then
         PROMPT+="${_RV}%F{green}"
     fi
+
     PROMPT+="%2m"                                       # 2 hostname components
     PROMPT+="%f:%F{yellow}\$(_source_control_cwd)"      # yellow cwd
     PROMPT+="%f\$(_source_control_info)"                # source control info
     PROMPT+=" %F{cyan}"$'⤾\n'                           # cyan wrap char, NL
+    PROMPT+="${_NC}${_BD}╰─ "                           # reset, box end
     PROMPT+="%(1j.${_RV}.)"                             # reverse bg job
-    PROMPT+="%#${_NC} "                                 # % or #
+    PROMPT+="%#${_NC}${_BD} "                           # % or #, bold input
+}
+
+# Reset color right before executing the command
+function preexec {
+  echo -ne '\e[0m'
 }
 
 # Load custom settings from ~/.profiles.d/*.sh, typical settings are
