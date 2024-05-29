@@ -250,13 +250,11 @@ function __setup_ssh_agent
 # we have background jobs. NOTE: some symbols may not show correctly inside
 # tmux, run tmux with option "-u" should fix it.
 #
+# Ref: https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html
+#
 function __setup_prompt
 {
-    local _NC=$'%{\e[0m%}'        # reset color
-    local _BD=$'%{\e[1m%}'        # bold
-    local _RV=$'%{\e[7m%}'        # reverse
-
-    PROMPT=$'\n'"${_BD}╭─ ${_NC}"                       # NL, bold, box start
+    PROMPT=$'\n'"╭─ "                                   # NL, box start
     PROMPT+="%(?.%F{green}✔.%F{red}✘) %*%f "            # exit code and time
 
     # Detect whether this box has ssh keys, distinguish hostname color
@@ -268,16 +266,16 @@ function __setup_prompt
 
     # Highlight hostname in reverse green if inside a container
     if [[ -n $container_uuid ]] || [[ -f /.dockerenv ]]; then
-        PROMPT+="${_RV}%F{green}"
+        PROMPT+="%S%F{green}"
     fi
 
-    PROMPT+="%2m"                                       # 2 hostname components
+    PROMPT+="%2m%s"                                     # 2 hostname components
     PROMPT+="%f:%F{yellow}\$(_source_control_cwd)"      # yellow cwd
     PROMPT+="%f\$(_source_control_info)"                # source control info
     PROMPT+=" %F{cyan}"$'⤾\n'                           # cyan wrap char, NL
-    PROMPT+="${_NC}${_BD}╰─ "                           # reset, box end
-    PROMPT+="%(1j.${_RV}.)"                             # reverse bg job
-    PROMPT+="%#${_NC}${_BD} "                           # % or #, bold input
+    PROMPT+="%f╰─ "                                     # reset fg, box end
+    PROMPT+="%(1j.%S.)"                                 # reverse bg job
+    PROMPT+="%B%#%s "                                   # bold % or #, unreverse
 }
 
 # Reset color right before executing the command
