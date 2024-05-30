@@ -276,10 +276,19 @@ function __setup_prompt
     PROMPT+="%f╰─ "                                     # reset fg, box end
     PROMPT+="%(1j.%S.)"                                 # reverse bg job
     PROMPT+="%B%#%s "                                   # bold % or #, unreverse
+
+    zle -N zle-line-init __zle_line_init
+    zle -N zle-line-pre-redraw __zle_line_init
+    zle -N zle-line-finish __zle_line_finish
 }
 
-# Reset color right before executing the command
-function preexec {
+# Start hightlight when ready to read a new line of input
+function __zle_line_init {
+  echo -ne '\e[1m'
+}
+
+# Reset color when finished reading a new line of input
+function __zle_line_finish {
   echo -ne '\e[0m'
 }
 
