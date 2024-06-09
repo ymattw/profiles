@@ -103,9 +103,9 @@ set wildignore+=*.tar,*.gz,*.tgz,*.bz2,*.zip
 set incsearch smartcase ignorecase hls  " Searching
 set showmatch matchtime=2 scrolloff=4   " Interface
 set guicursor=n-v-c-ci-sm:block         " Block shape for normal,visual,cmd,...
-set guicursor+=r-cr:hor50-blinkon100-blinkoff50-blinkwait50
+set guicursor+=r-cr:hor20-blinkon500-blinkoff250-blinkwait250
                                         " Horizental, blink for replace mode
-set guicursor+=i-o:block-blinkon100-blinkoff50-blinkwait50
+set guicursor+=i-o:block-blinkon500-blinkoff250-blinkwait250
                                         " Block, blink for insert/pending
 set encoding=utf-8 textwidth=80         " Editing
 set backspace=indent,eol,start          " Editing
