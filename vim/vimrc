@@ -295,6 +295,7 @@ let python_highlight_all = 1
 
 autocmd VimResized * :wincmd =              " Realign vim window size
 autocmd InsertLeave * set nopaste           " Saves a <C-P>
+autocmd TermOpen * startinsert              " (nvim) Auto enter terminal buf
 
 " Remember last cursor postion, :h last-position-jump
 set viminfo='10,\"10,<50,s10,%,h,f10
