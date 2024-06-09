@@ -73,9 +73,6 @@ Plug 'altercation/vim-colors-solarized'
 
 call plug#end()
 
-" Default color and font tunings, needs to be after plug#end()
-silent! colorscheme solarized
-
 if has('gui_running')
     set background=light
     if has('gui_mac') || has('gui_macvim')
@@ -84,9 +81,13 @@ if has('gui_running')
         set guifont=Bitstream\ Vera\ Sans\ Mono\ 13
     endif
 else
+    set notermguicolors                 " So that solarized works with nvim
     set background=dark
     set t_ti= t_te=                     " Prevent clear screen after exit
 endif
+
+" Default color and font tunings, needs to be after plug#end()
+silent! colorscheme solarized
 
 " Override solarized setting to work with tmux config 'window-style'
 highlight! Normal ctermbg=none
