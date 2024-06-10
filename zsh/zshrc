@@ -178,6 +178,7 @@ function __setup_aliases
     alias .....='cd ../../../..'
     # Skip system wide vimrc to reduce startup time
     ! type vim >& /dev/null || alias vi='vim -Xn -u ~/.vimrc'
+    ! type nvim >& /dev/null || alias nvi='nvim -Xn -u ~/.vimrc'
     ! type ag >& /dev/null || alias ag='command ag --nogroup'
     alias grep='grep --color=auto'
 
@@ -250,7 +251,9 @@ function __setup_ssh_agent
 # we have background jobs. NOTE: some symbols may not show correctly inside
 # tmux, run tmux with option "-u" should fix it.
 #
-# Ref: https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html
+# Refs:
+# - https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html
+# - https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Special-Widgets
 #
 function __setup_prompt
 {
