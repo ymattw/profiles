@@ -364,13 +364,13 @@ endfunction
 
 " nvim specific
 if has('nvim')
-  autocmd TermOpen * startinsert              " (nvim) Auto enter terminal buf
-  " Remap '!' to only run command in terminal when command starts with "!"
-  cnoremap <expr> ! getcmdpos() == 1 ? "belowright split term://" : "!"
+    autocmd TermOpen * startinsert          " Auto enter terminal buf
+    " Remap '!' to only run command in terminal when command starts with "!"
+    cnoremap <expr> ! getcmdpos() == 1 ? "belowright split term://" : "!"
 endif
 
 if filereadable(glob('~/.vim/corp-styles.vim'))
     source ~/.vim/corp-styles.vim
 endif
 
-" EOF
+" vim:set et sts=4 sw=4:
