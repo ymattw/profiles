@@ -84,6 +84,8 @@ else
     set notermguicolors                 " So that solarized works with nvim
     set background=dark
     set mouse=
+    " This does not work for nvim. Workaround: turn off iTerm "Disable
+    " save/restore alternate screen" in the profile ("Terminal" tab).
     set t_ti= t_te=                     " Prevent clear screen after exit
 endif
 
