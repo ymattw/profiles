@@ -361,9 +361,9 @@ endfunction
 
 " nvim specific
 if has('nvim')
-  cnoremap !          te |
-  nnoremap <leader>;  :te |                   " Ready for terminal command
   autocmd TermOpen * startinsert              " (nvim) Auto enter terminal buf
+  " Remap '!' to only run command in terminal when command starts with "!"
+  cnoremap <expr> ! getcmdpos() == 1 ? "belowright split term://" : "!"
 endif
 
 if filereadable(glob('~/.vim/corp-styles.vim'))
