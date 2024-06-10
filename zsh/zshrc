@@ -257,7 +257,7 @@ function __setup_ssh_agent
 #
 function __setup_prompt
 {
-    PROMPT=$'\n'"╭─ "                                   # NL, box start
+    PROMPT="💡"                                         # start w/ a lightbulb
     PROMPT+="%(?.%F{green}✔.%F{red}✘) %*%f "            # exit code and time
 
     # Detect whether this box has ssh keys, distinguish hostname color
@@ -276,7 +276,7 @@ function __setup_prompt
     PROMPT+="%f:%F{yellow}\$(_source_control_cwd)"      # yellow cwd
     PROMPT+="%f\$(_source_control_info)"                # source control info
     PROMPT+=" %F{cyan}"$'⤾\n'                           # cyan wrap char, NL
-    PROMPT+="%f╰─ "                                     # reset fg, box end
+    PROMPT+="%f⮕ "                                      # reset fg, arrow
     PROMPT+="%(1j.%S.)"                                 # reverse bg job
     PROMPT+="%B%#%s "                                   # bold % or #, unreverse
 
