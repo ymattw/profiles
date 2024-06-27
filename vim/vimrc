@@ -49,7 +49,7 @@ if exists('g:asyncomplete_loaded')
     " Automatically show completion options
     let g:asyncomplete_auto_popup = 1
 else
-    if has('lua') && version < 802
+    if has('lua') && v:version < 802
         Plug 'Shougo/neocomplete.vim'
         let g:neocomplete#enable_at_startup = 1
         let g:neocomplete#enable_smart_case = 1
@@ -120,9 +120,7 @@ silent! set formatoptions+=j            " Vim >= 7.3.541 only
 set wildmenu                            " Enhanced command-line completion
 set wildmode=longest:full,full          " Misc: complete and list matched files
 set wildcharm=<Tab>                     " So that to use <Tab> in nmap
-if version > 802
-    set wildoptions+=pum                " Display matches using the popup menu
-endif
+silent! set wildoptions+=pum            " Show matches in popup menu, 8.2.4325+
 set isfname-==                          " Misc: '=' is not part of filename
 set matchpairs+=<:>                     " Misc: '%' can match <> pair in html
 set smarttab shiftround shiftwidth=4    " Tab: default behaviour
