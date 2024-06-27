@@ -128,6 +128,7 @@ set expandtab softtabstop=4 tabstop=8   " Tab: default to 4-space soft tab
 set smartindent autoindent copyindent   " Indenting
 set spelllang=en_us complete+=kspell    " Spell completion, see imap <C-K>
 set completeopt=menuone                 " Auto completion menu
+set dictionary=~/vim/dictionary         " For keyword completion
 set synmaxcol=150 lazyredraw ttyfast    " Performance
 syntax sync minlines=50 maxlines=200    " Performance
 silent! set nowildignorecase            " Vim >= 7.3.072 only

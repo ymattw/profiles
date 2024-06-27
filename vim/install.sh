@@ -7,6 +7,7 @@ readonly SELF_DIR=$(cd $(dirname $0) && pwd)
 readonly TARGET_PLUG_DIR=~/.vim/autoload/plug.vim
 
 cp -p $SELF_DIR/vimrc ~/.vimrc
+cp -p $SELF_DIR/dictionary ~/.vim/
 
 [[ -f $TARGET_PLUG_DIR ]] || {
     echo "Installing vim-plug to $TARGET_PLUG_DIR"
