@@ -120,7 +120,9 @@ silent! set formatoptions+=j            " Vim >= 7.3.541 only
 set wildmenu                            " Enhanced command-line completion
 set wildmode=longest:full,full          " Misc: complete and list matched files
 set wildcharm=<Tab>                     " So that to use <Tab> in nmap
-set wildoptions+=pum                    " Display matches using the popup menu
+if version > 802
+    set wildoptions+=pum                " Display matches using the popup menu
+endif
 set isfname-==                          " Misc: '=' is not part of filename
 set matchpairs+=<:>                     " Misc: '%' can match <> pair in html
 set smarttab shiftround shiftwidth=4    " Tab: default behaviour
