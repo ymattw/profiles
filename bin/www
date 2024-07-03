@@ -18,7 +18,8 @@ function get_external_ip
             ip=$(/sbin/ifconfig $interface | grep -w inet | awk '{print $2}')
             ;;
         Linux)
-            ip=$(/sbin/ip route get 1.1.1.1 | awk '{print $7}')
+            # PCRE '\K': report starting of match, only supported in GNU grep
+            ip=$(/sbin/ip route get 1.1.1.1 | grep -oP 'src \K\S+')
             ;;
         *)
             echo "Unsupported system '$os'" >&2
