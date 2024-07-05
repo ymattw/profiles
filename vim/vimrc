@@ -76,7 +76,8 @@ call plug#end()
 if has('gui_running')
     set background=light
     if has('gui_mac') || has('gui_macvim')
-        set guifont=Monaco:h13
+        set guifont=Monaco:h13          " Fallback
+        silent set guifont=AnonymousPro:h15
     elseif has('gui_gtk') || has('gui_gtk2')
         set guifont=Bitstream\ Vera\ Sans\ Mono\ 13
     endif
