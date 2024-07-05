@@ -10,18 +10,32 @@ endif
 set nocompatible
 call plug#begin('~/.vim/plugged')
 
-" Put corp specific styles in separate private file
-if !filereadable(glob('~/.vim/corp-styles.vim'))
-    Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
-else
-    " Experimental, only for corp internal use, related settings are in
-    " ~/.vim/corp-style.vim.
-    Plug 'prabirshrestha/vim-lsp'
-    Plug 'prabirshrestha/asyncomplete.vim'
-    Plug 'prabirshrestha/asyncomplete-lsp.vim'
+" LSP
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+let g:lsp_async_completion = 1        " Send async completion requests.
+let g:lsp_signs_enabled = 1           " Diagnostics signs in the gutter
+let g:lsp_diagnostics_echo_cursor = 1 " Echo under cursor when in normal mode
+let g:lsp_diagnostics_echo_delay = 100
+let g:lsp_diagnostics_float_insert_mode_enabled = 0
+let g:lsp_diagnostics_virtual_text_enabled = 1
+let g:lsp_diagnostics_virtual_text_prefix = '👈 '
+let g:lsp_diagnostics_virtual_text_align = 'right'
+let g:lsp_diagnostics_virtual_text_wrap = 'truncate'
+let g:lsp_diagnostics_virtual_text_padding_left = '4'
+let g:lsp_preview_max_height = 20
+
+" Default LSP server (pip install python-lsp-server)
+if executable('pylsp')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pylsp',
+        \ 'cmd': {server_info->['pylsp']},
+        \ 'allowlist': ['python'],
+        \ })
 endif
 
-" No vim-polyglot, which has poor performance
 Plug 'tpope/vim-markdown', {'for': 'markdown'}
 Plug 'godlygeek/tabular', {'for': 'markdown'}
 Plug 'digitaltoad/vim-jade', {'for': 'jade'}
@@ -44,28 +58,22 @@ cnoreabbrev af AckFile!
 
 " neocomplete can beat YouCompleteMe in both functionality and installation
 " friendly, it also replaces supertab and AutoComplPop.
-"
-if exists('g:asyncomplete_loaded')
-    " Automatically show completion options
-    let g:asyncomplete_auto_popup = 1
+if has('lua') && v:version < 802
+    Plug 'Shougo/neocomplete.vim'
+    let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_smart_case = 1
+    let g:neocomplete#min_keyword_length = 3
+    let g:neocomplete#auto_completion_start_length = 1
+    inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"  " Tab completion
 else
-    if has('lua') && v:version < 802
-        Plug 'Shougo/neocomplete.vim'
-        let g:neocomplete#enable_at_startup = 1
-        let g:neocomplete#enable_smart_case = 1
-        let g:neocomplete#min_keyword_length = 3
-        let g:neocomplete#auto_completion_start_length = 1
-        inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"  " Tab completion
-    else
-        Plug 'ervandew/supertab'
-        let g:SuperTabDefaultCompletionType = "context"
-        let g:SuperTabContextDefaultCompletionType = "<c-n>"
-        let g:SuperTabNoCompleteAfter =
-            \ ['^', '\s', '[^-]>', "'", '[~`!@#$%^&*()+={},</?\"\[\]\|-]']
+    Plug 'ervandew/supertab'
+    let g:SuperTabDefaultCompletionType = "context"
+    let g:SuperTabContextDefaultCompletionType = "<c-n>"
+    let g:SuperTabNoCompleteAfter =
+        \ ['^', '\s', '[^-]>', "'", '[~`!@#$%^&*()+={},</?\"\[\]\|-]']
 
-        " With my own fix for #53 on bitbucket
-        Plug 'ymattw/AutoComplPop', {'branch': 'dev'}
-    endif
+    " With my own fix for #53 on bitbucket
+    Plug 'ymattw/AutoComplPop', {'branch': 'dev'}
 endif
 
 " Remember to change terminal type to xterm-256color!
@@ -140,17 +148,14 @@ silent! set foldmethod=manual           " Work with ymattw/vim-fold-paragraph
 " Highlight invisible chars and trailing spaces, also displays extend and
 " precede chars for nowrap mode.  Poor Windows users: switch to Mac/Linux or
 " use alternate chars such as >, _, . instead  (:h dig to see more)
-"
 set list listchars=tab:▸\ ,trail:▌,extends:»,precedes:«
 
 " File type detect
-"
 autocmd! BufEnter *[Mm]akefile*,[Mm]ake.*,*.mak,*.make setlocal filetype=make
 autocmd! BufEnter *.md,*.markdown setlocal filetype=markdown spell
 autocmd! BufEnter Gemfile,Berksfile,Thorfile,Vagrantfile setlocal filetype=ruby
 
 " File type tab size
-"
 autocmd! FileType html,css,ruby,eruby,yaml,json,javascript,jade
             \ setlocal expandtab softtabstop=2 shiftwidth=2
 autocmd! FileType make setlocal noexpandtab shiftwidth=8
@@ -164,22 +169,19 @@ highlight! MatchParen cterm=underline ctermfg=7 ctermbg=0
 highlight! Folded cterm=bold ctermfg=10 ctermbg=0
 
 " Better color for Solarized theme in diff mode
-"
 highlight! DiffDelete ctermfg=10 ctermbg=0
 highlight! DiffAdd cterm=bold ctermfg=70 ctermbg=0
 highlight! DiffChange cterm=bold ctermfg=142 ctermbg=0
 highlight! DiffText cterm=underline ctermfg=142 ctermbg=0
 
 " More colors suitable for Solarized dark background
-"
 highlight! link ColorColumn Search
 highlight! link CharAtCol81 WarningMsg
 highlight! link SpecialChars ErrorMsg
 match CharAtCol81 /\%81v/                       " Mark char at column 81 in red
 2match SpecialChars /\%xa0\|[“”‘’—]/            " nbsp & smartly replaced chars
 
-" Powerful statusline, underlined status line looks better with cursor line
-"
+" Statusline, underlined status line looks better with cursor line
 set noruler laststatus=2                        " Always show status line
 set stl=                                        " Reset
 set stl+=\ %0*%n%*                              " Buffer number
@@ -209,11 +211,9 @@ highlight! StatusLineNC cterm=underline ctermfg=grey
                \ gui=underline guibg=#eee8d5
 
 " Global key maps. Make sure <BS> and <C-H> are different in terminal setting!
-"
 let mapleader = ' '
 
 " Maps for normal mode
-nnoremap <CR>       :set spell!<CR>|        " Toggle spell
 nnoremap <BS>       :set ic!<CR>|           " Toggle ignore case
 nnoremap <C-A>      <Nop>|                  " Avoid accidental edit
 nnoremap <C-H>      :nohlsearch<CR>|        " Stop highlight search temporarily
@@ -225,6 +225,7 @@ nnoremap <C-\>      :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
                                             " Ctrl-\ to open tag in vsplit
 nnoremap -          :call ToggleFoldParagraph()<CR>|
 nnoremap _          :silent! set cursorline!<CR>
+nnoremap \          :set list!<CR>
 nnoremap \|         :silent! set cursorcolumn!<CR>
 nnoremap q:         :q|                     " q: is boring
 nnoremap !!         :q!<CR>|                " Quit without saving
@@ -244,15 +245,11 @@ nnoremap <Leader>E  :tabedit %:h/<Tab>|     " Quick tabedit file from same dir
 nnoremap <Leader>f  <C-w>gf|                " Open file under cursor in new tab
 nnoremap <Leader>h  :tabprevious<CR>|       " Previous tab
 nnoremap <Leader>l  :tabnext<CR>|           " Next tab
-nnoremap <Leader>p  "+p|                    " Paste below from system clipboard
-nnoremap <Leader>P  "+P|                    " Paste above from system clipboard
 nnoremap <leader>q  :qall<CR>|              " Quickly quit vim
-nnoremap <leader>r  :call RunMe()<CR>|      " Run current file
 nnoremap <leader>s  :Ack! -w <cword><CR>|   " Quick search word under cursor
 nnoremap <Leader>t  <C-w><C-]><C-w>T|       " Open tag in new tab
 nnoremap <leader>w  :w<CR>|                 " Save 2 key strokes
 nnoremap <leader><CR>       :set wrap!<CR>
-nnoremap <leader><Space>    :set list!<CR>
 nnoremap <leader><Tab>      :call ToggleTab()<CR>
 
 " Maps for insert mode
@@ -262,16 +259,27 @@ inoremap <C-E>      <C-O>A|                 " Emacs style End
 inoremap <C-F>      <C-X><C-F>|             " Complete filename
 inoremap <C-K>      <C-X><C-K>|             " Complete spell from words
 
-" Maps for visual mode
-vnoremap <Leader>y  "+y|                    " Yank (copy) to system clipboard
-vnoremap <Leader>x  "+d|                    " Cut (delete) to system clipboard
+if executable('ydiff')
+  nnoremap <buffer> <leader>y :!ydiff -s %<CR>
+  nnoremap <buffer> <leader>Y :!ydiff -s<CR>
+endif
 
 " Maps for command mode
 cnoremap w!!        w !sudo tee % > /dev/null
 
-" File type key mappings. (NOTE! Do not use autocmd! as it overwrites previous
-" definitions)
-"
+" LSP mappings
+nnoremap <buffer> <leader>d       :LspPeekDefinition<CR>
+nnoremap <buffer> <leader>D       :LspDefinition<CR>
+nnoremap <buffer> <leader><Space> :LspHover<CR>
+nnoremap <buffer> <leader>i       :LspPeekImplementation<CR>
+nnoremap <buffer> <leader>I       :LspImplementation<CR>
+nnoremap <buffer> <leader>r       :LspReferences<CR>
+nnoremap <buffer> <leader>j       :LspNextReference<CR>
+nnoremap <buffer> <leader>k       :LspPreviousReference<CR>
+nnoremap <buffer> <leader>t       :LspPeekTypeDefinition<CR>
+nnoremap <buffer> <leader>T       :LspTypeDefinition<CR>
+
+" File type key mappings.
 autocmd FileType markdown   nnoremap <buffer> T
             \ vip:Tabularize /\|<CR>|     " Tabularize markdown tables
 autocmd Filetype html       nnoremap <buffer> %
@@ -280,7 +288,6 @@ autocmd FileType go         nnoremap <leader>t
             \ <Plug>(go-def-tab)          " Open definition in new tab
 
 " Mode key mappings
-"
 if exists('&diff') && &diff
     nnoremap qq         :qa<CR>|            " Close all windows
     nnoremap <Up>       [c|                 " Previous change
@@ -301,6 +308,9 @@ let python_highlight_all = 1
 
 autocmd VimResized * :wincmd =              " Realign vim window size
 autocmd InsertLeave * set nopaste           " Saves a <C-P>
+
+" Not for quickfix buffer
+autocmd! BufEnter *.*  nnoremap <buffer> <CR> :set spell!<CR>|
 
 " Remember last cursor postion, :h last-position-jump
 set viminfo='10,\"10,<50,s10,%,h,f10
@@ -323,7 +333,6 @@ command! -nargs=* -complete=shellcmd R new
     \ | r !<args>
 
 " Helper functions
-"
 function! ToggleTab()
     let expr = &et == 1 ? "setl noet sw=8" : "setl et sw=".&sts
     exe expr
@@ -332,37 +341,6 @@ endfunction
 function! ToggleColorColumn()
     let expr = &cc == "" ? "setl cc=+1" : "setl cc="
     exe expr
-endfunction
-
-" Execute current file and pipe output to new scratch window below, window
-" height will be 1/3 of the vim window size
-"
-function! RunMe()
-    let file = expand("%:p")
-    let line = getline(1)
-
-    exe "botright " . (&lines / 3) . " new"
-        \ | setlocal buftype=nofile bufhidden=hide
-
-    if line =~ "^#!"
-        let intepreter = line[2:]
-    elseif file =~ '\.sh\|\.bash'
-        let intepreter = "bash"
-    elseif file =~ '\.py'
-        let intepreter = "python"
-    elseif file =~ '\.rb'
-        let intepreter = "ruby"
-    elseif file =~ '\.js'
-        let intepreter = "node"
-    elseif file =~ '\.go'
-        let intepreter = "go run"
-    elseif file =~ '\.pl'
-        let intepreter = "perl"
-    else
-        let intepreter = ""
-    endif
-
-    exe ".!" . intepreter . " " . file
 endfunction
 
 " nvim specific
