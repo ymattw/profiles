@@ -319,7 +319,12 @@ autocmd VimResized * :wincmd =              " Realign vim window size
 autocmd InsertLeave * set nopaste           " Saves a <C-P>
 
 " Not for quickfix buffer
-autocmd! BufEnter *.*  nnoremap <buffer> <CR> :set spell!<CR>|
+autocmd! BufWinEnter *
+    \ if &buftype == 'quickfix' |
+    \     silent! nunmap <CR>|
+    \ else |
+    \     nnoremap <buffer> <CR> :set spell!<CR>|
+    \ endif
 
 " Remember last cursor postion, :h last-position-jump
 set viminfo='10,\"10,<50,s10,%,h,f10
