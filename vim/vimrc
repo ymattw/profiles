@@ -260,32 +260,41 @@ inoremap <C-F>      <C-X><C-F>|             " Complete filename
 inoremap <C-K>      <C-X><C-K>|             " Complete spell from words
 
 if executable('ydiff')
-  nnoremap <buffer> <leader>y :!ydiff -s %<CR>
-  nnoremap <buffer> <leader>Y :!ydiff -s<CR>
+  nnoremap <leader>y :!ydiff -s -w 0 %<CR>
+  nnoremap <leader>Y :!ydiff -s -w 0<CR>
 endif
 
 " Maps for command mode
 cnoremap w!!        w !sudo tee % > /dev/null
 
 " LSP mappings
-nnoremap <buffer> <leader>d       :LspPeekDefinition<CR>
-nnoremap <buffer> <leader>D       :LspDefinition<CR>
-nnoremap <buffer> <leader><Space> :LspHover<CR>
-nnoremap <buffer> <leader>i       :LspPeekImplementation<CR>
-nnoremap <buffer> <leader>I       :LspImplementation<CR>
-nnoremap <buffer> <leader>r       :LspReferences<CR>
-nnoremap <buffer> <leader>j       :LspNextReference<CR>
-nnoremap <buffer> <leader>k       :LspPreviousReference<CR>
-nnoremap <buffer> <leader>t       :LspPeekTypeDefinition<CR>
-nnoremap <buffer> <leader>T       :LspTypeDefinition<CR>
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nnoremap <buffer> <leader>d       :LspPeekDefinition<CR>
+    nnoremap <buffer> <leader>D       :LspDefinition<CR>
+    nnoremap <buffer> <leader><Space> :LspHover<CR>
+    nnoremap <buffer> <leader>i       :LspPeekImplementation<CR>
+    nnoremap <buffer> <leader>I       :LspImplementation<CR>
+    nnoremap <buffer> <leader>r       :LspReferences<CR>
+    nnoremap <buffer> <leader>j       :cnext<CR>
+    nnoremap <buffer> <leader>k       :cprevious<CR>
+    nnoremap <buffer> <leader>t       :LspPeekTypeDefinition<CR>
+    nnoremap <buffer> <leader>T       :LspTypeDefinition<CR>
+endfunction
+
+augroup lsp_install
+    autocmd!
+    " Call only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
 
 " File type key mappings.
 autocmd FileType markdown   nnoremap <buffer> T
             \ vip:Tabularize /\|<CR>|     " Tabularize markdown tables
 autocmd Filetype html       nnoremap <buffer> %
             \ :MtaJumpToOtherTag<CR>|     " See MatchTagAlways
-autocmd FileType go         nnoremap <leader>t
-            \ <Plug>(go-def-tab)          " Open definition in new tab
 
 " Mode key mappings
 if exists('&diff') && &diff
