@@ -7,6 +7,22 @@
 # - Functions with name starts with only one '_' are considered 'protected',
 #   users can implement their own to override (via ~/.profiles.d).
 
+# Example usage:
+#   vif  # load ~/.fzf-file-list
+#   vif file|dir ...
+#   hg ls | vif
+function vif {
+    if [[ -t 0 ]]; then
+        if (( $# > 0 )); then
+            find "$@" -type f | fzf --bind "enter:become(vim -Xn -u ~/.vimrc {})"
+        else
+            cat ~/.fzf-file-list | fzf --bind "enter:become(vim -Xn -u ~/.vimrc {})"
+        fi
+    else
+        fzf --bind "enter:become(vim -Xn -u ~/.vimrc {})"
+    fi
+}
+
 # "Protected" helper to decorate CWD used to setup PROMPT
 function _source_control_cwd
 {
@@ -156,7 +172,6 @@ function __setup_aliases
     # Skip system wide vimrc to reduce startup time
     ! type vim >& /dev/null || alias vi='vim -Xn -u ~/.vimrc'
     ! type nvim >& /dev/null || alias nvi='nvim -Xn -u ~/.vimrc'
-    ! type fzf >& /dev/null ||  alias vif='fzf --bind "enter:become(vim -Xn -u ~/.vimrc {})"'
     ! type ag >& /dev/null || alias ag='command ag --nogroup'
     alias grep='grep --color=auto'
 
