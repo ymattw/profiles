@@ -8,18 +8,22 @@
 #   users can implement their own to override (via ~/.profiles.d).
 
 # Example usage:
-#   vif  # load ~/.fzf-file-list
-#   vif file|dir ...
-#   hg ls | vif
+#   vif                       # pick files from ~/.fzf-file-list, send to vim
+#   vif path [...]            # pick files from path..., send to vim
+#   vif | cmd                 # pick files from ~/.fzf-file-list, send to cmd
+#   vif path [...] | xargs .. # pick files from path..., send to xargs cmd
+#   hg ls | vif               # pick files from commd output, send to vim
 function vif {
+    local arg=(--bind "enter:become(vim -Xn -u ~/.vimrc {})")
+    [[ -t 1 ]] || arg=()
     if [[ -t 0 ]]; then
         if (( $# > 0 )); then
-            find "$@" -type f | fzf --bind "enter:become(vim -Xn -u ~/.vimrc {})"
+            find "$@" -type f | fzf "${arg[@]}"
         else
-            cat ~/.fzf-file-list | fzf --bind "enter:become(vim -Xn -u ~/.vimrc {})"
+            cat ~/.fzf-file-list | fzf "${arg[@]}"
         fi
     else
-        fzf --bind "enter:become(vim -Xn -u ~/.vimrc {})"
+        fzf "${arg[@]}"
     fi
 }
 
