@@ -7,6 +7,8 @@ readonly SELF_DIR=$(cd $(dirname $0) && pwd)
 readonly TARGET_PLUG_DIR=~/.vim/autoload/plug.vim
 
 cp -p $SELF_DIR/vimrc ~/.vimrc
+
+mkdir -p ~/.vim
 cp -p $SELF_DIR/dictionary ~/.vim/
 
 [[ -f $TARGET_PLUG_DIR ]] || {
