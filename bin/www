@@ -3,6 +3,7 @@
 set -o errexit
 set -o nounset
 
+BIND="127.0.0.1"
 DIR="."
 PORT=8080
 
@@ -33,6 +34,10 @@ function get_external_ip
 
 while (( $# > 0 )); do
     case "$1" in
+        -b|--bind)
+            BIND="$2"
+            shift; shift
+            ;;
         -d|--dir)
             DIR="$2"
             shift; shift
@@ -43,14 +48,19 @@ while (( $# > 0 )); do
             ;;
         *)
             echo "Unknow option '$1'" >&2
-            echo "Usage: $0 [-d|--dir dir] [-p|--port port]"
+            echo "Usage: $0 [-b|--bind addr] [-d|--dir dir] [-p|--port port]"
             exit 1
             ;;
     esac
 done
 
-EXTERNAL_IP=$(get_external_ip)
+if [[ "$BIND" == "0.0.0.0" ]]; then
+    EXTERNAL_IP=$(get_external_ip)
+else
+    EXTERNAL_IP="$BIND"
+fi
+
 cd $DIR && DIR=$(pwd)
 
-echo "Serving $DIR as http://$(hostname -f):$PORT (http://$EXTERNAL_IP:$PORT)"
-python3 -m http.server $PORT
+echo "Serving $DIR as http://$EXTERNAL_IP:$PORT"
+python3 -m http.server --bind "$BIND" "$PORT"
