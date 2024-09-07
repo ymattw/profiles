@@ -15,14 +15,11 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
-let g:lsp_async_completion = 1        " Send async completion requests.
-let g:lsp_signs_enabled = 1           " Diagnostics signs in the gutter
-let g:lsp_diagnostics_echo_cursor = 1 " Echo under cursor when in normal mode
-let g:lsp_diagnostics_echo_delay = 100
-let g:lsp_diagnostics_float_insert_mode_enabled = 0
+let g:lsp_async_completion = 1
+let g:lsp_diagnostics_float_insert_mode_enabled = 1
 let g:lsp_diagnostics_virtual_text_enabled = 1
 let g:lsp_diagnostics_virtual_text_prefix = '👈 '
-let g:lsp_diagnostics_virtual_text_align = 'right'
+let g:lsp_diagnostics_virtual_text_align = 'after'
 let g:lsp_diagnostics_virtual_text_wrap = 'truncate'
 let g:lsp_diagnostics_virtual_text_padding_left = '4'
 let g:lsp_preview_max_height = 20
@@ -270,7 +267,7 @@ cnoremap w!!        w !sudo tee % > /dev/null
 " LSP mappings
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
+    setlocal signcolumn=auto
     if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
     nnoremap <buffer> <leader>d       :LspPeekDefinition<CR>
     nnoremap <buffer> <leader>D       :LspDefinition<CR>
