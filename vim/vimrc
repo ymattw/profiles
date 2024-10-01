@@ -63,14 +63,8 @@ if has('lua') && v:version < 802
     let g:neocomplete#auto_completion_start_length = 1
     inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"  " Tab completion
 else
-    Plug 'ervandew/supertab'
-    let g:SuperTabDefaultCompletionType = "context"
-    let g:SuperTabContextDefaultCompletionType = "<c-n>"
-    let g:SuperTabNoCompleteAfter =
-        \ ['^', '\s', '[^-]>', "'", '[~`!@#$%^&*()+={},</?\"\[\]\|-]']
-
-    " With my own fix for #53 on bitbucket
-    Plug 'ymattw/AutoComplPop', {'branch': 'dev'}
+    Plug 'skywind3000/vim-auto-popmenu'
+    let g:apc_enable_ft = {'*': 1}      " Enable for all filetypes
 endif
 
 " Remember to change terminal type to xterm-256color!
@@ -132,9 +126,12 @@ set matchpairs+=<:>                     " Misc: '%' can match <> pair in html
 set smarttab shiftround shiftwidth=4    " Tab: default behaviour
 set expandtab softtabstop=4 tabstop=8   " Tab: default to 4-space soft tab
 set smartindent autoindent copyindent   " Indenting
-set spelllang=en_us complete+=kspell    " Spell completion, see imap <C-K>
-set completeopt=menuone                 " Auto completion menu
+set spelllang=en_us
 set dictionary+=~/.vim/dictionary       " For keyword completion
+set completeopt=menuone,noselect        " Auto completion menu
+set complete+=kspell                    " Spell completion, see imap <C-K>
+set complete+=k~/.vim/dictionary
+set complete-=.
 set synmaxcol=150 lazyredraw ttyfast    " Performance
 syntax sync minlines=50 maxlines=200    " Performance
 silent! set nowildignorecase            " Vim >= 7.3.072 only
