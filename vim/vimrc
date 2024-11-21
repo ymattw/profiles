@@ -254,8 +254,8 @@ inoremap <C-F>      <C-X><C-F>|             " Complete filename
 inoremap <C-K>      <C-X><C-K>|             " Complete spell from words
 
 if executable('ydiff')
-  nnoremap <leader>y :!ydiff -s -w 0 %<CR>
-  nnoremap <leader>Y :!ydiff -s -w 0<CR>
+  nnoremap <leader>y :!ydiff %<CR>
+  nnoremap <leader>Y :!ydiff<CR>
 endif
 
 " Maps for command mode
