@@ -349,8 +349,13 @@ function! ToggleColorColumn()
     exe expr
 endfunction
 
-if filereadable(glob('~/.vim/corp-styles.vim'))
-    source ~/.vim/corp-styles.vim
+" Load ~/.vim/${WORK_PROFILE}.vim, if exists
+let work_profile = getenv("WORK_PROFILE")
+if !empty(work_profile)
+    let profile_file = expand("~/.vim/" . work_profile . ".vim")
+    if filereadable(profile_file)
+        execute "source " . profile_file
+    endif
 endif
 
 " vim:set et sts=4 sw=4:
