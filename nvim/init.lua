@@ -20,11 +20,27 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local specs = {
+  { import = "plugins" },
+}
+
+-- Load the work plugin named after $WORK_PROFILE, if exists
+if vim.env.WORK_PROFILE then
+  local plugin_path = string.format("plugins.%s", vim.env.WORK_PROFILE)
+  local ok, plugins = pcall(require, plugin_path)
+  if ok then
+    for _, spec in ipairs(plugins) do
+      table.insert(specs, spec)
+    end
+  else
+    vim.api.nvim_echo({ { "Plugin not found for WORK_PROFILE=" .. vim.env.WORK_PROFILE, "ErrorMsg" } }, true, {})
+    vim.fn.getchar()
+  end
+end
+
 -- Setup lazy and load plugins
 require("lazy").setup({
-  spec = {
-    { import = "plugins" },
-  },
+  spec = specs,
   defaults = {
     lazy = false,
     version = "*", -- try installing the latest semver version
