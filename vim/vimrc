@@ -81,11 +81,9 @@ if has('gui_running')
         set guifont=Bitstream\ Vera\ Sans\ Mono\ 13
     endif
 else
-    set notermguicolors                 " So that solarized works with nvim
+    set notermguicolors
     set background=dark
     set mouse=
-    " This does not work for nvim. Workaround: turn off iTerm "Disable
-    " save/restore alternate screen" in the profile ("Terminal" tab).
     set t_ti= t_te=                     " Prevent clear screen after exit
 endif
 
@@ -350,13 +348,6 @@ function! ToggleColorColumn()
     let expr = &cc == "" ? "setl cc=+1" : "setl cc="
     exe expr
 endfunction
-
-" nvim specific
-if has('nvim')
-    autocmd TermOpen * startinsert          " Auto enter terminal buf
-    " Remap '!' to only run command in terminal when command starts with "!"
-    cnoremap <expr> ! getcmdpos() == 1 ? "belowright split term://" : "!"
-endif
 
 if filereadable(glob('~/.vim/corp-styles.vim'))
     source ~/.vim/corp-styles.vim
