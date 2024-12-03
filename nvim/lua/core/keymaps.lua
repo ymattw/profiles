@@ -9,9 +9,9 @@ map("n", "<C-J>", "<C-W>w", { desc = "Cycle to next window" })
 map("n", "<C-K>", ":%s/[ \t]+$//<CR>", { desc = "Remove trailing blanks" })
 map("n", "<C-N>", ":set number!<CR>", { desc = "Toggle line number" })
 map("n", "<C-P>", ":set paste!<CR>", { desc = "Toggle paste mode" })
+-- NOTE: <CR> is mapped to toggle spelling conditionally ini autocmds.lua
 
 map("n", "_", ":silent! set cursorline!<CR>", { desc = "Toggle cursorline" })
-map("n", "\\", ":set list!<CR>", { desc = "Toggle listchars visibility" })
 map("n", "|", ":silent! set cursorcolumn!<CR>", { desc = "Toggle cursorcolumn" })
 map("n", "q:", ":q", { desc = "Make q: less boring" })
 map("n", "!!", ":q!<CR>", { desc = "Quit without saving" })
@@ -35,6 +35,9 @@ map("n", "<leader>e", ":tabedit ", { desc = "Tab edit new file" })
 map("n", "<leader>E", ":tabedit %:h/<tab>", { desc = "Tab edit file in cwd" })
 map("n", "<leader>h", ":tabprevious<CR>", { desc = "Previous Tab" })
 map("n", "<leader>l", ":tabnext<CR>", { desc = "Next Tab" })
+
+-- When select+yank, copy to the system clipboard
+vim.api.nvim_set_keymap("v", "y", '"+y', { noremap = true, silent = true })
 
 function ToggleTab()
   if vim.bo.expandtab then
