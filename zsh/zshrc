@@ -144,7 +144,9 @@ function __setup_environments
     export HISTFILE=~/.zhistory         # Prevent from ~/.zsh<tab> completion
     export HISTSIZE=10000
     export SAVEHIST=10000
-    export EDITOR=vim
+    export EDITOR=vi
+    ! type vim >& /dev/null || export EDITOR=vim
+    ! type nvim >& /dev/null || export EDITOR=nvim
 
     # Locale (LC_*) matters for ls and sort on Linux, see also
     # www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
@@ -175,7 +177,7 @@ function __setup_aliases
     alias .....='cd ../../../..'
     # Skip system wide vimrc to reduce startup time
     ! type vim >& /dev/null || alias vi='vim -Xn -u ~/.vimrc'
-    ! type nvim >& /dev/null || alias nvi='nvim -Xn -u ~/.vimrc'
+    ! type nvim >& /dev/null || alias vi='nvim'
     ! type ag >& /dev/null || alias ag='command ag --nogroup'
     alias grep='grep --color=auto'
 
