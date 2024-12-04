@@ -12,31 +12,12 @@ return {
     provider = "ollama",
     vendors = {
       ollama = {
-        -- Ref: https://github.com/ollama/ollama/blob/main/docs/openai.md
+        __inherited_from = "openai",
+        api_key_name = "",
         endpoint = "http://localhost:11434/v1",
-        model = "codegemma",
+        model = "qwen2.5-coder",
         temperature = 0.3, -- the smaller the more stable response
         max_tokens = 2048,
-        parse_curl_args = function(opts, code_opts)
-          return {
-            url = opts.endpoint .. "/chat/completions",
-            headers = {
-              ["Accept"] = "application/json",
-              ["Content-Type"] = "application/json",
-              ["x-api-key"] = "ollama",
-            },
-            body = {
-              model = opts.model,
-              temperature = opts.temperature,
-              max_tokens = opts.max_tokens,
-              stream = true,
-            },
-          }
-        end,
-        -- FIXME: not supported yet?
-        parse_response_data = function(data_stream, event_state, opts)
-          require("avante.providers").copilot.parse_response(data_stream, event_state, opts)
-        end,
       },
 
       -- Requires $OPENAI_API_KEY
