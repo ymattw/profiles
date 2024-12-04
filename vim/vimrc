@@ -349,13 +349,6 @@ function! ToggleColorColumn()
     exe expr
 endfunction
 
-" Load ~/.vim/${WORK_PROFILE}.vim, if exists
-let work_profile = getenv("WORK_PROFILE")
-if !empty(work_profile)
-    let profile_file = expand("~/.vim/" . work_profile . ".vim")
-    if filereadable(profile_file)
-        execute "source " . profile_file
-    endif
-endif
+" Other customization can be put in ~/.vim/after/plugin/ to be loaded the last.
 
 " vim:set et sts=4 sw=4:
