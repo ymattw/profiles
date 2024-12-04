@@ -7,8 +7,6 @@ return {
       providers = { "lsp", "treesitter", "regex" },
       under_cursor = false,
     })
-    vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = "#334455" })
-    vim.api.nvim_set_hl(0, "IlluminatedWordRead", { bg = "#334455" })
-    vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { bg = "#334455" })
+    -- NOTE: colors are dfined in colorscheme.lua
   end,
 }

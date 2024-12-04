@@ -1,4 +1,4 @@
-local function toggle_status()
+local function flags_status()
   local flags = {
     not vim.o.ignorecase and "\u{eab1}" or nil,
     vim.o.paste and "\u{f0ea}" or nil,
@@ -22,7 +22,7 @@ return {
     sections = {
       lualine_c = {
         { "filename" },
-        { toggle_status, color = { fg = "#b58900" } },
+        { flags_status, color = { fg = "#b58900" } }, -- solorized yellow
       },
       lualine_x = { "encoding", "filetype" },
     },
