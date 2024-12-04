@@ -21,7 +21,7 @@ return {
     },
     sections = {
       lualine_c = {
-        { "filename" },
+        { "filename", path = 1 },
         { flags_status, color = { fg = "#b58900" } }, -- solorized yellow
       },
       lualine_x = { "encoding", "filetype" },
