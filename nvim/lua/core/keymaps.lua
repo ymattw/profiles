@@ -1,12 +1,12 @@
 vim.g.mapleader = " "
 
-local map = vim.api.nvim_set_keymap
+local map = vim.keymap.set
 
 -- Main interface
 map("n", "<BS>", ":set ic!<CR>", { desc = "Toggle ignore case" })
 map("n", "<C-H>", ":set hlsearch!<CR>", { desc = "Toggle highlight search" })
 map("n", "<C-J>", "<C-W>w", { desc = "Cycle to next window" })
-map("n", "<C-K>", ":%s/[ \t]+$//<CR>", { desc = "Remove trailing blanks" })
+map("n", "<C-K>", ":%s/\\s\\+$//<CR>", { desc = "Remove trailing blanks" })
 map("n", "<C-N>", ":set number!<CR>", { desc = "Toggle line number" })
 map("n", "<C-P>", ":set paste!<CR>", { desc = "Toggle paste mode" })
 -- NOTE: <CR> is mapped to toggle spelling conditionally ini autocmds.lua
@@ -58,8 +58,8 @@ end
 map("n", "<leader>|", ":lua ToggleColorColumn()<CR>", { desc = "Toggle color column" })
 map("n", "<leader><Tab>", ":lua ToggleTab()<CR>", { desc = "Toggle between spaces and tabs" })
 
-map("n", "<leader>y", ":!ydiff %<CR>", { desc = "Run ydiff on current file" })
-map("n", "<leader>Y", ":!ydiff<CR>", { desc = "Run ydiff on unstaged changes" })
+map("n", "<leader>y", ":below split term://ydiff %<CR>", { desc = "Run ydiff on current file" })
+map("n", "<leader>Y", ":below split term://ydiff<CR>", { desc = "Run ydiff on unstaged changes" })
 
 -- Maps for insert mode
 map("i", "<C-J>", "<ESC>kJA", { desc = "Join to prev line (undo auto wrap)" })

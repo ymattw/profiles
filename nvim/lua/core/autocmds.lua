@@ -11,7 +11,21 @@ vim.api.nvim_create_autocmd("WinLeave", {
   command = "setlocal nocursorline",
 })
 
--- Map enter to set spell, but not for quickfix buffer
+-- Realign vim window size on resize
+vim.api.nvim_create_autocmd("VimResized", {
+  pattern = "*",
+  command = "wincmd =",
+})
+
+-- Disable 'paste' mode upon leaving Insert mode
+vim.api.nvim_create_autocmd("InsertLeave", {
+  pattern = "*",
+  callback = function()
+    vim.opt.paste = false
+  end,
+})
+
+-- Map <CR> to set spell, but not for quickfix buffer
 vim.api.nvim_create_autocmd("BufWinEnter", {
   pattern = "*",
   callback = function()
@@ -32,6 +46,21 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
   desc = "Restore last cursor position",
 })
+
+-- Auto-enter insert mode when opening a terminal buffer
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "*",
+  command = "startinsert",
+})
+
+-- Remap '!' to run command in terminal
+vim.keymap.set("c", "!", function()
+  if vim.fn.getcmdpos() == 1 then
+    return "below split term://"
+  else
+    return "!"
+  end
+end, { expr = true, desc = "Run command in terminal" })
 
 -- Filetype related autocmds
 vim.api.nvim_create_autocmd("BufEnter", {
@@ -75,7 +104,6 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "gitcommit", "markdown" },
   callback = function()
-    vim.opt_local.textwidth = 72
     vim.opt_local.spell = true
   end,
 })
