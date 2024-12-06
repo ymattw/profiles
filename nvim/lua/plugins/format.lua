@@ -1,5 +1,5 @@
 local filetype_formatters = {
-  go = { "goimports", "gofmt" },
+  go = { "gofmt" },
   lua = { "stylua" },
   python = { "black" },
 }
@@ -8,9 +8,11 @@ local filetype_format_on_save_denylist = {
   python = true,
 }
 
+local formatters = {}
+
 return {
   "stevearc/conform.nvim",
-  event = { "InsertEnter", "BufWritePre" },
+  event = { "TextChanged", "TextChangedI", "BufWritePre" },
   cmd = { "ConformInfo" },
   keys = {
     {
@@ -37,7 +39,7 @@ return {
       end
     end,
 
-    formatters = {},
+    formatters = formatters,
   },
 
   init = function()
