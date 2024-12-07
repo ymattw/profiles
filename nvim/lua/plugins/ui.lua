@@ -1,6 +1,6 @@
 local function flags_status()
   local flags = {
-    -- See conform.lua for how vim.b.format_on_save is defined
+    -- See format.lua for how vim.b.format_on_save is defined
     vim.b.format_on_save and "\u{f18f2}" or nil,
     not vim.o.ignorecase and "\u{eab1}" or nil,
     vim.o.paste and "\u{f0192}" or nil,
