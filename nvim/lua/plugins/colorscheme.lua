@@ -13,6 +13,7 @@ return {
 
     -- Overrides. Too many colors is distracting.
     local c = require("solarized.palette.solarized-light").solarized
+    local e = require("solarized.color") -- effects
 
     -- Internal groups
     hl(0, "Constant", { fg = c.cyan })
@@ -22,9 +23,9 @@ return {
     hl(0, "Parameter", { fg = c.blue })
     hl(0, "Property", { fg = c.base0 })
     hl(0, "Type", { fg = c.base0 })
-    hl(0, "Pmenu", { fg = c.base0, bg = c.base02 })
-    hl(0, "Search", { fg = c.base02, bg = c.base1 })
-    hl(0, "IncSearch", { fg = c.base02, bg = c.base1 })
+    hl(0, "Pmenu", { fg = c.base1, bg = e.lighten(c.base02, 20) })
+    hl(0, "Search", { fg = c.base02, bg = c.yellow })
+    hl(0, "IncSearch", { fg = c.base02, bg = c.orange })
 
     -- RRethy/vim-illuminate
     hl(0, "IlluminatedWordText", { fg = c.base1, bg = c.base02, bold = true })
