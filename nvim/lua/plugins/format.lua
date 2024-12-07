@@ -1,11 +1,32 @@
-local filetype_formatters = {
+-- Formatting behavior.
+--
+-- NOTE: plugin file basename determines the lazy loading order. So to override
+-- the formatting behavior, define a plugin with file basename comes after
+-- "format" (eg. format-xxx.lua), then override the opts function. Example:
+--
+-- local format_on_save_fts = ...
+-- local formatters_by_ft = ...
+-- local formatters = ...
+--
+-- return {
+--   "stevearc/conform.nvim",
+--   opts = function(_, opts)
+--     vim.b.format_on_save = format_on_save_fts[vim.bo.filetype]
+--     opts.formatters_by_ft = formatters_by_ft
+--     opts.formatters = formatters
+--     return opts
+--   end,
+-- }
+
+local format_on_save_fts = {
+  go = true,
+  lua = true,
+}
+
+local formatters_by_ft = {
   go = { "gofmt" },
   lua = { "stylua" },
   python = { "black" },
-}
-
-local filetype_format_on_save_denylist = {
-  python = true,
 }
 
 local formatters = {}
@@ -25,28 +46,22 @@ return {
     },
   },
 
-  ---@module "conform"
-  ---@type conform.setupOpts
-  opts = {
-    -- Define your formatters
-    formatters_by_ft = filetype_formatters,
-    default_format_opts = {
-      lsp_format = "fallback",
-    },
-    format_on_save = function(bufnr)
-      if vim.b.format_on_save then
-        return { timeout_ms = 500, lsp_format = "fallback" }
-      end
-    end,
+  opts = function(_, opts)
+    vim.b.format_on_save = format_on_save_fts[vim.bo.filetype]
+    opts.formatters_by_ft = formatters_by_ft
+    opts.formatters = formatters
+    opts.default_format_opts = { lsp_format = "fallback" }
 
-    formatters = formatters,
-  },
+    opts.format_on_save = function(bufnr)
+      if vim.b.format_on_save then
+        return { timeout_ms = 500 }
+      end
+    end
+    return opts
+  end,
 
   config = function(_, opts)
     require("conform").setup(opts)
-
-    -- Initial value
-    vim.b.format_on_save = not filetype_format_on_save_denylist[vim.bo.filetype]
 
     -- Create a new command ToggleFormatOnSave
     vim.api.nvim_create_user_command("ToggleFormatOnSave", function(args)
