@@ -47,22 +47,30 @@ return {
     },
   },
 
+  -- opts() is excuted before plugin is loaded
   opts = function(_, opts)
     vim.b.format_on_save = format_on_save_fts[vim.bo.filetype]
     opts.formatters_by_ft = formatters_by_ft
     opts.formatters = formatters
     opts.default_format_opts = { lsp_format = "fallback" }
-
-    opts.format_on_save = function(bufnr)
-      if vim.b.format_on_save then
-        return { timeout_ms = 500 }
-      end
-    end
     return opts
   end,
 
+  -- config() is excuted once after plugin is loaded
   config = function(_, opts)
+    opts.format_on_save = function(bufnr)
+      return vim.b.format_on_save and { timeout_ms = 500 } or nil
+    end
     require("conform").setup(opts)
+
+    -- Create an autocmd to set format_on_save for new buffers
+    vim.api.nvim_create_autocmd("BufEnter", {
+      callback = function()
+        if vim.b.format_on_save == nil then
+          vim.b.format_on_save = format_on_save_fts[vim.bo.filetype] or false
+        end
+      end,
+    })
 
     -- Create a new command ToggleFormatOnSave
     vim.api.nvim_create_user_command("ToggleFormatOnSave", function(args)
