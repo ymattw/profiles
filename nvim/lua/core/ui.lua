@@ -31,7 +31,8 @@ vim.fn.matchadd("CharAtCol81", "\\%81v")
 vim.fn.matchadd("IllegalChar", "\\%xa0\\|[“”‘’—]")
 
 -- Editing
-vim.opt.textwidth = 80
+-- Tolerate 1 letter diff sign, also fit for python (PEP8)
+vim.opt.textwidth = 79
 vim.opt.backspace = { "indent", "eol", "start" }
 vim.opt.timeoutlen = 2000
 vim.opt.ttimeoutlen = 100
