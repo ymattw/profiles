@@ -21,19 +21,20 @@
 local format_on_save_fts = {
   go = true,
   lua = true,
+  python = true,
 }
 
 local formatters_by_ft = {
   go = { "gofmt" },
   lua = { "stylua" },
-  python = { "black" },
+  python = { "autopep8" },
 }
 
 local formatters = {}
 
 return {
   "stevearc/conform.nvim",
-  event = { "TextChanged", "TextChangedI", "BufWritePre" },
+  event = { "InsertEnter", "TextChanged", "TextChangedI", "BufWritePre" },
   cmd = { "ConformInfo" },
   keys = {
     {
