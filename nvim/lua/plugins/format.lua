@@ -67,10 +67,13 @@ return {
     -- Create a new command ToggleFormatOnSave
     vim.api.nvim_create_user_command("ToggleFormatOnSave", function(args)
       vim.b.format_on_save = not vim.b.format_on_save
-      vim.notify(string.format("Format on save: %s", tostring(vim.b.format_on_save)), vim.log.levels.WARN)
+      vim.notify(
+        string.format("Format on save: %s", tostring(vim.b.format_on_save)),
+        vim.log.levels.WARN
+      )
     end, { desc = "Toggle format on save" })
 
     -- <leader>uF to trigger ToggleFormatOnSave
-    vim.keymap.set("n", "<leader>uF", ":ToggleFormatOnSave<CR>", { desc = "Toggle format on save", noremap = true })
+    vim.keymap.set("n", "<leader>uF", ":ToggleFormatOnSave<CR>", { desc = "Toggle format on save" })
   end,
 }

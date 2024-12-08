@@ -31,7 +31,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   callback = function()
     if vim.bo.buftype ~= "quickfix" then
       -- Toggle spell checking with <CR> in normal mode for non-quickfix buffers
-      vim.api.nvim_buf_set_keymap(0, "n", "<CR>", ":set spell!<CR>", { noremap = true, silent = true })
+      vim.api.nvim_buf_set_keymap(0, "n", "<CR>", ":set spell!<CR>", { noremap = true })
     end
   end,
 })
