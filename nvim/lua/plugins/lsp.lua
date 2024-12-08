@@ -23,6 +23,10 @@ return {
       buf_set_keymap(bufnr, "n", "<leader><space>", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
       buf_set_keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
       buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+
+      -- Unset formatexpr (fex) to use default range formatter
+      -- TODO: Remove when tuned the one offered by LSP
+      vim.bo[bufnr].formatexpr = nil
     end
 
     -- Configure LSP servers
