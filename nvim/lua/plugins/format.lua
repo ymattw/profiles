@@ -4,25 +4,17 @@
 -- the formatting behavior, define a plugin with file basename comes after
 -- "format" (eg. format-xxx.lua), then override the opts function. Example:
 --
--- local format_on_save_fts = ...
 -- local formatters_by_ft = ...
 -- local formatters = ...
 --
 -- return {
 --   "stevearc/conform.nvim",
 --   opts = function(_, opts)
---     vim.b.format_on_save = format_on_save_fts[vim.bo.filetype]
 --     opts.formatters_by_ft = formatters_by_ft
 --     opts.formatters = formatters
 --     return opts
 --   end,
 -- }
-
-local format_on_save_fts = {
-  go = true,
-  lua = true,
-  python = true,
-}
 
 local formatters_by_ft = {
   go = { "gofmt" },
@@ -49,7 +41,6 @@ return {
 
   -- opts() is excuted before plugin is loaded
   opts = function(_, opts)
-    vim.b.format_on_save = format_on_save_fts[vim.bo.filetype]
     opts.formatters_by_ft = formatters_by_ft
     opts.formatters = formatters
     opts.default_format_opts = { lsp_format = "fallback" }
@@ -63,12 +54,13 @@ return {
     end
     require("conform").setup(opts)
 
+    -- Initial value for current buf where plugin is loaded
+    vim.b.format_on_save = opts.formatters_by_ft[vim.bo.filetype] ~= nil
+
     -- Create an autocmd to set format_on_save for new buffers
-    vim.api.nvim_create_autocmd("BufEnter", {
+    vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
       callback = function()
-        if vim.b.format_on_save == nil then
-          vim.b.format_on_save = format_on_save_fts[vim.bo.filetype] or false
-        end
+        vim.b.format_on_save = opts.formatters_by_ft[vim.bo.filetype] ~= nil
       end,
     })
 
