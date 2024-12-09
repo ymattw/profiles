@@ -15,23 +15,28 @@ return {
     local c = require("solarized.palette.solarized-light").solarized
     local e = require("solarized.color") -- effects
 
-    -- Internal groups
+    -- Syntax groups
     hl(0, "Constant", { fg = c.cyan })
-    hl(0, "Function", { fg = c.base0 })
-    hl(0, "Identifier", { fg = c.base0 })
+    hl(0, "Function", { link = "Normal" })
+    hl(0, "Identifier", { link = "Normal" })
     hl(0, "Keyword", { fg = c.green })
-    hl(0, "Parameter", { fg = c.blue })
-    hl(0, "Property", { fg = c.base0 })
-    hl(0, "Type", { fg = c.base0 })
-    hl(0, "Pmenu", { fg = c.base1, bg = e.lighten(c.base02, 20) })
-    hl(0, "Search", { fg = c.base02, bg = c.yellow })
-    hl(0, "IncSearch", { fg = c.base02, bg = c.orange })
-    hl(0, "ColorColumn", { bg = e.darken(c.yellow, 40) })
+    hl(0, "Parameter", { fg = e.darken(c.blue, 10) })
+    hl(0, "Property", { link = "Normal" })
+    hl(0, "Special", { fg = c.violet })
+    hl(0, "Type", { link = "Normal" })
+
+    -- Other internal groups
+    hl(0, "ColorColumn", { link = "Search" })
     hl(0, "CursorColumn", { bg = c.base02 })
+    hl(0, "IncSearch", { fg = c.base02, bg = c.orange })
+    hl(0, "MatchParen", { fg = c.base2 })
+    hl(0, "NormalFloat", { link = "Pmenu" })
+    hl(0, "Pmenu", { fg = c.base1, bg = c.base02 })
+    hl(0, "Search", { fg = c.base02, bg = c.yellow })
 
     -- RRethy/vim-illuminate
-    hl(0, "IlluminatedWordText", { fg = c.base1, bg = c.base02, bold = true })
-    hl(0, "IlluminatedWordRead", { fg = c.base1, bg = c.base02, bold = true })
-    hl(0, "IlluminatedWordWrite", { fg = c.base1, bg = c.base02, bold = true })
+    hl(0, "IlluminatedWordText", { link = "MatchParen" })
+    hl(0, "IlluminatedWordRead", { link = "MatchParen" })
+    hl(0, "IlluminatedWordWrite", { link = "MatchParen" })
   end,
 }

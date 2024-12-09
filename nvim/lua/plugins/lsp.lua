@@ -6,6 +6,28 @@ return {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
   },
+  keys = {
+    {
+      "<leader><space>",
+      "<cmd>lua vim.lsp.buf.hover()<cr>",
+      desc = "LSP hover",
+    },
+    {
+      "<leader>r",
+      "<cmd>lua vim.lsp.buf.references()<cr>",
+      desc = "List references",
+    },
+    {
+      "[d",
+      "<cmd>lua if vim.diagnostic.jump then vim.diagnostic.jump()(-1) else vim.diagnostic.goto_prev() end<cr>",
+      desc = "Goto previous diagnostic",
+    },
+    {
+      "]d",
+      "<cmd>lua if vim.diagnostic.jump then vim.diagnostic.jump()(1) else vim.diagnostic.goto_next() end<cr>",
+      desc = "Goto next diagnostic",
+    },
+  },
   config = function()
     require("mason").setup()
     require("mason-lspconfig").setup({
@@ -17,13 +39,6 @@ return {
 
     -- LSP Keybindings
     local on_attach = function(client, bufnr)
-      local opts = { noremap = true, silent = true }
-      local buf_set_keymap = vim.api.nvim_buf_set_keymap
-      buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-      buf_set_keymap(bufnr, "n", "<leader><space>", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-      buf_set_keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-      buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
-
       -- Unset formatexpr (fex) to use default range formatter
       -- TODO: Remove when tuned the one offered by LSP
       vim.bo[bufnr].formatexpr = nil
