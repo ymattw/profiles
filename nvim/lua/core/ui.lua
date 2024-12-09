@@ -19,7 +19,7 @@ vim.opt.cursorline = true
 
 -- Coloring
 vim.api.nvim_set_hl(0, "ColorColumn", { link = "Search" })
-vim.api.nvim_set_hl(0, "CharAtCol81", { link = "WarningMsg" })
+vim.api.nvim_set_hl(0, "ColExceedsTextWidth", { link = "WarningMsg" })
 vim.api.nvim_set_hl(0, "IllegalChar", { link = "ErrorMsg" })
 
 -- Searching
@@ -27,7 +27,8 @@ vim.opt.ignorecase = true
 vim.opt.incsearch = true
 vim.opt.smartcase = true
 vim.opt.hlsearch = true
-vim.fn.matchadd("CharAtCol81", "\\%81v")
+local column = (vim.bo.textwidth or 100) + 1
+vim.fn.matchadd("ColExceedsTextWidth", "\\%" .. column .. "v")
 vim.fn.matchadd("IllegalChar", "\\%xa0\\|[“”‘’—]")
 
 -- Editing

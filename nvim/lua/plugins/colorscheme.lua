@@ -26,6 +26,8 @@ return {
     hl(0, "Pmenu", { fg = c.base1, bg = e.lighten(c.base02, 20) })
     hl(0, "Search", { fg = c.base02, bg = c.yellow })
     hl(0, "IncSearch", { fg = c.base02, bg = c.orange })
+    hl(0, "ColorColumn", { bg = e.darken(c.yellow, 40) })
+    hl(0, "CursorColumn", { bg = c.base02 })
 
     -- RRethy/vim-illuminate
     hl(0, "IlluminatedWordText", { fg = c.base1, bg = c.base02, bold = true })
