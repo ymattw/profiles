@@ -62,6 +62,22 @@ vim.keymap.set("c", "!", function()
   end
 end, { expr = true, desc = "Run command in terminal" })
 
+-- Options related autocmds
+
+-- Whenever set textwidth manually, set/update the ColExceedsTextWidth match
+vim.api.nvim_create_autocmd({ "OptionSet" }, {
+  pattern = "textwidth",
+  callback = function()
+    for _, match in ipairs(vim.fn.getmatches()) do
+      if match.group == "ColExceedsTextWidth" then
+        vim.fn.matchdelete(match.id)
+      end
+    end
+    local column = (vim.bo.textwidth > 0 and vim.bo.textwidth or 79) + 1
+    vim.fn.matchadd("ColExceedsTextWidth", "\\%" .. column .. "v")
+  end,
+})
+
 -- Filetype related autocmds
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = { "*[Mm]akefile*", "[Mm]ake.*", "*.mak", "*.make" },

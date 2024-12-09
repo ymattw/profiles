@@ -27,13 +27,13 @@ vim.opt.ignorecase = true
 vim.opt.incsearch = true
 vim.opt.smartcase = true
 vim.opt.hlsearch = true
-local column = (vim.bo.textwidth or 100) + 1
-vim.fn.matchadd("ColExceedsTextWidth", "\\%" .. column .. "v")
 vim.fn.matchadd("IllegalChar", "\\%xa0\\|[“”‘’—]")
 
 -- Editing
 -- Tolerate 1 letter diff sign, also fit for python (PEP8)
 vim.opt.textwidth = 79
+-- Trigger OptionSet event manually
+vim.api.nvim_exec_autocmds("OptionSet", { pattern = "textwidth" })
 vim.opt.backspace = { "indent", "eol", "start" }
 vim.opt.timeoutlen = 2000
 vim.opt.ttimeoutlen = 100
