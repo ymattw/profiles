@@ -32,7 +32,8 @@ map("n", "<leader><CR>", ":set wrap!<CR>", { desc = "Toggle wrapping" })
 
 -- Tabs
 map("n", "<leader>e", ":tabedit ", { desc = "Tab edit new file" })
-map("n", "<leader>E", ":tabedit %:h/<tab>", { desc = "Tab edit file in cwd" })
+-- TODO: there must be a way to auto feed Tab
+map("n", "<leader>E", ":tabedit %:h/", { desc = "Tab edit file in dir of current file" })
 map("n", "<leader>h", ":tabprevious<CR>", { desc = "Previous Tab" })
 map("n", "<leader>l", ":tabnext<CR>", { desc = "Next Tab" })
 
