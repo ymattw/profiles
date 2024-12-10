@@ -63,6 +63,7 @@ vim.opt.copyindent = true
 vim.opt.completeopt = { "menuone", "noselect" }
 vim.opt.complete:append({ "kspell", "k~/.vim/dictionary" })
 vim.opt.complete:remove(".")
+vim.opt.pumheight = 15
 
 -- Command-line completion
 vim.opt.wildmenu = true
