@@ -56,7 +56,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
 -- Remap '!' to run command in terminal
 vim.keymap.set("c", "!", function()
   if vim.fn.getcmdpos() == 1 then
-    return "below split term://"
+    return "term "
   else
     return "!"
   end

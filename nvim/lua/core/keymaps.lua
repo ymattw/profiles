@@ -58,8 +58,10 @@ end
 map("n", "<leader>|", ":lua ToggleColorColumn()<CR>", { desc = "Toggle color column" })
 map("n", "<leader><Tab>", ":lua ToggleTab()<CR>", { desc = "Toggle between spaces and tabs" })
 
-map("n", "<leader>y", ":below split term://ydiff %<CR>", { desc = "Run ydiff on current file" })
-map("n", "<leader>Y", ":below split term://ydiff<CR>", { desc = "Run ydiff on unstaged changes" })
+map("n", "<leader>y", function()
+  vim.cmd("term ydiff " .. vim.fn.expand("%"))
+end, { desc = "Run ydiff on current file" })
+map("n", "<leader>Y", ":term ydiff<CR>", { desc = "Run ydiff on unstaged changes" })
 
 -- Maps for insert mode
 map("i", "<C-J>", "<ESC>kJA", { desc = "Join to prev line (undo auto wrap)" })
