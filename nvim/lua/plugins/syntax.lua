@@ -1,17 +1,7 @@
 return {
-  -- git sign
+  -- syntax parser
   {
-    "lewis6991/gitsigns.nvim",
-    opts = {},
-  },
-
-  -- indention
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    opts = {
-      scope = { show_start = false, show_end = false },
-    },
+    "nvim-treesitter/nvim-treesitter",
   },
 
   -- highlighting other uses of the word under the cursor
@@ -21,7 +11,7 @@ return {
       require("illuminate").configure({
         delay = 100, -- milliseconds
         filetypes_denylist = { "NvimTree", "TelescopePrompt" },
-        providers = { "lsp", "treesitter", "regex" },
+        providers = { "treesitter", "lsp", "regex" },
         under_cursor = false,
       })
       -- NOTE: colors are dfined in colorscheme.lua
@@ -39,22 +29,6 @@ return {
       highlight = {
         pattern = [[.*<(KEYWORDS)>]],
         after = "",
-      },
-    },
-  },
-
-  -- help remember keymaps
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    opts = {},
-    keys = {
-      {
-        "<leader>?",
-        function()
-          require("which-key").show({ global = false })
-        end,
-        desc = "Buffer Local Keymaps (which-key)",
       },
     },
   },

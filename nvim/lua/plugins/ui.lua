@@ -44,4 +44,35 @@ return {
       },
     },
   },
+
+  -- git sign
+  {
+    "lewis6991/gitsigns.nvim",
+    opts = {},
+  },
+
+  -- indention
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    opts = {
+      scope = { show_start = false, show_end = false },
+    },
+  },
+
+  -- help remember keymaps
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    opts = {},
+    keys = {
+      {
+        "<leader>?",
+        function()
+          require("which-key").show({ global = false })
+        end,
+        desc = "Buffer Local Keymaps (which-key)",
+      },
+    },
+  },
 }
