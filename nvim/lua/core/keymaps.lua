@@ -21,14 +21,27 @@ map("n", "qa", ":qa<CR>", { desc = "Quickly close all windows" })
 
 map("n", "<leader>2", ":set et sts=2 sw=2<CR>", { desc = "Use 2-space indention" })
 map("n", "<leader>4", ":set et sts=4 sw=4<CR>", { desc = "Use 4-space indention" })
-map("n", "<Leader>d", ":cd %:h<CR>:pwd<CR>", { desc = "Switch to dir of current file" })
-map("n", "<Leader>-", ":cd -<CR>:pwd<CR>", { desc = "Switch back to previous dir" })
-map("n", "<Leader>f", "<C-w>gf", { desc = "Open file under cursor in new tab" })
+map("n", "<leader>b", ":tabe %:h/BUILD<CR>", { desc = "Open BUILD file" })
+map("n", "<leader>d", ":cd %:h<CR>:pwd<CR>", { desc = "Switch to dir of current file" })
+map("n", "<leader>-", ":cd -<CR>:pwd<CR>", { desc = "Switch back to previous dir" })
+map("n", "<leader>f", "<C-w>gf", { desc = "Open file under cursor in new tab" })
 map("n", "<leader>q", ":qall<CR>", { desc = "Quickly quit vim" })
 map("n", "<leader>s", ":Ack! -w <cword><CR>", { desc = "Quick search word under cursor" })
-map("n", "<Leader>t", "<C-w><C-]><C-w>T", { desc = "Open tag in new tab" })
+map("n", "<leader>]", "<C-w><C-]><C-w>T", { desc = "Open tag in new tab" })
 map("n", "<leader>w", ":w<CR>", { desc = "Save 2 keystrokes" })
 map("n", "<leader><CR>", ":set wrap!<CR>", { desc = "Toggle wrapping" })
+
+-- <leader>t to open "related" file
+map("n", "<leader>t", function()
+  local file = vim.fn.expand("%:r") -- basename
+  local ext = vim.fn.expand("%:e") -- file extension
+  local related = file .. "_test." .. ext
+
+  if file:match("_test$") then
+    related = file:gsub("_test$", "") .. "." .. ext
+  end
+  vim.cmd("tabe " .. related)
+end, { desc = "Open related file" })
 
 -- Tabs
 map("n", "<leader>e", ":tabedit ", { desc = "Tab edit new file" })
@@ -60,9 +73,9 @@ map("n", "<leader>|", ":lua ToggleColorColumn()<CR>", { desc = "Toggle color col
 map("n", "<leader><Tab>", ":lua ToggleTab()<CR>", { desc = "Toggle between spaces and tabs" })
 
 map("n", "<leader>y", function()
-  vim.cmd("term ydiff " .. vim.fn.expand("%"))
+  vim.cmd("tab term ydiff " .. vim.fn.expand("%"))
 end, { desc = "Run ydiff on current file" })
-map("n", "<leader>Y", ":term ydiff<CR>", { desc = "Run ydiff on unstaged changes" })
+map("n", "<leader>Y", ":tab term ydiff<CR>", { desc = "Run ydiff on unstaged changes" })
 
 -- Maps for insert mode
 map("i", "<C-J>", "<ESC>kJA", { desc = "Join to prev line (undo auto wrap)" })

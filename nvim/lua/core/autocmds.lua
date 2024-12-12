@@ -56,7 +56,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
 -- Remap '!' to run command in terminal
 vim.keymap.set("c", "!", function()
   if vim.fn.getcmdpos() == 1 then
-    return "term "
+    return "tab term "
   else
     return "!"
   end
@@ -114,6 +114,15 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.expandtab = false
     vim.opt_local.shiftwidth = 8
     vim.opt_local.list = false
+
+    -- <leader>g to run glaze
+    vim.api.nvim_buf_set_keymap(
+      0,
+      "n",
+      "<leader>g",
+      ":!glaze -verbose %:h<CR>",
+      { noremap = true, silent = true }
+    )
   end,
 })
 
