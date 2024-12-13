@@ -56,11 +56,11 @@ vim.api.nvim_create_autocmd("TermOpen", {
 -- Remap '!' to run command in terminal
 vim.keymap.set("c", "!", function()
   if vim.fn.getcmdpos() == 1 then
-    return "tab term "
+    return "below " .. math.floor(vim.fn.winheight(0) * 0.75) .. "new term://"
   else
     return "!"
   end
-end, { expr = true, desc = "Run command in terminal" })
+end, { expr = true, desc = "Run command in a split terminal of 50% winheight" })
 
 -- Options related autocmds
 
