@@ -60,6 +60,14 @@ return {
     },
   },
 
+  -- For editing textarea in Chrome/Edge
+  {
+    "glacambre/firenvim",
+    build = function()
+      vim.fn["firenvim#install"](0)
+    end,
+  },
+
   -- help remember keymaps
   {
     "folke/which-key.nvim",

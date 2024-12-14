@@ -28,7 +28,7 @@ map("n", "<leader>f", "<C-w>gf", { desc = "Open file under cursor in new tab" })
 map("n", "<leader>q", ":qall<CR>", { desc = "Quickly quit vim" })
 map("n", "<leader>s", ":Ack! -w <cword><CR>", { desc = "Quick search word under cursor" })
 map("n", "<leader>]", "<C-w><C-]><C-w>T", { desc = "Open tag in new tab" })
-map("n", "<leader>w", ":w<CR>", { desc = "Save 2 keystrokes" })
+map("n", "<leader>w", ":w<CR>", { desc = "Write changes to file" })
 map("n", "<leader><CR>", ":set wrap!<CR>", { desc = "Toggle wrapping" })
 
 -- <leader>t to open "related" file
@@ -51,7 +51,9 @@ map("n", "<leader>h", ":tabprevious<CR>", { desc = "Previous Tab" })
 map("n", "<leader>l", ":tabnext<CR>", { desc = "Next Tab" })
 
 -- When select+yank, copy to the system clipboard
-vim.api.nvim_set_keymap("v", "y", '"+y', { noremap = true, silent = true })
+map("v", "y", '"+y', { desc = "Copy to system clipboard", noremap = true })
+map("n", "<leader>p", '"+p', { desc = "Paste from system clipboard", noremap = true })
+map("n", "<leader>P", '"+P', { desc = "Paste from system clipboard", noremap = true })
 
 function ToggleTab()
   if vim.bo.expandtab then
