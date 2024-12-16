@@ -60,12 +60,11 @@ return {
     },
   },
 
-  -- For editing textarea in Chrome/Edge
+  -- For editing textarea in Chrome/Edge, macOS only
   {
     "glacambre/firenvim",
-    build = function()
-      vim.fn["firenvim#install"](0)
-    end,
+    enabled = vim.fn.has("mac") == 1,
+    build = ":call firenvim#install(0)",
   },
 
   -- help remember keymaps

@@ -134,17 +134,19 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Settings for firenvim
-vim.api.nvim_create_autocmd({ "UIEnter" }, {
-  callback = function(event)
-    local client = vim.api.nvim_get_chan_info(vim.v.event.chan).client
-    if client ~= nil and client.name == "Firenvim" then
-      vim.opt.spell = true
-      if vim.opt.lines:get() < 15 then
-        vim.opt.lines = 15
+if vim.fn.has("mac") then
+  vim.api.nvim_create_autocmd({ "UIEnter" }, {
+    callback = function(event)
+      local client = vim.api.nvim_get_chan_info(vim.v.event.chan).client
+      if client ~= nil and client.name == "Firenvim" then
+        vim.opt.spell = true
+        if vim.opt.lines:get() < 15 then
+          vim.opt.lines = 15
+        end
+        if vim.opt.columns:get() < 80 then
+          vim.opt.columns = 80
+        end
       end
-      if vim.opt.columns:get() < 80 then
-        vim.opt.columns = 80
-      end
-    end
-  end,
-})
+    end,
+  })
+end
