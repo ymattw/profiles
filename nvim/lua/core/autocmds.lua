@@ -64,17 +64,17 @@ end, { expr = true, desc = "Run command in a split terminal of 50% winheight" })
 
 -- Options related autocmds
 
--- Whenever set textwidth manually, set/update the ColExceedsTextWidth match
+-- Whenever set textwidth manually, set/update the CharExceedsWidth match
 vim.api.nvim_create_autocmd({ "OptionSet" }, {
   pattern = "textwidth",
   callback = function()
     for _, match in ipairs(vim.fn.getmatches()) do
-      if match.group == "ColExceedsTextWidth" then
+      if match.group == "CharExceedsWidth" then
         vim.fn.matchdelete(match.id)
       end
     end
     local column = (vim.bo.textwidth > 0 and vim.bo.textwidth or 79) + 1
-    vim.fn.matchadd("ColExceedsTextWidth", "\\%" .. column .. "v")
+    vim.fn.matchadd("CharExceedsWidth", "\\%" .. column .. "v")
   end,
 })
 

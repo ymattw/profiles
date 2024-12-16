@@ -19,7 +19,7 @@ vim.opt.cursorline = true
 
 -- Coloring
 vim.api.nvim_set_hl(0, "ColorColumn", { link = "Search" })
-vim.api.nvim_set_hl(0, "ColExceedsTextWidth", { link = "WarningMsg" })
+vim.api.nvim_set_hl(0, "CharExceedsWidth", { link = "WarningMsg" })
 vim.api.nvim_set_hl(0, "IllegalChar", { link = "ErrorMsg" })
 
 -- Searching
