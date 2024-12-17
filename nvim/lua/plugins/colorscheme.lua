@@ -25,6 +25,12 @@ return {
     hl(0, "Special", { fg = c.violet })
     hl(0, "Type", { link = "Normal" })
 
+    -- Diff mode
+    hl(0, "DiffDelete", { fg = c.base01, bg = c.base02 })
+    hl(0, "DiffAdd", { fg = c.green, bg = c.base02, bold = true })
+    hl(0, "DiffChange", { fg = c.yellow, bg = c.base02 })
+    hl(0, "DiffText", { fg = c.yellow, bg = c.base02, bold = true, underline = true })
+
     -- Other internal groups
     hl(0, "ColorColumn", { link = "Search" })
     hl(0, "CursorColumn", { bg = c.base02 })
