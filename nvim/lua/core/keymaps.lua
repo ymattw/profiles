@@ -50,6 +50,10 @@ map("n", "<leader>E", ":tabedit %:h/", { desc = "Tab edit file in dir of current
 map("n", "<leader>h", ":tabprevious<CR>", { desc = "Previous Tab" })
 map("n", "<leader>l", ":tabnext<CR>", { desc = "Next Tab" })
 
+-- quickfix
+map("n", "<leader>j", ":cnext<CR>", { desc = "Next quickfix item" })
+map("n", "<leader>k", ":cprev<CR>", { desc = "Previous quickfix item" })
+
 -- When select+yank, copy to the system clipboard
 map("v", "y", '"+y', { desc = "Copy to system clipboard", noremap = true })
 map("n", "<leader>p", '"+p', { desc = "Paste from system clipboard", noremap = true })
