@@ -14,7 +14,11 @@
 #   vif path [...] | xargs .. # pick files from path..., send to xargs cmd
 #   hg ls | vif               # pick files from commd output, send to vim
 function vif {
-    local arg=(--bind "enter:become(vim -Xn -u ~/.vimrc {})")
+    if type nvim >& /dev/null; then
+        local arg=(--bind "enter:become(nvim -n {})")
+    else
+        local arg=(--bind "enter:become(vim -Xn -u ~/.vimrc {})")
+    fi
     [[ -t 1 ]] || arg=()
     if [[ -t 0 ]]; then
         if (( $# > 0 )); then
