@@ -17,11 +17,6 @@ vim.opt.guicursor = {
 }
 vim.opt.cursorline = true
 
--- Coloring
-vim.api.nvim_set_hl(0, "ColorColumn", { link = "Search" })
-vim.api.nvim_set_hl(0, "CharExceedsWidth", { link = "WarningMsg" })
-vim.api.nvim_set_hl(0, "IllegalChar", { link = "ErrorMsg" })
-
 -- Searching
 vim.opt.ignorecase = true
 vim.opt.incsearch = true

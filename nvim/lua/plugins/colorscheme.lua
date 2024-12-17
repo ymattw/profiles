@@ -11,7 +11,8 @@ return {
     require("solarized").setup(opts)
     vim.cmd.colorscheme("solarized")
 
-    -- Overrides. Too many colors is distracting.
+    -- Overrides. Too many colors is distracting. To tell the highlight group
+    -- of text under cursor, use :Inspect
     local c = require("solarized.palette.solarized-light").solarized
     local e = require("solarized.color") -- effects
 
@@ -24,6 +25,14 @@ return {
     hl(0, "Property", { link = "Normal" })
     hl(0, "Special", { fg = c.violet })
     hl(0, "Type", { link = "Normal" })
+
+    hl(0, "@lsp.mod.defaultLibrary", { fg = e.darken(c.green, 10) })
+    hl(0, "@lsp.typemod.function.defaultLibrary", { fg = e.darken(c.green, 20) })
+    hl(0, "@lsp.typemod.method.declaration", { fg = c.blue })
+    hl(0, "@lsp.typemod.parameter", { fg = e.darken(c.yellow, 10) })
+    hl(0, "@lsp.type.parameter", { link = "@lsp.typemod.parameter" })
+    hl(0, "@lsp.type.interface", { link = "Normal" })
+    hl(0, "@lsp.type.type", { link = "Keyword" })
 
     -- Diff mode
     hl(0, "DiffDelete", { fg = c.base01, bg = c.base02 })
@@ -39,6 +48,10 @@ return {
     hl(0, "NormalFloat", { link = "Pmenu" })
     hl(0, "Pmenu", { fg = c.base1, bg = c.base02 })
     hl(0, "Search", { fg = c.base02, bg = c.yellow })
+
+    -- Customization
+    hl(0, "CharExceedsWidth", { link = "WarningMsg" })
+    hl(0, "IllegalChar", { link = "ErrorMsg" })
 
     -- RRethy/vim-illuminate
     hl(0, "IlluminatedWordText", { link = "MatchParen" })
