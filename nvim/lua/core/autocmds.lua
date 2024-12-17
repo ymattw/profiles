@@ -21,7 +21,7 @@ vim.api.nvim_create_autocmd("VimResized", {
 vim.api.nvim_create_autocmd("InsertLeave", {
   pattern = "*",
   callback = function()
-    vim.opt.paste = false
+    vim.opt_local.paste = false
   end,
 })
 
@@ -114,6 +114,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.expandtab = false
     vim.opt_local.shiftwidth = 8
     vim.opt_local.list = false
+    vim.opt_local.textwidth = 100
 
     -- <leader>g to run glaze
     vim.api.nvim_buf_set_keymap(
@@ -139,7 +140,7 @@ if vim.fn.has("mac") then
     callback = function(event)
       local client = vim.api.nvim_get_chan_info(vim.v.event.chan).client
       if client ~= nil and client.name == "Firenvim" then
-        vim.opt.spell = true
+        vim.opt_local.spell = true
         if vim.opt.lines:get() < 15 then
           vim.opt.lines = 15
         end

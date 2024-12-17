@@ -85,7 +85,7 @@ end, { desc = "Run ydiff on current file in a split terminal of 75% winheight" }
 
 map("n", "<leader>Y", function()
   local cmd = "below " .. math.floor(vim.fn.winheight(0) * 0.75) .. "new term://"
-  vim.cmd(cmd .. " Ydiff")
+  vim.cmd(cmd .. " ydiff")
 end, { desc = "Run ydiff in a split terminal of 75% winheight" })
 
 -- Maps for insert mode
