@@ -1,5 +1,6 @@
 return {
   "neovim/nvim-lspconfig",
+  version = "1.0.0", -- 1.1.0 breaks goDeclaration
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",

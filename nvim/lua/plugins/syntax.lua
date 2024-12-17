@@ -1,5 +1,6 @@
 return {
-  -- syntax parser
+  -- syntax parser, to tell the highlight group of text under cursor, use:
+  -- :echo synIDattr(synID(line('.'), col('.'), 1), 'name')
   {
     "nvim-treesitter/nvim-treesitter",
   },
