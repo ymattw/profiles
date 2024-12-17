@@ -73,7 +73,8 @@ vim.api.nvim_create_autocmd({ "OptionSet" }, {
         vim.fn.matchdelete(match.id)
       end
     end
-    local column = (vim.bo.textwidth > 0 and vim.bo.textwidth or 79) + 1
+    local column = vim.api.nvim_buf_get_option(0, "textwidth") or vim.o.textwidth
+    column = (column > 0 and column or 79) + 1
     vim.fn.matchadd("CharExceedsWidth", "\\%" .. column .. "v")
   end,
 })
@@ -115,6 +116,8 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.shiftwidth = 8
     vim.opt_local.list = false
     vim.opt_local.textwidth = 100
+    -- Trigger OptionSet event manually
+    vim.api.nvim_exec_autocmds("OptionSet", { pattern = "textwidth" })
 
     -- <leader>g to run glaze
     vim.api.nvim_buf_set_keymap(
