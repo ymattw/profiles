@@ -38,11 +38,12 @@ return {
     local lspconfig = require("lspconfig")
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-    -- LSP Keybindings
+    -- Use default formatexpr for document formatting
     local on_attach = function(client, bufnr)
-      -- Unset formatexpr (fex) to use default range formatter
-      -- TODO: Remove when tuned the one offered by LSP
-      vim.bo[bufnr].formatexpr = nil
+      -- LSP offered documentFormattingProvider is often not desired
+      if client.server_capabilities.documentFormattingProvider then
+        vim.bo[bufnr].formatexpr = nil
+      end
     end
 
     -- Configure LSP servers

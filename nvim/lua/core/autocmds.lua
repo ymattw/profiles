@@ -115,7 +115,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.expandtab = false
     vim.opt_local.shiftwidth = 8
     vim.opt_local.list = false
-    vim.opt_local.textwidth = 100
+    vim.opt_local.textwidth = 0
     -- Trigger OptionSet event manually
     vim.api.nvim_exec_autocmds("OptionSet", { pattern = "textwidth" })
 

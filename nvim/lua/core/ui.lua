@@ -37,6 +37,8 @@ vim.opt.matchpairs:append("<:>")
 vim.opt.formatoptions = "tcqron1MBj"
 vim.opt.spelllang = { "en_us" }
 vim.opt.dictionary:append("~/.vim/dictionary")
+-- Do not confuse LSP servers
+vim.opt.backupdir:remove(".")
 
 -- Tab
 vim.opt.smarttab = true
