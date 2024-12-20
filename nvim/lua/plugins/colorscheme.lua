@@ -48,6 +48,7 @@ return {
     hl(0, "NormalFloat", { link = "Pmenu" })
     hl(0, "Pmenu", { fg = c.base1, bg = c.base02 })
     hl(0, "Search", { fg = c.base02, bg = c.yellow })
+    hl(0, "TabLineSel", { fg = c.base2, bg = c.orange })
 
     -- Customization
     hl(0, "CharExceedsWidth", { link = "WarningMsg" })

@@ -22,7 +22,8 @@ return {
     opts = {
       options = {
         mode = "tabs",
-        always_show_bufferline = false,
+        always_show_bufferline = true,
+        numbers = "ordinal",
       },
     },
   },
