@@ -3,6 +3,10 @@ import = [
   "~/.config/alacritty/solarized_dark.toml",
 ]
 
+[env]
+# To be compatible with my zshrc (__setup_ssh_agent)
+ITERM_PROFILE = "Personal"
+
 [window]
 dimensions = { lines = 130, columns = 240 }
 
