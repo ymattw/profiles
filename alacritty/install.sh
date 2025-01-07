@@ -11,4 +11,4 @@ readonly SELF_DIR=$(cd $(dirname $0) && pwd)
 }
 
 mkdir -p ~/.config/alacritty
-cp -a $SELF_DIR/*.yml ~/.config/alacritty/
+cp -a $SELF_DIR/*.toml ~/.config/alacritty/

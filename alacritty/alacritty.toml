@@ -1,0 +1,25 @@
+[general]
+import = [
+  "~/.config/alacritty/solarized_dark.toml",
+]
+
+[window]
+dimensions = { lines = 130, columns = 240 }
+
+[font]
+# To find available fonts, run `fc-list : family`
+normal = { family = "AnonymicePro Nerd Font Mono", style = "Regular" }
+size = 16
+offset = { y = 1 }
+
+[selection]
+save_to_clipboard = true
+
+[[keyboard.bindings]]
+key = "Period"
+mods = "Command"
+chars = "\u001B."
+
+[[keyboard.bindings]]
+key = "F13"
+chars = "\u001B[1;2P"
