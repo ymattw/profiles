@@ -14,6 +14,7 @@ offset = { y = 1 }
 
 [selection]
 save_to_clipboard = true
+semantic_escape_chars = "$=,│`|:\"' ()[]{}<>\t"
 
 [[keyboard.bindings]]
 key = "Period"
