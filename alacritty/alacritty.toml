@@ -8,7 +8,7 @@ import = [
 ITERM_PROFILE = "Personal"
 
 [window]
-dimensions = { lines = 130, columns = 240 }
+dimensions = { lines = 125, columns = 240 }
 
 [font]
 # To find available fonts, run `fc-list : family`
