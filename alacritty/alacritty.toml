@@ -12,9 +12,9 @@ dimensions = { lines = 125, columns = 240 }
 
 [font]
 # To find available fonts, run `fc-list : family`
-normal = { family = "AnonymicePro Nerd Font Mono" }
+normal = { family = "AnonymicePro Nerd Font" }
 size = 16
-offset = { y = 0.5 }
+offset = { y = 1 }
 
 [selection]
 save_to_clipboard = true
