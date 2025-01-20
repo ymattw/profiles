@@ -218,9 +218,10 @@ function __setup_dir_colors
 
 function __setup_ssh_agent
 {
-    # Skip setting up ssh agent for "Work" profile. Expects user to use
+    # Skip setting up ssh agent for non "Personal" profile. Expects user to use
     # different iTerm profiles "Work" and "Personal".
-    [[ -n $ITERM_PROFILE ]] && [[ ${(U)ITERM_PROFILE} != "WORK" ]] || return 0
+    [[ ${(U)ITERM_PROFILE} == "PERSONAL" ]] || return 0
+    [[ ${(U)TERM_PROFILE} == "PERSONAL" ]] || return 0  # Fallback env variable
 
     # Assume personal environment from here.
     alias ssh='/usr/bin/ssh'

@@ -5,7 +5,7 @@ import = [
 
 [env]
 # To be compatible with my zshrc (__setup_ssh_agent)
-ITERM_PROFILE = "Personal"
+TERM_PROFILE = "Personal"
 
 [window]
 dimensions = { lines = 125, columns = 240 }
