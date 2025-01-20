@@ -29,7 +29,7 @@ return {
     hl(0, "@lsp.mod.defaultLibrary", { fg = e.darken(c.green, 10) })
     hl(0, "@lsp.typemod.function.defaultLibrary", { fg = e.darken(c.green, 20) })
     hl(0, "@lsp.typemod.method.declaration", { fg = c.blue })
-    hl(0, "@lsp.typemod.parameter", { link = "Normal" })
+    hl(0, "@lsp.typemod.parameter", { fg = c.base0, italic = true })
     hl(0, "@lsp.type.parameter", { link = "@lsp.typemod.parameter" })
     hl(0, "@lsp.type.interface", { link = "Normal" })
     hl(0, "@lsp.type.type", { link = "Keyword" })
@@ -56,8 +56,8 @@ return {
     hl(0, "IllegalChar", { link = "ErrorMsg" })
 
     -- RRethy/vim-illuminate
-    hl(0, "IlluminatedWordText", { fg = c.base1 })
-    hl(0, "IlluminatedWordRead", { fg = c.base1 })
-    hl(0, "IlluminatedWordWrite", { fg = c.base1 })
+    hl(0, "IlluminatedWordText", { bg = e.lighten(c.base03, 20), bold = true })
+    hl(0, "IlluminatedWordRead", { bg = e.lighten(c.base03, 20), bold = true })
+    hl(0, "IlluminatedWordWrite", { bg = e.lighten(c.base03, 20), bold = true })
   end,
 }
