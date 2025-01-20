@@ -14,7 +14,8 @@ dimensions = { lines = 125, columns = 240 }
 # To find available fonts, run `fc-list : family`
 normal = { family = "AnonymicePro Nerd Font" }
 size = 16
-offset = { y = 1 }
+# Less compact rendering identical to iTerm2
+offset = { x = 1 }
 
 [selection]
 save_to_clipboard = true
