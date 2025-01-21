@@ -53,6 +53,22 @@ vim.api.nvim_create_autocmd("TermOpen", {
   command = "startinsert",
 })
 
+-- Turn off hlsearch when entering a terminal buffer
+vim.api.nvim_create_autocmd("TermEnter", {
+  pattern = "*",
+  callback = function()
+    vim.opt.hlsearch = false
+  end,
+})
+
+-- Restore hlsearch to on when leaving a terminal buffer
+vim.api.nvim_create_autocmd("TermLeave", {
+  pattern = "*",
+  callback = function()
+    vim.opt.hlsearch = true
+  end,
+})
+
 -- Remap '!' to run command in terminal
 vim.keymap.set("c", "!", function()
   if vim.fn.getcmdpos() == 1 then
