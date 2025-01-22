@@ -44,3 +44,7 @@ defaults write -g ApplePressAndHoldEnabled -bool false
 
 # Disable the chime when your laptop is plugged in with command
 defaults write com.apple.PowerChime ChimeOnAllHardware -bool false && killall PowerChime
+
+# Disable Font Smoothing (https://www.fontsmoothingadjuster.com)
+# This is the reason why font is thicker in terminals!
+defaults -currentHost write -g AppleFontSmoothing -int 0
