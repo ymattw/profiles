@@ -9,6 +9,7 @@ TERM_PROFILE = "Personal"
 
 [window]
 dimensions = { lines = 125, columns = 240 }
+padding = { x = 5, y = 2 }
 
 [font]
 # To find available fonts, run `fc-list : family`
@@ -16,6 +17,9 @@ normal = { family = "AnonymicePro Nerd Font" }
 size = 16
 # Less compact rendering identical to iTerm2
 offset = { x = 1 }
+
+[mouse]
+hide_when_typing = true
 
 [selection]
 save_to_clipboard = true
