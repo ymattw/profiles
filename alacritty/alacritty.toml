@@ -8,6 +8,7 @@ import = [
 TERM_PROFILE = "Personal"
 
 [window]
+decorations = "Buttonless"
 dimensions = { lines = 125, columns = 240 }
 padding = { x = 5, y = 2 }
 
