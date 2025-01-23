@@ -7,7 +7,7 @@ return {
   opts = {},
   config = function(_, opts)
     vim.opt.termguicolors = true
-    vim.opt.background = "dark"
+    vim.opt.background = vim.g.neovide and "light" or "dark"
     require("solarized").setup(opts)
     vim.cmd.colorscheme("solarized")
 
@@ -59,5 +59,12 @@ return {
     hl(0, "IlluminatedWordText", { bg = e.lighten(c.base03, 20), bold = true })
     hl(0, "IlluminatedWordRead", { bg = e.lighten(c.base03, 20), bold = true })
     hl(0, "IlluminatedWordWrite", { bg = e.lighten(c.base03, 20), bold = true })
+
+    if vim.g.neovide then
+      hl(0, "Pmenu", { bg = c.base1, fg = c.base02 })
+      hl(0, "IlluminatedWordText", { fg = c.base03, bold = true })
+      hl(0, "IlluminatedWordRead", { fg = c.base03, bold = true })
+      hl(0, "IlluminatedWordWrite", { fg = c.base03, bold = true })
+    end
   end,
 }

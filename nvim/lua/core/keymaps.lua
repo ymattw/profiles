@@ -31,6 +31,14 @@ map("n", "<leader>]", "<C-w><C-]><C-w>T", { desc = "Open tag in new tab" })
 map("n", "<leader>w", ":w<CR>", { desc = "Write changes to file" })
 map("n", "<leader><CR>", ":set wrap!<CR>", { desc = "Toggle wrapping" })
 
+if vim.g.neovide then
+  -- Allow clipboard copy paste
+  map("", "<D-v>", "+p<CR>", { noremap = true, silent = true })
+  map("!", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+  map("c", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+  map("v", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+end
+
 -- <leader>t to open "related" file
 map("n", "<leader>t", function()
   local file = vim.fn.expand("%:r") -- basename

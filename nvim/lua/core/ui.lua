@@ -9,6 +9,13 @@ vim.opt.listchars = { tab = "▸ ", trail = "▌", extends = "»", precedes = "�
 vim.opt.synmaxcol = 150
 vim.opt.lazyredraw = true
 
+if vim.g.neovide then
+  vim.o.guifont = "AnonymicePro Nerd Font:h16"
+  vim.opt.mouse = "a"
+  vim.g.neovide_cursor_trail_size = 0.5
+  vim.g.neovide_cursor_animation_length = 0.05
+end
+
 -- Cursor
 vim.opt.guicursor = {
   "n-v-c-ci-sm:block", -- Block shape for n,v,c modes
