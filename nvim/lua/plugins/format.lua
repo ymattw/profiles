@@ -22,7 +22,13 @@ local formatters_by_ft = {
   python = { "autopep8" },
 }
 
-local formatters = {}
+local formatters = {
+  autopep8 = {
+    command = "autopep8",
+    -- --experiment is needed for always wrap at column 79
+    args = { "--experimental", "--aggressive", "-" },
+  },
+}
 
 return {
   "stevearc/conform.nvim",
