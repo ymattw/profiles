@@ -19,16 +19,10 @@
 local formatters_by_ft = {
   go = { "gofmt" },
   lua = { "stylua" },
-  python = { "autopep8" },
+  python = { "pyink" },
 }
 
-local formatters = {
-  autopep8 = {
-    command = "autopep8",
-    -- --experiment is needed for always wrap at column 79
-    args = { "--experimental", "--aggressive", "-" },
-  },
-}
+local formatters = {}
 
 return {
   "stevearc/conform.nvim",
