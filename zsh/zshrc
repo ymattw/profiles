@@ -114,6 +114,9 @@ function __setup_path
 
     [[ $(uname -s) != Darwin ]] || __prepend_path /opt/homebrew/bin
 
+    # For python tools installed by pipx
+    __prepend_path ~/.local/bin
+
     # ~/bin takes precedence
     __prepend_path ~/bin
 
