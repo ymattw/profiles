@@ -4,7 +4,8 @@
 FILENAME=${1:-""}
 
 REPO_URLS=$(git remote -v \
-    | perl -pe 's,(.*\sgit@|.*://|\.git .*),,g; s,:,/,' \
+    | awk '{print $2}' \
+    | sed -r 's,(^git@|\.git$),,g; s,:,/,' \
     | sort -u)
 
 BRANCH=$(git symbolic-ref HEAD 2>/dev/null)
