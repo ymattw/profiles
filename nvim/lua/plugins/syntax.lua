@@ -2,6 +2,21 @@ return {
   -- syntax parser
   {
     "nvim-treesitter/nvim-treesitter",
+    config = function()
+      require("nvim-treesitter.configs").setup({
+        -- :TSInstallInfo to check the full list
+        ensure_installed = {
+          "go",
+          "make",
+          "markdown",
+          "python",
+          "toml",
+        },
+        highlight = {
+          enable = true,
+        },
+      })
+    end,
   },
 
   -- highlighting other uses of the word under the cursor

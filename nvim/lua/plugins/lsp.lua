@@ -32,7 +32,7 @@ return {
   config = function()
     require("mason").setup()
     require("mason-lspconfig").setup({
-      ensure_installed = { "pylsp", "lua_ls" },
+      ensure_installed = { "gopls", "pylsp", "lua_ls" },
     })
 
     local lspconfig = require("lspconfig")
@@ -47,6 +47,19 @@ return {
     end
 
     -- Configure LSP servers
+    lspconfig.gopls.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      settings = {
+        gopls = {
+          analyses = {
+            unusedparams = true,
+          },
+          staticcheck = true,
+        },
+      },
+    })
+
     lspconfig.lua_ls.setup({
       capabilities = capabilities,
       on_attach = on_attach,
