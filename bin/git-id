@@ -43,3 +43,16 @@ set -- $ID_LINE
 git config user.email $2
 shift; shift
 git config user.name "$*"
+
+SIGNING_KEY="$(curl -sL https://github.com/${ID}.keys | grep ^ssh)"
+if (( $(echo "$SIGNING_KEY" | wc -l) == 0 )); then
+    echo "User $ID has no ssh key registered, skip setting up signing config"
+elif (( $(echo "$SIGNING_KEY" | wc -l) > 1 )); then
+    echo "User $ID has multiple ssh keys registered, skip setting up signing config"
+else
+    git config user.signingkey "key::$SIGNING_KEY"
+    git config gpg.format ssh
+    git config commit.gpgsign true
+    git config gpg.ssh.allowedSignersFile $(git rev-parse --show-toplevel)/.git/allowed-signers
+    echo "$(git config --get user.email) namespaces=\"git\" $SIGNING_KEY" > $(git rev-parse --show-toplevel)/.git/allowed-signers
+fi
