@@ -8,10 +8,10 @@ return {
     event = "InsertEnter",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "onsails/lspkind-nvim",
-      "crazyhulk/cmp-sign",
     },
     config = function()
       local cmp = require("cmp")
@@ -32,19 +32,16 @@ return {
           }),
         },
         mapping = {
-          ["<Tab>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-          ["<S-Tab>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+          ["<Tab>"] = cmp.mapping.confirm({ select = true }),
           ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
           ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
-          ["<C-Space>"] = cmp.mapping.complete(),
         },
         experimental = {
           ghost_text = true,
         },
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
-          { name = "nvim_cmp_sign" },
+          { name = "nvim_lsp_signature_help" },
           { name = "luasnip" },
           { name = "buffer" },
           { name = "path" },
