@@ -23,6 +23,7 @@ return {
       })
 
       cmp.setup({
+        preselect = cmp.PreselectMode.None,
         formatting = {
           format = lspkind.cmp_format({
             mode = "symbol_text",
@@ -32,7 +33,7 @@ return {
           }),
         },
         mapping = {
-          ["<Tab>"] = cmp.mapping.confirm({ select = true }),
+          ["<Tab>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
           ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
           ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
         },
