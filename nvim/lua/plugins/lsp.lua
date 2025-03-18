@@ -76,5 +76,13 @@ return {
       capabilities = capabilities,
       on_attach = on_attach,
     })
+
+    lspconfig.ts_ls.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      -- sudo npm i -g typescript typescript-language-server
+      filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+      cmd = { "typescript-language-server", "--stdio" },
+    })
   end,
 }
