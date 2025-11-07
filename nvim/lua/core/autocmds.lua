@@ -132,6 +132,10 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.shiftwidth = 8
     vim.opt_local.list = false
     vim.opt_local.textwidth = 0
+    -- Reset these to make gq able to format comments
+    vim.opt_local.formatexpr = nil
+    vim.opt_local.formatprg = nil
+    vim.opt_local.formatoptions = "tcqron1MBj"
     -- Trigger OptionSet event manually
     vim.api.nvim_exec_autocmds("OptionSet", { pattern = "textwidth" })
 
