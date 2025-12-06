@@ -9,25 +9,27 @@ return {
     "stevearc/dressing.nvim", -- better UI
   },
   opts = {
-    provider = "gemini",
-    ollama = {
-      __inherited_from = "openai",
-      api_key_name = "",
-      endpoint = "http://localhost:11434/v1",
-      model = "qwen2.5-coder",
-      temperature = 0.3, -- the smaller the more stable response
-      max_tokens = 2048,
-    },
+    provider = "ollama",
+    providers = {
+      ollama = {
+        __inherited_from = "openai",
+        api_key_name = "",
+        endpoint = "http://localhost:11434/v1",
+        model = "qwen2.5-coder",
+        temperature = 0.3, -- the smaller the more stable response
+        max_tokens = 2048,
+      },
 
-    -- Requires $OPENAI_API_KEY
-    openai = {
-      model = "gpt-4o-mini",
-    },
+      -- Requires $OPENAI_API_KEY
+      openai = {
+        model = "gpt-4o-mini",
+      },
 
-    -- Requires $GEMINI_API_KEY
-    gemini = {
-      model = "gemini-2.0-flash",
-      timeout = "10000", -- milliseconds
+      -- Requires $GEMINI_API_KEY
+      gemini = {
+        model = "gemini-2.0-flash",
+        timeout = "10000", -- milliseconds
+      },
     },
 
     -- TODO: map a key to toggle this?
