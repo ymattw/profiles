@@ -23,6 +23,7 @@ local formatters_by_ft = {
   javascript = { "prettier" },
   lua = { "stylua" },
   python = { "pyink" },
+  rust = { "rustfmt" },
   typescriptreact = { "prettier" },
 }
 

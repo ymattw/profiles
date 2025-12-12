@@ -32,7 +32,12 @@ return {
   config = function()
     require("mason").setup()
     require("mason-lspconfig").setup({
-      ensure_installed = { "gopls", "pylsp", "lua_ls" },
+      ensure_installed = {
+        "gopls",
+        "lua_ls",
+        "pylsp",
+        "rust_analyzer",
+      },
     })
 
     local lspconfig = require("lspconfig")
@@ -75,6 +80,23 @@ return {
     lspconfig.pylsp.setup({
       capabilities = capabilities,
       on_attach = on_attach,
+    })
+
+    lspconfig.rust_analyzer.setup({
+      capabilities = capabilities,
+      settings = {
+        ['rust-analyzer'] = {
+          diagnostics = {
+            enable = true,
+          },
+          cargo = {
+            allFeatures = true,
+          },
+          procMacro = {
+            enable = true,
+          },
+        },
+      },
     })
 
     lspconfig.ts_ls.setup({
