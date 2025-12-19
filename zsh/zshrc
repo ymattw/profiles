@@ -172,8 +172,6 @@ function __setup_completions
 
 function __setup_aliases
 {
-    local lsprog="/bin/ls"
-
     alias ..='cd ..'
     alias ...='cd ../..'
     alias ....='cd ../../..'
@@ -181,25 +179,15 @@ function __setup_aliases
     # Skip system wide vimrc to reduce startup time
     ! type vim >& /dev/null || alias vi='vim -Xn -u ~/.vimrc'
     ! type nvim >& /dev/null || alias vi='nvim'
-    ! type ag >& /dev/null || alias ag='command ag --nogroup'
     alias grep='grep --color=auto'
+    alias ls="/bin/ls -F --color=auto"
+    alias l="/bin/ls -lF --color=auto"
 
     case $(uname -s) in
-        Linux)
-            lsprog="/bin/ls --color=auto"
-            alias ls="$lsprog -F"
-            alias l="$lsprog -lF"
-            alias lsps='ps -ef f | grep -vw grep | grep -i'
-            ;;
         Darwin)
-            type gls >& /dev/null && lsprog="gls --color=auto"
-            alias ls="$lsprog -F"
-            alias l="$lsprog -lF"
             alias lsps='ps -ax -o user,pid,ppid,stime,tty,time,command | grep -vw grep | grep -i'
             ;;
         *)
-            alias ls="$lsprog -F"
-            alias l="$lsprog -lF"
             alias lsps='ps -auf | grep -vw grep | grep -i'
             ;;
     esac
