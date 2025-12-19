@@ -23,11 +23,6 @@ vim --version | grep -Fq "+lua" || {
          "auto completion, see https://github.com/Shougo/neocomplete.vim" >&2
 }
 
-type -P ag >& /dev/null || {
-    echo "*** 'ag' is not installed, highly recommended to install for" \
-         "quick search, see https://github.com/ggreer/the_silver_searcher" >&2
-}
-
 readonly LOG_FILE="/tmp/vim-plug-install-$$.log"
 trap "rm -f $LOG_FILE" EXIT
 vim +PlugInstall +qall >& $LOG_FILE

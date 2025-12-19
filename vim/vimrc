@@ -45,14 +45,6 @@ Plug 'ymattw/vim-fold-paragraph'        " My own folding preference
 Plug 'elzr/vim-json', {'for': 'json'}
 let g:vim_json_syntax_conceal = 0       " Do not hide quotes
 
-Plug 'mileszs/ack.vim'
-let g:ackprg = 'ag --vimgrep --smart-case'
-let g:ackhighlight = 1
-cnoreabbrev Ag Ack!
-cnoreabbrev ag Ack!
-cnoreabbrev Af AckFile!
-cnoreabbrev af AckFile!
-
 " neocomplete can beat YouCompleteMe in both functionality and installation
 " friendly, it also replaces supertab and AutoComplPop.
 if has('lua') && v:version < 802
