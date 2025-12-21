@@ -67,7 +67,7 @@ return {
           },
         },
         virtualtext = {
-          auto_trigger_ft = { "*" },
+          auto_trigger_ft = {}, -- manually trigger, see ./completion.lua
           keymap = {
             accept = "<Tab>",
             accept_line = "<C-l>",
