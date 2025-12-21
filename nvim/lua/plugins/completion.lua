@@ -4,6 +4,16 @@ return {
   },
 
   {
+    "uga-rosa/cmp-dictionary",
+    config = function()
+      require("cmp_dictionary").setup({
+        paths = vim.opt.dictionary:get(),
+        exact_length = 2,
+      })
+    end,
+  },
+
+  {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
@@ -46,6 +56,7 @@ return {
           { name = "nvim_lsp_signature_help" },
           { name = "luasnip" },
           { name = "buffer" },
+          { name = "dictionary",             keyword_length = 2 },
           { name = "path" },
         }),
       })
