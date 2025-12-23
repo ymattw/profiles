@@ -51,12 +51,16 @@ return {
         experimental = {
           ghost_text = true,
         },
+        -- Global default for all sources
+        completion = {
+          keyword_length = 2,
+        },
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
           { name = "nvim_lsp_signature_help" },
           { name = "luasnip" },
           { name = "buffer" },
-          { name = "dictionary",             keyword_length = 2 },
+          { name = "dictionary" },
           { name = "path" },
         }),
       })
