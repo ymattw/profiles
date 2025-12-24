@@ -185,6 +185,7 @@ function __setup_aliases
 
     case $(uname -s) in
         Darwin)
+            export LSCOLORS="exgxfxfxcxdxdxbxbxcxbx"
             alias lsps='ps -ax -o user,pid,ppid,stime,tty,time,command | grep -vw grep | grep -i'
             ;;
         *)
