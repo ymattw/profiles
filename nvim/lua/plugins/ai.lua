@@ -3,11 +3,11 @@ return {
     "yetone/avante.nvim",
     event = "VeryLazy",
     lazy = false,
-    version = '*', -- pull the latest release
+    version = "*", -- pull the latest release
     build = "make",
     dependencies = {
-      "nvim-lua/plenary.nvim",  -- utils lib
-      "MunifTanjim/nui.nvim",   -- UI lib
+      "nvim-lua/plenary.nvim", -- utils lib
+      "MunifTanjim/nui.nvim", -- UI lib
       "stevearc/dressing.nvim", -- better UI
       "nvim-tree/nvim-web-devicons",
       {
@@ -46,9 +46,9 @@ return {
         auto_set_keymaps = true,
         auto_apply_diff_after_generation = false,
         support_paste_from_clipboard = false,
-        minimize_diff = true,                -- Whether to remove unchanged lines when applying a code block
-        enable_token_counting = true,        -- Whether to enable token counting. Default to true.
-        enable_cursor_planning_mode = false, -- Whether to enable Cursor Planning Mode. Default to false.
+        minimize_diff = true,
+        enable_token_counting = true,
+        enable_cursor_planning_mode = false,
       },
     },
   },

@@ -85,7 +85,7 @@ return {
     lspconfig.rust_analyzer.setup({
       capabilities = capabilities,
       settings = {
-        ['rust-analyzer'] = {
+        ["rust-analyzer"] = {
           diagnostics = {
             enable = true,
           },
