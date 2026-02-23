@@ -157,6 +157,14 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Show diagnostics automatically on hover
+vim.opt.updatetime = 1000 -- When cursor is idle for 1 second
+vim.api.nvim_create_autocmd("CursorHold", {
+  callback = function()
+    vim.diagnostic.open_float(nil, { focusable = false })
+  end,
+})
+
 -- Settings for firenvim
 if vim.fn.has("mac") then
   vim.api.nvim_create_autocmd({ "UIEnter" }, {
