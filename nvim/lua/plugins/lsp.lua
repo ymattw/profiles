@@ -20,12 +20,12 @@ return {
     },
     {
       "[d",
-      "<cmd>lua if vim.diagnostic.jump then vim.diagnostic.jump()(-1) else vim.diagnostic.goto_prev() end<cr>",
+      "<cmd>lua if vim.diagnostic.jump then vim.diagnostic.jump({ count = -1 }) else vim.diagnostic.goto_prev() end<cr>",
       desc = "Goto previous diagnostic",
     },
     {
       "]d",
-      "<cmd>lua if vim.diagnostic.jump then vim.diagnostic.jump()(1) else vim.diagnostic.goto_next() end<cr>",
+      "<cmd>lua if vim.diagnostic.jump then vim.diagnostic.jump({ count = 1 }) else vim.diagnostic.goto_prev() end<cr>",
       desc = "Goto next diagnostic",
     },
   },
