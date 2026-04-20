@@ -7,19 +7,25 @@
 # ProxyCommand /usr/bin/nc -X 5 -x localhost:1080 %h %p
 # IdentifyFile ~/.ssh/my.key
 
+Host *
+    ControlMaster auto
+    ControlPath ~/.ssh-%r-%h-%p.mux
+    ControlPersist 10h
+    TCPKeepAlive yes
+    ServerAliveInterval 30
+    ServerAliveCountMax 5
+    User ymattw
+
 Host cent7
     Hostname 10.1.1.2
-
-Host github.com bitbucket.org git
-    ControlMaster auto
-    ControlPath ~/.ssh-%h-%p.mux
-    ControlPersist 1h
 
 Host jumpbox
     PreferredAuthentications publickey
     ForwardAgent yes
 
 Host far
+    ProxyJump jumpbox
+    ExitOnForwardFailure yes
     ProxyCommand ssh jumpbox -W %h:%p
     PreferredAuthentications publickey
     ForwardAgent yes
@@ -30,9 +36,3 @@ Host */*
     ProxyCommand ssh $(dirname %h) -W $(basename %h):%p
     PreferredAuthentications publickey
     ForwardAgent yes
-
-Host *
-    User ymattw
-    TCPKeepAlive yes
-    ServerAliveInterval 30
-    ServerAliveCountMax 5
