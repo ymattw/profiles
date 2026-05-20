@@ -22,7 +22,7 @@ local formatters_by_ft = {
   html = { "prettier" },
   javascript = { "prettier" },
   lua = { "stylua" },
-  python = { "pyink" },
+  python = { "pyink" }, -- pipx install pyink
   rust = { "rustfmt" },
   typescriptreact = { "prettier" },
 }
