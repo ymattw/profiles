@@ -248,42 +248,57 @@ function __setup_ssh_agent
 #
 function __setup_prompt
 {
-    PROMPT="💡"                                         # start w/ a lightbulb
-    PROMPT+="%(?.%F{green}✔.%F{red}✘) %*%f "            # exit code and time
+    local distro
 
-    # Detect whether this box has ssh keys, distinguish hostname color
-    if [[ -f ~/.ssh/$USER.key ]]; then
-        PROMPT+="%F{blue}"                              # blue hostname
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        OS_ICON=$'\uf179' # macOS
     else
-        PROMPT+="%F{magenta}"                           # magenta hostname
+        # Read the ID directly by filtering the line with grep
+        IFS='=' read -r _ distro < <(grep "^ID=" /etc/os-release 2>/dev/null)
+
+        # Match the distro ID to a Nerd Font OS_ICON
+        # Ref: https://www.nerdfonts.com/cheat-sheet
+        case "$distro" in
+            debian) OS_ICON=$'\uf306' ;;
+            ubuntu) OS_ICON=$'\uf31b' ;;
+            *)      OS_ICON=$'\uf31a' ;;  # Linux Tux
+        esac
     fi
 
-    # Highlight hostname in reverse green if inside a container
-    if [[ -n $container_uuid ]] || [[ -f /.dockerenv ]]; then
-        PROMPT+="%S%F{green}"
-    fi
+    function __set_prompt {
+        PROMPT="%B${OS_ICON}%b"                         # Bold os icon
+        PROMPT+=" %F{magenta}%m%f:"                     # magenta hostname, ":"
+        PROMPT+="%F{yellow}\$(_source_control_cwd)%f"   # yellow cwd
+        PROMPT+="\$(_source_control_info)"              # source control info
+        PROMPT+=" %F{cyan}"$'⤾%f\n'                     # cyan wrap char, NL
+        PROMPT+="%(?.%F{green}✔.%F{red}✘) %*%f"         # exit code, time
+        PROMPT+=" %(1j.%S.)"                            # reverse bg job
+        PROMPT+="%B%#%s "                               # bold % or #, unreverse
+    }
 
-    PROMPT+="%2m%s"                                     # 2 hostname components
-    PROMPT+="%f:%F{yellow}\$(_source_control_cwd)"      # yellow cwd
-    PROMPT+="%f\$(_source_control_info)"                # source control info
-    PROMPT+=" %F{cyan}"$'⤾\n'                           # cyan wrap char, NL
-    PROMPT+="%f⮕ "                                      # reset fg, arrow
-    PROMPT+="%(1j.%S.)"                                 # reverse bg job
-    PROMPT+="%B%#%s "                                   # bold % or #, unreverse
+    function __update_prompt_and_submit {
+        # Re-evaluate the prompt string right now to grab the fresh %* time
+        __set_prompt
 
-    zle -N zle-line-init __zle_line_init
-    zle -N zle-line-pre-redraw __zle_line_init
+        # Force the Zsh Line Editor to visually refresh the prompt on screen
+        zle reset-prompt
+
+        # Execute the default Enter key behavior (run the command)
+        zle accept-line
+    }
+
+    # Register the function as a ZLE widget
+    zle -N __update_prompt_and_submit
+
+    # Bind the widget to the Enter key (Ctrl+M / Return)
+    bindkey '^M' __update_prompt_and_submit
+
+    # Reset color when finished reading a new line of input
+    function __zle_line_finish {
+        echo -ne '\e[0m'
+    }
+
     zle -N zle-line-finish __zle_line_finish
-}
-
-# Start hightlight when ready to read a new line of input
-function __zle_line_init {
-  echo -ne '\e[1m'
-}
-
-# Reset color when finished reading a new line of input
-function __zle_line_finish {
-  echo -ne '\e[0m'
 }
 
 # Load custom settings from ~/.profiles.d/*.sh, typical settings are
