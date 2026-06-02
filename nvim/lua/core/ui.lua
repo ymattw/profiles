@@ -22,8 +22,6 @@ vim.g.clipboard = {
   },
 }
 
-vim.opt.clipboard = 'unnamedplus'
-
 if vim.g.neovide then
   vim.o.guifont = "AnonymicePro Nerd Font:h16"
   vim.opt.mouse = "a"
