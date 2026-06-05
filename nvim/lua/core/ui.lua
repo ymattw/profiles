@@ -69,9 +69,6 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.softtabstop = 4
 vim.opt.tabstop = 8
-vim.opt.smartindent = true
-vim.opt.autoindent = true
-vim.opt.copyindent = true
 
 -- Indentation
 vim.opt.smartindent = true

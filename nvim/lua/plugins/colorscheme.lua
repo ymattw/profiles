@@ -2,7 +2,6 @@ local hl = vim.api.nvim_set_hl
 
 return {
   "maxmx03/solarized.nvim",
-  lazy = false,
   priority = 1000,
   opts = {},
   config = function(_, opts)
@@ -13,7 +12,8 @@ return {
 
     -- Overrides. Too many colors is distracting. To tell the highlight group
     -- of text under cursor, use :Inspect
-    local c = require("solarized.palette.solarized-light").solarized
+    local p = vim.o.background == "dark" and "solarized.palette" or "solarized.palette.solarized-light"
+    local c = require(p).solarized
     local e = require("solarized.color") -- effects
 
     -- Syntax groups
