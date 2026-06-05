@@ -4,8 +4,6 @@ return {
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
   },
   keys = {
     {
@@ -30,16 +28,6 @@ return {
     },
   },
   config = function()
-    require("mason").setup()
-    require("mason-lspconfig").setup({
-      ensure_installed = {
-        "gopls",
-        "lua_ls",
-        "pylsp",
-        "rust_analyzer",
-      },
-    })
-
     local lspconfig = require("lspconfig")
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
