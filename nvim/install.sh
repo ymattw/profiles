@@ -39,12 +39,19 @@ function github_release_install {
         return 1
     fi
 
+    local arch=$(uname -m)
+    if [[ "$arch" == "x86_64" ]]; then
+        arch="(x86_64|x64)"
+    elif [[ "$arch" == "aarch64" ]]; then
+        arch="(aarch64|arm64)"
+    fi
+
     local os_arch
-    os_arch="$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)"
+    os_arch="$(uname -s)-${arch}"
     local url
     url=$(echo "$release_json" \
         | grep '"browser_download_url":' \
-        | grep -i "$os_arch" \
+        | grep -iE "$os_arch" \
         | head -n 1 \
         | cut -d '"' -f 4)
 
@@ -88,12 +95,15 @@ function github_release_install {
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     check_and_install gopls brew install gopls
+    check_and_install lua-language-server brew install lua-language-server
     check_and_install pylsp brew install python-lsp-server
     check_and_install stylua brew install stylua
     check_and_install pipx brew install pipx
     check_and_install pyink pipx install pyink
 elif [[ -f /etc/debian_version ]]; then
     check_and_install gopls sudo apt install -y gopls
+    check_and_install lua-language-server github_release_install \
+        lua-language-server LuaLS/lua-language-server
     check_and_install pylsp sudo apt install -y python3-pylsp
     check_and_install stylua github_release_install stylua JohnnyMorganz/StyLua
     check_and_install pipx sudo apt install -y pipx
