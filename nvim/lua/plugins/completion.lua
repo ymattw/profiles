@@ -1,37 +1,25 @@
 return {
   {
-    "L3MON4D3/LuaSnip", -- Snippet engine
-  },
-
-  {
-    "uga-rosa/cmp-dictionary",
-    config = function()
-      require("cmp_dictionary").setup({
-        paths = vim.opt.dictionary:get(),
-        exact_length = 2,
-      })
-    end,
-  },
-
-  {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
+      "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-nvim-lsp-signature-help",
-      "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "onsails/lspkind-nvim",
+      "uga-rosa/cmp-dictionary",
     },
+
     config = function()
       local cmp = require("cmp")
       local lspkind = require("lspkind")
 
-      require("luasnip").config.setup({
-        enable_autosnippets = true,
-        snippet_trigger = { "<Tab>", "<C-j>" },
+      require("cmp_dictionary").setup({
+        paths = vim.tbl_map(vim.fn.expand, vim.opt.dictionary:get()),
+        exact_length = 2,
+        first_case_insensitive = true,
       })
-
       cmp.setup({
         preselect = cmp.PreselectMode.None,
         formatting = {
@@ -56,11 +44,10 @@ return {
           keyword_length = 2,
         },
         sources = cmp.config.sources({
-          { name = "nvim_lsp" },
-          { name = "nvim_lsp_signature_help" },
-          { name = "luasnip" },
           { name = "buffer" },
           { name = "dictionary" },
+          { name = "nvim_lsp" },
+          { name = "nvim_lsp_signature_help" },
           { name = "path" },
         }),
       })
