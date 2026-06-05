@@ -268,7 +268,7 @@ function __setup_prompt
     PROMPT+="%F{yellow}\$(_source_control_cwd)%f" # yellow cwd
     PROMPT+="\$(_source_control_info)"            # vcs info
     PROMPT+=" %F{cyan}"$'⤾%f\n'                   # cyan wrap char+NL
-    PROMPT+="%F{46}${__OS_ICON} %m%f"             # hilight OS icon, hostname
+    PROMPT+="%F{118}${__OS_ICON} %m%f"            # hilight OS icon, hostname
     PROMPT+=" %(1j.%S.)"                          # reverse bg job indicator
     PROMPT+="%B%#%s "                             # bold % or #, unreverse
 
