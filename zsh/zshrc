@@ -24,7 +24,7 @@ function vif {
         if (( $# > 0 )); then
             find "$@" -type f | fzf "${arg[@]}"
         else
-            cat ~/.fzf-file-list | fzf "${arg[@]}"
+            fzf "${arg[@]}" < ~/.fzf-file-list
         fi
     else
         fzf "${arg[@]}"
@@ -121,7 +121,7 @@ function __setup_path
 
 function __setup_shell_options
 {
-    set -o shwordsplit                  # ARG="foo bar"; $ARG => "foo" "bar"
+    setopt shwordsplit                  # ARG="foo bar"; $ARG => "foo" "bar"
     setopt prompt_subst
     setopt interactive_comments
     setopt nocase_glob
@@ -144,9 +144,9 @@ function __setup_shell_options
 
 function __setup_environments
 {
-    export HISTFILE=~/.zhistory         # Prevent from ~/.zsh<tab> completion
-    export HISTSIZE=10000
-    export SAVEHIST=10000
+    HISTFILE=~/.zhistory                # Prevent from ~/.zsh<tab> completion
+    HISTSIZE=10000
+    SAVEHIST=10000
     export EDITOR=vi
     ! type vim >& /dev/null || export EDITOR=vim
     ! type nvim >& /dev/null || export EDITOR=nvim
@@ -154,7 +154,7 @@ function __setup_environments
     # Locale (LC_*) matters for ls and sort on Linux, see also
     # www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
     #
-    [[ $(uname -s) != Linux ]] || export LC_COLLATE=C
+    [[ $OSTYPE != linux* ]] || export LC_COLLATE=C
 }
 
 function __setup_completions
@@ -164,10 +164,6 @@ function __setup_completions
     zmodload zsh/complist
     bindkey -M menuselect '^M' .accept-line     # <Enter> only once to accept
     ZLE_REMOVE_SUFFIX_CHARS=                    # no space after, zshparam(1)
-
-    # Fix default host completion
-    __hosts=($(sed -ne 's/[, ].*//p' ~/.ssh/known_hosts* 2>/dev/null))
-    zstyle ':completion:*:hosts' hosts $__hosts
 }
 
 function __setup_aliases
@@ -183,8 +179,8 @@ function __setup_aliases
     alias ls="/bin/ls -F --color=auto"
     alias l="/bin/ls -lF --color=auto"
 
-    case $(uname -s) in
-        Darwin)
+    case $OSTYPE in
+        darwin*)
             export LSCOLORS="exgxfxfxcxdxdxbxbxcxbx"
             alias lsps='ps -ax -o user,pid,ppid,stime,tty,time,command | grep -vw grep | grep -i'
             ;;
@@ -198,7 +194,7 @@ function __setup_dir_colors
 {
     local prog=dircolors
 
-    [[ $(uname -s) != Darwin ]] || prog=gdircolors
+    [[ $OSTYPE != darwin* ]] || prog=gdircolors
     if type $prog >& /dev/null && [[ -f ~/.dircolors ]]; then
         eval $($prog -b ~/.dircolors)
     fi
@@ -218,23 +214,22 @@ function __setup_ssh_agent
 
     local key=~/.ssh/$USER.key
     local rc=~/.ssh-agent.rc
-    local start_new=false
+    local start_new=true
 
     [[ -f $key ]] || return 0
     if [[ -f $rc ]]; then
-        source $rc
-        /usr/bin/ssh-add -L | grep -qw "$key" || start_new=true
-    else
-        start_new=true
+        source "$rc"
+        /usr/bin/ssh-add -l >/dev/null 2>&1 && start_new=false
     fi
 
     if $start_new; then
         print -P "%{\e[31m%}Starting a new ssh-agent process...%{\e[0m%}" >&2
         rm -f ~/.ssh-agent.sock
-        /usr/bin/ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > $rc
-        source $rc
-        /usr/bin/ssh-add $key
+        /usr/bin/ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > "$rc"
+        source "$rc"
     fi
+
+    /usr/bin/ssh-add -L | grep -q '^ssh' || /usr/bin/ssh-add "$key"
 }
 
 # Fancy PROMPT, prompt exit status of last command, currenet time, hostname,
@@ -250,7 +245,7 @@ function __setup_prompt
 {
     local distro
 
-    if [[ "$(uname -s)" == "Darwin" ]]; then
+    if [[ $OSTYPE == darwin* ]]; then
         __OS_ICON=$'\uf179' # macOS
     else
         IFS='=' read -r _ distro < <(grep "^ID=" /etc/os-release 2>/dev/null)
@@ -284,10 +279,8 @@ function __setup_custom_profiles
 {
     local p
 
-    ls ~/.profiles.d/*.sh >& /dev/null || return 0
-
-    for p in ~/.profiles.d/*.sh; do
-        source $p
+    for p in ~/.profiles.d/*.sh(N); do
+        source "$p"
     done
 }
 
