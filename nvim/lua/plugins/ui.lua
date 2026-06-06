@@ -61,12 +61,7 @@ return {
     },
   },
 
-  -- For editing textarea in Chrome/Edge, macOS only
-  {
-    "glacambre/firenvim",
-    enabled = vim.fn.has("mac") == 1,
-    build = ":call firenvim#install(0)",
-  },
+
 
   -- help remember keymaps
   {
