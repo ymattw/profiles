@@ -37,6 +37,23 @@ return {
       if client.server_capabilities.documentFormattingProvider then
         vim.bo[bufnr].formatexpr = nil
       end
+
+      -- Enable native document highlighting
+      if client.server_capabilities.documentHighlightProvider then
+        local group = vim.api.nvim_create_augroup("LSPDocumentHighlight", { clear = false })
+        vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
+
+        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+          buffer = bufnr,
+          group = group,
+          callback = vim.lsp.buf.document_highlight,
+        })
+        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+          buffer = bufnr,
+          group = group,
+          callback = vim.lsp.buf.clear_references,
+        })
+      end
     end
 
     -- Configure LSP servers

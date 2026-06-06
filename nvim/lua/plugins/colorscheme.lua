@@ -55,16 +55,16 @@ return {
     hl(0, "CharExceedsWidth", { link = "WarningMsg" })
     hl(0, "IllegalChar", { link = "ErrorMsg" })
 
-    -- RRethy/vim-illuminate
-    hl(0, "IlluminatedWordText", { bg = e.lighten(c.base03, 20), bold = true })
-    hl(0, "IlluminatedWordRead", { bg = e.lighten(c.base03, 20), bold = true })
-    hl(0, "IlluminatedWordWrite", { bg = e.lighten(c.base03, 20), bold = true })
+    -- Native LSP documentHighlight
+    hl(0, "LspReferenceText", { bg = e.lighten(c.base03, 20), bold = true })
+    hl(0, "LspReferenceRead", { bg = e.lighten(c.base03, 20), bold = true })
+    hl(0, "LspReferenceWrite", { bg = e.lighten(c.base03, 20), bold = true })
 
     if vim.g.neovide then
       hl(0, "Pmenu", { bg = c.base1, fg = c.base02 })
-      hl(0, "IlluminatedWordText", { fg = c.base03, bold = true })
-      hl(0, "IlluminatedWordRead", { fg = c.base03, bold = true })
-      hl(0, "IlluminatedWordWrite", { fg = c.base03, bold = true })
+      hl(0, "LspReferenceText", { fg = c.base03, bold = true })
+      hl(0, "LspReferenceRead", { fg = c.base03, bold = true })
+      hl(0, "LspReferenceWrite", { fg = c.base03, bold = true })
     end
   end,
 }

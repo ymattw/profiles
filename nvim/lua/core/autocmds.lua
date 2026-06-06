@@ -158,7 +158,9 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Show diagnostics automatically on hover
-vim.opt.updatetime = 1000 -- When cursor is idle for 1 second
+-- NOTE: updatetime controls CursorHold, which dictates the delay for BOTH the
+-- diagnostic hover popup and the LSP documentHighlight under cursor.
+vim.opt.updatetime = 500 -- Millisecond
 vim.api.nvim_create_autocmd("CursorHold", {
   callback = function()
     vim.diagnostic.open_float(nil, { focusable = false })
