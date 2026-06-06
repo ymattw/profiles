@@ -21,7 +21,12 @@ function check_and_install {
         echo "✔ $cmd_name is already installed."
     else
         echo "Installing $cmd_name..."
-        "$@" || echo "✘ Failed to install $cmd_name"
+        if "$@"; then
+            echo "✔ $cmd_name installed."
+        else
+            echo "✘ Failed to install $cmd_name"
+            return 1
+        fi
     fi
 }
 

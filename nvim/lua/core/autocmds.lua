@@ -166,6 +166,21 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.opt.updatetime = 500 -- Millisecond
 vim.api.nvim_create_autocmd("CursorHold", {
   callback = function()
-    vim.diagnostic.open_float(nil, { focusable = false })
+    if vim.bo.buftype ~= "" then
+      return
+    end
+
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    local diagnostics = vim.diagnostic.get(0, {
+      lnum = cursor[1] - 1,
+    })
+    if vim.tbl_isempty(diagnostics) then
+      return
+    end
+
+    vim.diagnostic.open_float(nil, {
+      focusable = false,
+      scope = "cursor",
+    })
   end,
 })
