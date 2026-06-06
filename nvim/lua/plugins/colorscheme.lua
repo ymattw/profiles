@@ -54,6 +54,13 @@ return {
     -- Customization
     hl(0, "CharExceedsWidth", { link = "WarningMsg" })
     hl(0, "IllegalChar", { link = "ErrorMsg" })
+    
+    -- Custom Todo Highlights
+    hl(0, "TodoNote", { fg = c.base03, bg = c.green, bold = true })
+    hl(0, "TodoTodo", { fg = c.base03, bg = c.blue, bold = true })
+    hl(0, "TodoHack", { fg = c.base03, bg = c.orange, bold = true })
+    hl(0, "TodoWarn", { fg = c.base03, bg = c.yellow, bold = true })
+    hl(0, "TodoFixme", { fg = c.base03, bg = c.red, bold = true })
 
     -- Native LSP documentHighlight
     hl(0, "LspReferenceText", { bg = e.lighten(c.base03, 20), bold = true })
