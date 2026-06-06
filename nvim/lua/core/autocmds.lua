@@ -113,9 +113,12 @@ vim.api.nvim_create_autocmd("FileType", {
     "html",
     "jade",
     "javascript",
+    "javascriptreact",
     "json",
     "lua",
     "ruby",
+    "typescript",
+    "typescriptreact",
     "yaml",
   },
   callback = function()
@@ -166,5 +169,3 @@ vim.api.nvim_create_autocmd("CursorHold", {
     vim.diagnostic.open_float(nil, { focusable = false })
   end,
 })
-
-

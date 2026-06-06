@@ -21,9 +21,11 @@ local formatters_by_ft = {
   go = { "gofmt" },
   html = { "prettier" },
   javascript = { "prettier" },
+  javascriptreact = { "prettier" },
   lua = { "stylua" },
-  python = { "pyink" }, -- pipx install pyink
+  python = { "pyink" },
   rust = { "rustfmt" },
+  typescript = { "prettier" },
   typescriptreact = { "prettier" },
 }
 

@@ -21,11 +21,10 @@ require("lazy").setup({
   },
   -- automatically check for plugin updates
   checker = {
-    enabled = true,
-    notify = false,
+    enabled = false,
   },
   change_detection = {
-    notify = false,
+    enabled = false,
   },
   performance = {
     rtp = {
@@ -33,6 +32,8 @@ require("lazy").setup({
       disabled_plugins = {
         "gzip",
         "netrwPlugin",
+        "rplugin",
+        "spellfile_plugin",
         "tarPlugin",
         "tohtml",
         "tutor",
