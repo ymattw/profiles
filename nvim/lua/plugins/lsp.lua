@@ -40,7 +40,8 @@ return {
 
       -- Enable native document highlighting
       if client.server_capabilities.documentHighlightProvider then
-        local group = vim.api.nvim_create_augroup("LSPDocumentHighlight", { clear = false })
+        -- Create a unique group name for this specific buffer
+        local group = vim.api.nvim_create_augroup("Illuminate" .. bufnr, { clear = true })
         vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
 
         vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
