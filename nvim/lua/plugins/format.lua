@@ -2,18 +2,18 @@
 --
 -- NOTE: plugin file basename determines the lazy loading order. So to override
 -- the formatting behavior, define a plugin with file basename comes after
--- "format" (eg. format-xxx.lua), then override the opts function. Example:
+-- "format" (eg. format_xxx.lua), then override the opts function. Example:
 --
 -- local formatters_by_ft = ...
 -- local formatters = ...
 --
 -- return {
 --   "stevearc/conform.nvim",
---   opts = function(_, opts)
---     opts.formatters_by_ft = formatters_by_ft
---     opts.formatters = formatters
---     return opts
---   end,
+--   opts = {
+--     formatters_by_ft = formatters_by_ft,
+--     formatters = formatters,
+--     default_format_opts = { lsp_format = "fallback" },
+--   },
 -- }
 
 local formatters_by_ft = {
@@ -46,13 +46,12 @@ return {
     },
   },
 
-  -- opts() is excuted before plugin is loaded
-  opts = function(_, opts)
-    opts.formatters_by_ft = formatters_by_ft
-    opts.formatters = formatters
-    opts.default_format_opts = { lsp_format = "fallback" }
-    return opts
-  end,
+  -- opts is merged by lazy.nvim
+  opts = {
+    formatters_by_ft = formatters_by_ft,
+    formatters = formatters,
+    default_format_opts = { lsp_format = "fallback" },
+  },
 
   -- config() is excuted once after plugin is loaded
   config = function(_, opts)
