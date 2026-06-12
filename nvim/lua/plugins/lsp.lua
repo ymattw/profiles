@@ -1,3 +1,64 @@
+local on_attach = function(client, bufnr)
+  -- Use default formatexpr for document formatting
+  -- LSP offered documentFormattingProvider is often not desired
+  if client.server_capabilities.documentFormattingProvider then
+    vim.bo[bufnr].formatexpr = nil
+  end
+
+  -- Enable native document highlighting
+  if client.server_capabilities.documentHighlightProvider then
+    -- Create a unique group name for this specific buffer
+    local group = vim.api.nvim_create_augroup("Illuminate" .. bufnr, { clear = true })
+
+    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+      buffer = bufnr,
+      group = group,
+      callback = vim.lsp.buf.document_highlight,
+    })
+    vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+      buffer = bufnr,
+      group = group,
+      callback = vim.lsp.buf.clear_references,
+    })
+  end
+end
+
+local servers = {
+  gopls = {
+    settings = {
+      gopls = {
+        analyses = {
+          unusedparams = true,
+        },
+        staticcheck = true,
+      },
+    },
+  },
+  lua_ls = {
+    settings = {
+      Lua = {
+        diagnostics = {
+          globals = { "vim" },
+        },
+      },
+    },
+  },
+  pylsp = {},
+  rust_analyzer = {
+    settings = {
+      ["rust-analyzer"] = {
+        cargo = {
+          allFeatures = true,
+        },
+      },
+    },
+  },
+  ts_ls = {
+    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+    cmd = { "typescript-language-server", "--stdio" },
+  },
+}
+
 return {
   "neovim/nvim-lspconfig",
   version = "1.0.0", -- 1.1.0 breaks goDeclaration
@@ -5,6 +66,7 @@ return {
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
   },
+
   keys = {
     {
       "<leader><space>",
@@ -27,90 +89,26 @@ return {
       desc = "Goto next diagnostic",
     },
   },
-  config = function()
-    local lspconfig = require("lspconfig")
+
+  opts = function(_, opts)
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-    -- Use default formatexpr for document formatting
-    local on_attach = function(client, bufnr)
-      -- LSP offered documentFormattingProvider is often not desired
-      if client.server_capabilities.documentFormattingProvider then
-        vim.bo[bufnr].formatexpr = nil
-      end
-
-      -- Enable native document highlighting
-      if client.server_capabilities.documentHighlightProvider then
-        -- Create a unique group name for this specific buffer
-        local group = vim.api.nvim_create_augroup("Illuminate" .. bufnr, { clear = true })
-        vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
-
-        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-          buffer = bufnr,
-          group = group,
-          callback = vim.lsp.buf.document_highlight,
-        })
-        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-          buffer = bufnr,
-          group = group,
-          callback = vim.lsp.buf.clear_references,
-        })
-      end
+    local local_servers = {}
+    for server, config in pairs(servers) do
+      local_servers[server] = vim.tbl_extend("force", {
+        capabilities = capabilities,
+        on_attach = on_attach,
+      }, config)
     end
-
-    -- Configure LSP servers
-    lspconfig.gopls.setup({
-      capabilities = capabilities,
+    return vim.tbl_deep_extend("force", opts, {
       on_attach = on_attach,
-      settings = {
-        gopls = {
-          analyses = {
-            unusedparams = true,
-          },
-          staticcheck = true,
-        },
-      },
+      servers = local_servers,
     })
+  end,
 
-    lspconfig.lua_ls.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = {
-        Lua = {
-          diagnostics = {
-            globals = { "vim" },
-          },
-        },
-      },
-    })
-
-    lspconfig.pylsp.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
-
-    lspconfig.rust_analyzer.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = {
-        ["rust-analyzer"] = {
-          diagnostics = {
-            enable = true,
-          },
-          cargo = {
-            allFeatures = true,
-          },
-          procMacro = {
-            enable = true,
-          },
-        },
-      },
-    })
-
-    lspconfig.ts_ls.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-      cmd = { "typescript-language-server", "--stdio" },
-    })
+  config = function(_, opts)
+    local lspconfig = require("lspconfig")
+    for server_name, server_opts in pairs(opts.servers) do
+      lspconfig[server_name].setup(server_opts)
+    end
   end,
 }
