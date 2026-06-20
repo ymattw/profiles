@@ -22,14 +22,21 @@ local formatters_by_ft = {
   html = { "prettier" },
   javascript = { "prettier" },
   javascriptreact = { "prettier" },
+  json = { "prettier" },
+  jsonc = { "prettier" },
   lua = { "stylua" },
+  markdown = { "prettier" },
   python = { "pyink" },
   rust = { "rustfmt" },
   typescript = { "prettier" },
   typescriptreact = { "prettier" },
 }
 
-local formatters = {}
+local formatters = {
+  prettier = {
+    prepend_args = { "--prose-wrap", "always" },
+  },
+}
 
 return {
   "stevearc/conform.nvim",
