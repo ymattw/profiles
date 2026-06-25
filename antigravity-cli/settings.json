@@ -1,0 +1,48 @@
+{
+  "colorScheme": "solarized dark",
+  "enableTelemetry": false,
+  "model": "Gemini 3.1 Pro (High)",
+  "enableTerminalSandbox": true,
+  "toolPermission": "always-proceed",
+  "allowNonWorkspaceAccess": false,
+  "permissions": {
+    "allow": [
+      "command(git add)",
+      "command(git cat-file)",
+      "command(git checkout)",
+      "command(git commit)",
+      "command(git diff)",
+      "command(git fetch)",
+      "command(git grep)",
+      "command(git log)",
+      "command(git status)",
+      "command(mkdir)",
+      "command(npm run (build|lint|test)$)",
+      "command(pnpm run (build|dev|format)$)",
+      "command(rmdir)",
+      "read_file(/tmp)",
+      "read_url(google.com)",
+      "write_file(/tmp)"
+    ],
+    "deny": [
+      "command(chflags)",
+      "command(dd)",
+      "command(defaults)",
+      "command(diskutil)",
+      "command(git push)",
+      "command(launchctl)",
+      "command(osascript)",
+      "command(rm)",
+      "command(rmdir)",
+      "command(su)",
+      "command(sudo)",
+      "execute_url(*)",
+      "read_file(~/.ssh)",
+      "write_file(.git)",
+      "write_file(~/Applications)",
+      "write_file(~/Documents)",
+      "write_file(~/Library)"
+    ],
+    "ask": []
+  }
+}
