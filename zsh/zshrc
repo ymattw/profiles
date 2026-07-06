@@ -209,15 +209,15 @@ function __setup_dir_colors
 
 function __setup_ssh_agent
 {
-    # Skip setting up ssh agent for non "Personal" profile. Expects user to use
-    # different iTerm profiles "Work" and "Personal".
-    [[ ${(U)ITERM_PROFILE} == "PERSONAL" ]] || [[ ${(U)TERM_PROFILE} == "PERSONAL" ]] || return 0
 
-    # Assume personal environment from here.
-    alias ssh='/usr/bin/ssh'
-    alias ssh-add='/usr/bin/ssh-add'
-    alias ssh-keygen='/usr/bin/ssh-keygen'
-    alias sftp='/usr/bin/sftp'
+    # NOTE for gMac: create a wrapper ~/bin/ssh (with symlink scp, sftp etc.)
+    # as below to work better. See also ../ssh/config.sample.
+    #
+    # if echo "$*" | grep -qE "someCorpHostPattern"; then
+    #     /usr/local/bin/$(basename $0) "$@"
+    # else
+    #     /usr//bin/$(basename $0) "$@"
+    # fi
 
     local key=~/.ssh/$USER.key
     local rc=~/.ssh-agent.rc

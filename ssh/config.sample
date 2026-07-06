@@ -1,37 +1,30 @@
 # Example .ssh/config.  See ssh_config(5) for see all options.
-#
-# Most common options:
-#
-# LocalForward 5601 localhost:5601
-# DynamicForward 7070
-# ProxyCommand /usr/bin/nc -X 5 -x localhost:1080 %h %p
-# IdentifyFile ~/.ssh/my.key
 
 Host *
-    ControlMaster auto
-    ControlPath ~/.ssh-%r-%h-%p.mux
-    ControlPersist 10h
     TCPKeepAlive yes
     ServerAliveInterval 30
     ServerAliveCountMax 5
+
+Host corp-machine
+    IdentitiesOnly yes
+    ControlMaster auto
+    ControlPath ~/.ssh-%r-%h-%p.mux
+    ControlPersist 10h
     User ymattw
 
-Host cent7
-    Hostname 10.1.1.2
-
 Host jumpbox
+    Port 2222
     PreferredAuthentications publickey
     ForwardAgent yes
+    DynamicForward 7070
 
 Host far
     ProxyJump jumpbox
     ExitOnForwardFailure yes
     ProxyCommand ssh jumpbox -W %h:%p
-    PreferredAuthentications publickey
-    ForwardAgent yes
+    LocalForward 5901 localhost:5901
 
 # Now you can jump in a chain like: ssh jumpbox/far/remote
-#
 Host */*
     ProxyCommand ssh $(dirname %h) -W $(basename %h):%p
     PreferredAuthentications publickey
