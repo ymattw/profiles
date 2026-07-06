@@ -1,0 +1,20 @@
+window-decoration = none
+cursor-style = block
+shell-integration-features = false
+mouse-hide-while-typing = true
+
+font-family = "AnonymicePro Nerd Font"
+font-size = 16
+copy-on-select = clipboard
+quit-after-last-window-closed = true
+
+theme = Solarized Dark Patched
+selection-background = #778f96
+selection-foreground = #111111
+
+
+# F122 is my tmux prefix key
+keybind = f13=text:\x1b[1;2P
+
+# Cmd + . => ESC + .
+keybind = super+period=esc:.
