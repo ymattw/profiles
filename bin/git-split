@@ -1,0 +1,51 @@
+#!/bin/bash
+
+set -euo pipefail
+
+if [ $# -lt 2 ]; then
+    echo "Usage: git split <commit> <file1> [<file2>...]"
+    exit 1
+fi
+
+COMMIT=$1
+shift
+FILES=("$@")
+
+if ! git rev-parse --verify "$COMMIT^{commit}" >/dev/null 2>&1; then
+    echo "Error: Invalid commit $COMMIT"
+    exit 1
+fi
+
+if ! git merge-base --is-ancestor "$COMMIT" HEAD; then
+    echo "Error: $COMMIT is not an ancestor of HEAD."
+    exit 1
+fi
+
+if git rev-parse --verify "$COMMIT~1" >/dev/null 2>&1; then
+    BASE="$COMMIT~1"
+else
+    BASE="--root"
+fi
+
+echo "Starting rebase to edit $COMMIT..."
+GIT_SEQUENCE_EDITOR="ex -sc '1s/^pick/edit/|x'" git rebase --interactive "$BASE"
+
+echo "Unstaging files: ${FILES[*]}"
+if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
+    git reset HEAD~1 -- "${FILES[@]}"
+else
+    git rm --cached -- "${FILES[@]}"
+fi
+
+echo "Amending original commit..."
+git commit --amend --no-edit --allow-empty
+
+echo "Committing split files..."
+git add -- "${FILES[@]}"
+git commit --edit \
+    --message="split ${FILES[*]} from $COMMIT" \
+    --message="$COMMIT was:" \
+    --message="$(git show --no-patch --format=%B $COMMIT)"
+
+echo "Continuing rebase..."
+git rebase --continue
