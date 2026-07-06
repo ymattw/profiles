@@ -112,8 +112,15 @@ function __setup_path
         ~/bin \
     ; do
         [[ -d $d ]] || continue
-        [[ :$PATH: != *:${d:?}:* ]] || continue
-        PATH=$d:$PATH
+
+        # Remove the directory from PATH if it already exists
+        PATH=":${PATH}:"
+        PATH="${PATH//:${d}:/:}"
+        PATH="${PATH#:}"
+        PATH="${PATH%:}"
+
+        # Prepend it to the front
+        [[ -z "$PATH" ]] && PATH="$d" || PATH="$d:$PATH"
     done
 
     export PATH
