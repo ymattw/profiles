@@ -6,7 +6,7 @@ Host *
     ServerAliveCountMax 5
 
 Host corp-machine
-    IdentitiesOnly yes
+    PubkeyAcceptedAlgorithms ecdsa-sha2-nistp256-cert-v01@openssh.com
     ControlMaster auto
     ControlPath ~/.ssh-%r-%h-%p.mux
     ControlPersist 10h

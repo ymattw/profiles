@@ -209,34 +209,24 @@ function __setup_dir_colors
 
 function __setup_ssh_agent
 {
-
     # NOTE for gMac: create a wrapper ~/bin/ssh (with symlink scp, sftp etc.)
     # as below to work better. See also ../ssh/config.sample.
     #
     # if echo "$*" | grep -qE "someCorpHostPattern"; then
-    #     /usr/local/bin/$(basename $0) "$@"
+    #     /usr/local/bin/$(basename $0) -o PubkeyAcceptedAlgorithms=ecdsa-sha2-nistp256-cert-v01@openssh.com "$@"
     # else
-    #     /usr//bin/$(basename $0) "$@"
+    #     /usr//bin/$(basename $0) -o PubkeyAcceptedAlgorithms=ssh-ed25519 "$@"
     # fi
 
     local key=~/.ssh/$USER.key
-    local rc=~/.ssh-agent.rc
-    local start_new=true
 
     [[ -f $key ]] || return 0
-    if [[ -f $rc ]]; then
-        source "$rc"
-        /usr/bin/ssh-add -l >/dev/null 2>&1 && start_new=false
-    fi
-
-    if $start_new; then
-        print -P "%{\e[31m%}Starting a new ssh-agent process...%{\e[0m%}" >&2
-        rm -f ~/.ssh-agent.sock
-        /usr/bin/ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > "$rc"
-        source "$rc"
-    fi
-
-    /usr/bin/ssh-add -L | grep -q '^ssh' || /usr/bin/ssh-add "$key"
+    # Modern OS should have a global ssh-agent set up already.
+    ! /usr/bin/ssh-add -L | grep -q '^ssh' || return 0
+    /usr/bin/ssh-add "$key" || {
+        print "\e[31mError adding $key; check \$SSH_AUTH_SOCK and ssh-agent process!\e[0m" >&2
+        return 1
+    }
 }
 
 # Fancy PROMPT, prompt exit status of last command, currenet time, hostname,
