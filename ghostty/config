@@ -4,7 +4,7 @@ cursor-style = block
 macos-titlebar-style = hidden
 mouse-hide-while-typing = true
 quit-after-last-window-closed = true
-shell-integration-features = false
+shell-integration = none
 window-decoration = client
 
 # Font
