@@ -43,7 +43,7 @@ function _source_control_cwd
 #
 function _source_control_info
 {
-    if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
+    if [[ $(GIT_CEILING_DIRECTORIES=$HOME git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
         _git_active_branch
     fi
 }
@@ -58,17 +58,16 @@ function _git_active_branch
     age=$(git log --pretty=format:'%cr' -1 refs/heads/$branch 2>/dev/null)
     track=$(git status -sb 2>/dev/null | sed -n 's/^##.*\[\(.*\)\].*/, \1/p')
 
-    # XXX: $_DR and $_DG won't expand here
     if [[ -z $info ]]; then
-        print -nP "%{\e[32m%}"
+        print -nP "%F{green}"
     elif [[ -z $(echo "$info" | grep -v '^??') ]]; then
-        print -nP "%{\e[35m%}"
+        print -nP "%F{magenta}"
     else
-        print -nP "%{\e[31m%}"
+        print -nP "%F{red}"
     fi
 
     print -n " ($branch) "  # No '-P' which does command expansion
-    print -nP "%{\e[36m%}[${age}${track}]"
+    print -nP "%F{cyan}[${age}${track}]"
 }
 
 function __main
@@ -224,7 +223,7 @@ function __setup_ssh_agent
     # Modern OS should have a global ssh-agent set up already.
     ! /usr/bin/ssh-add -L | grep -q '^ssh' || return 0
     /usr/bin/ssh-add "$key" || {
-        print "\e[31mError adding $key; check \$SSH_AUTH_SOCK and ssh-agent process!\e[0m" >&2
+        print -P "%F{red}Error adding $key; check \$SSH_AUTH_SOCK and ssh-agent process!%f" >&2
         return 1
     }
 }
