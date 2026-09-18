@@ -208,7 +208,7 @@ function __setup_ssh_agent
     # Modern OS should have a global ssh-agent set up already.
     ! /usr/bin/ssh-add -L | grep -q '^ssh' || return 0
     /usr/bin/ssh-add "$key" || {
-        print -P "%F{red}Error adding $key; check \$SSH_AUTH_SOCK and ssh-agent process!%f" >&2
+        echo -e "\e[31mError adding $key; check \$SSH_AUTH_SOCK and ssh-agent process!\e[0m" >&2
         return 1
     }
 }
@@ -252,7 +252,7 @@ function __setup_prompt
     PS1+="${_DY}\$(_source_control_cwd)${_NC}"          # yellow cwd
     PS1+="\$(_source_control_info)"                     # vcs info
     PS1+=" ${_DC}⤾\n"                                   # cyan wrap char, NL
-    PS1+="${_118}${__OS_ICON}${_NC} ${HOSTNAME%%.*}"    # OS icon, hostname
+    PS1+="${_118}${__OS_ICON} ${HOSTNAME%%.*}${_NC}"    # OS icon, username, hostname
     PS1+=" \$([[ -z \$(jobs) ]] || echo '$_RV')"        # reverse bg job
     PS1+='\[\e[1m\]\$'"${_NC} "                         # $ or #
 }
