@@ -252,9 +252,9 @@ function __setup_prompt
     PS1+="${_DY}\$(_source_control_cwd)${_NC}"          # yellow cwd
     PS1+="\$(_source_control_info)"                     # vcs info
     PS1+=" ${_DC}⤾\n"                                   # cyan wrap char, NL
-    PS1+="${_118}${__OS_ICON}"                          # OS icon
+    PS1+="${_118}${__OS_ICON} "                         # OS icon
     [[ $(sudo -nv 2>&1) =~ ^$|password ]] || {
-        PS1+=" ${_DY}\u${_NC}@${_118}"                  # user (non sudoer)
+        PS1+="${_DY}\u${_NC}@${_118}"                   # user (non sudoer)
     }
     PS1+="\h${_NC}"                                     # hostname
     PS1+=" \$([[ -z \$(jobs) ]] || echo '$_RV')"        # reverse bg job

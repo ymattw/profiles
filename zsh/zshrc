@@ -259,9 +259,9 @@ function __setup_prompt
     PROMPT+="%F{yellow}\$(_source_control_cwd)%f" # yellow cwd
     PROMPT+="\$(_source_control_info)"            # vcs info
     PROMPT+=" %F{cyan}"$'⤾%f\n'                   # cyan wrap char+NL
-    PROMPT+="%F{118}${__OS_ICON}"                 # hilight OS icon
+    PROMPT+="%F{118}${__OS_ICON} "                # hilight OS icon
     [[ $(sudo -nv 2>&1) =~ "^$|password" ]] || {
-        PROMPT+=" %F{yellow}%n@%F{118}"           # user (non sudoer)
+        PROMPT+="%F{yellow}%n@%F{118}"            # user (non sudoer)
     }
     PROMPT+="%m%f"                                # hostname
 
