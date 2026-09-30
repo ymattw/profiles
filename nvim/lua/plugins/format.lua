@@ -33,6 +33,9 @@ local formatters_by_ft = {
 }
 
 local formatters = {
+  pyink = {
+    prepend_args = { "--pyink-use-majority-quotes" },
+  },
   prettier = {
     prepend_args = { "--prose-wrap", "always" },
   },
