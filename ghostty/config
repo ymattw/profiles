@@ -3,6 +3,7 @@ copy-on-select = clipboard
 cursor-style = block
 macos-titlebar-style = hidden
 mouse-hide-while-typing = true
+mouse-reporting = false
 quit-after-last-window-closed = true
 shell-integration = none
 window-decoration = client
