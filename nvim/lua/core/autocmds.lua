@@ -23,7 +23,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   callback = function()
     if vim.bo.buftype ~= "quickfix" then
       -- Toggle spell checking with <CR> in normal mode for non-quickfix buffers
-      vim.api.nvim_buf_set_keymap(0, "n", "<CR>", ":set spell!<CR>", { noremap = true })
+      vim.keymap.set("n", "<CR>", ":set spell!<CR>", { buffer = 0, noremap = true })
     end
   end,
 })
@@ -135,13 +135,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.api.nvim_exec_autocmds("OptionSet", { pattern = "textwidth" })
 
     -- <leader>g to run glaze
-    vim.api.nvim_buf_set_keymap(
-      0,
-      "n",
-      "<leader>g",
-      ":!glaze -verbose %:h<CR>",
-      { noremap = true, silent = true }
-    )
+    vim.keymap.set("n", "<leader>g", ":!glaze -verbose %:h<CR>", { buffer = 0, noremap = true, silent = true })
   end,
 })
 
