@@ -3,7 +3,6 @@ local function flags_status()
     -- See format.lua for how vim.b.format_on_save is defined
     vim.b.format_on_save and "\u{f18f2}" or nil,
     not vim.o.ignorecase and "\u{eab1}" or nil,
-    vim.o.paste and "\u{f0192}" or nil,
     vim.bo.fileformat == "dos" and "\u{f05b3}" or nil,
   }
   return table.concat(

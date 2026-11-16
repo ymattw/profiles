@@ -7,7 +7,6 @@ vim.opt.relativenumber = false
 vim.opt.list = true
 vim.opt.listchars = { tab = "▸ ", trail = "▌", extends = "»", precedes = "«" }
 vim.opt.synmaxcol = 150
-vim.opt.lazyredraw = true
 
 -- Override pbcopy and force OSC 52
 vim.g.clipboard = {

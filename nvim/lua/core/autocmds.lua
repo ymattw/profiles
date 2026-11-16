@@ -17,14 +17,6 @@ vim.api.nvim_create_autocmd("VimResized", {
   command = "wincmd =",
 })
 
--- Disable 'paste' mode upon leaving Insert mode
-vim.api.nvim_create_autocmd("InsertLeave", {
-  pattern = "*",
-  callback = function()
-    vim.opt_local.paste = false
-  end,
-})
-
 -- Map <CR> to set spell, but not for quickfix buffer
 vim.api.nvim_create_autocmd("BufWinEnter", {
   pattern = "*",
@@ -89,7 +81,7 @@ vim.api.nvim_create_autocmd({ "OptionSet" }, {
         vim.fn.matchdelete(match.id)
       end
     end
-    local column = vim.api.nvim_buf_get_option(0, "textwidth") or vim.o.textwidth
+    local column = vim.bo[0].textwidth
     column = (column > 0 and column or 79) + 1
     vim.fn.matchadd("CharExceedsWidth", "\\%" .. column .. "v")
   end,

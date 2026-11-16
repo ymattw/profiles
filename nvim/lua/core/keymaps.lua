@@ -8,7 +8,6 @@ map("n", "<C-H>", ":set hlsearch!<CR>", { desc = "Toggle highlight search" })
 map("n", "<C-J>", "<C-W>w", { desc = "Cycle to next window" })
 map("n", "<C-K>", ":%s/\\s\\+$//<CR>", { desc = "Remove trailing blanks" })
 map("n", "<C-N>", ":set number!<CR>", { desc = "Toggle line number" })
-map("n", "<C-P>", ":set paste!<CR>", { desc = "Toggle paste mode" })
 -- NOTE: <CR> is mapped to toggle spelling conditionally ini autocmds.lua
 
 map("n", "_", ":silent! set cursorline!<CR>", { desc = "Toggle cursorline" })
