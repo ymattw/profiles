@@ -66,7 +66,7 @@ map("v", "y", '"+y', { desc = "Copy to system clipboard", noremap = true })
 map("n", "<leader>p", '"+p', { desc = "Paste from system clipboard", noremap = true })
 map("n", "<leader>P", '"+P', { desc = "Paste from system clipboard", noremap = true })
 
-function ToggleTab()
+local function toggle_tab()
   if vim.bo.expandtab then
     vim.cmd("setlocal noet sw=8")
   else
@@ -74,7 +74,7 @@ function ToggleTab()
   end
 end
 
-function ToggleColorColumn()
+local function toggle_color_column()
   if vim.wo.colorcolumn == "" then
     vim.cmd("setlocal colorcolumn=+1")
   else
@@ -82,8 +82,8 @@ function ToggleColorColumn()
   end
 end
 
-map("n", "<leader>|", ":lua ToggleColorColumn()<CR>", { desc = "Toggle color column" })
-map("n", "<leader><Tab>", ":lua ToggleTab()<CR>", { desc = "Toggle between spaces and tabs" })
+map("n", "<leader>|", toggle_color_column, { desc = "Toggle color column" })
+map("n", "<leader><Tab>", toggle_tab, { desc = "Toggle between spaces and tabs" })
 
 map("n", "<leader>y", function()
   local cmd = "below " .. math.floor(vim.fn.winheight(0) * 0.75) .. "new term://"
