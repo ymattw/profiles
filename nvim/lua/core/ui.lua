@@ -127,9 +127,10 @@ vim.opt.wildignore:append({
 
 -- Lightweight Todo highlighting (you don't need folke/todo-comments.nvim).
 local function setup_todo_highlights()
+  -- Skip if already set up for this window
   for _, match in ipairs(vim.fn.getmatches()) do
     if match.group:match("^Todo") then
-      pcall(vim.fn.matchdelete, match.id)
+      return
     end
   end
   vim.fn.matchadd("TodoNote", [[\C\<\(NOTE\|INFO\)\>]])

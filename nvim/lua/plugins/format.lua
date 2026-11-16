@@ -43,7 +43,7 @@ local formatters = {
 
 return {
   "stevearc/conform.nvim",
-  event = { "InsertEnter", "TextChanged", "TextChangedI", "BufWritePre" },
+  event = { "BufWritePre" },
   cmd = { "ConformInfo" },
   keys = {
     {
