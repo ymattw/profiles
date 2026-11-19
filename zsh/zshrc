@@ -67,7 +67,8 @@ function _git_active_branch
     # match[1] holds the first captured group from zsh's =~ regex match
     [[ $header =~ $track_re ]] && track=", ${match[1]}"
 
-    local untracked_re="(^|$'\n')([^?]|[?][^?])"
+    local nl=$'\n'
+    local untracked_re="(^|${nl})([^?]|[?][^?])"
     if [[ -z $info ]]; then
         print -nP "%F{green}"
     elif [[ ! $info =~ $untracked_re ]]; then
@@ -256,7 +257,7 @@ function __setup_prompt
     local distro os_icon
 
     if [[ $OSTYPE == darwin* ]]; then
-        os_icon=$'\uf179' # macOS
+        os_icon=$'\xef\x85\xb9' # macOS (U+F179)
     else
         if [[ -r /etc/os-release ]]; then
             local k v
@@ -268,9 +269,9 @@ function __setup_prompt
         # Match the distro ID to a Nerd Font icon
         # Ref: https://www.nerdfonts.com/cheat-sheet
         case "$distro" in
-            debian) os_icon=$'\uf306' ;;
-            ubuntu) os_icon=$'\uf31b' ;;
-            *)      os_icon=$'\uf31a' ;;  # Linux Tux
+            debian) os_icon=$'\xef\x8c\x86' ;; # U+F306
+            ubuntu) os_icon=$'\xef\x8c\x9b' ;; # U+F31B
+            *)      os_icon=$'\xef\x8c\x9a' ;; # Linux Tux (U+F31A)
         esac
     fi
 
