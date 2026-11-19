@@ -43,24 +43,34 @@ function _source_control_cwd
 #
 function _source_control_info
 {
-    if [[ $(GIT_CEILING_DIRECTORIES=$HOME git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
-        _git_active_branch
-    fi
+    local status_out
+
+    status_out=$(GIT_CEILING_DIRECTORIES=$HOME git status -sb 2>/dev/null) || return 0
+    _git_active_branch "$status_out"
 }
 
 function _git_active_branch
 {
-    local branch info age track
+    local status_out=${1:-$(GIT_CEILING_DIRECTORIES=$HOME git status -sb 2>/dev/null)}
+    local header=${status_out%%$'\n'*}
+    local info=${status_out#"$header"}
+    info=${info#$'\n'}
 
-    branch=$(git symbolic-ref HEAD 2>/dev/null)
-    branch=${branch#refs/heads/}
-    info=$(git status -s 2>/dev/null)
-    age=$(git log --pretty=format:'%cr' -1 refs/heads/$branch 2>/dev/null)
-    track=$(git status -sb 2>/dev/null | sed -n 's/^##.*\[\(.*\)\].*/, \1/p')
+    local branch=${header#\#\# }
+    branch=${branch#No commits yet on }
+    branch=${branch%%...*}
+    branch=${branch%% *}
 
+    local age track
+    [[ -z $branch || $branch == HEAD ]] || age=$(git log --pretty=format:'%cr' -1 "refs/heads/$branch" 2>/dev/null)
+    local track_re='\[(.*)\]'
+    # match[1] holds the first captured group from zsh's =~ regex match
+    [[ $header =~ $track_re ]] && track=", ${match[1]}"
+
+    local untracked_re="(^|$'\n')([^?]|[?][^?])"
     if [[ -z $info ]]; then
         print -nP "%F{green}"
-    elif [[ -z $(echo "$info" | grep -v '^??') ]]; then
+    elif [[ ! $info =~ $untracked_re ]]; then
         print -nP "%F{magenta}"
     else
         print -nP "%F{red}"
@@ -93,35 +103,33 @@ function __main
 function __init_completion
 {
     [[ ! -d ~/.zsh-completions ]] || fpath=(~/.zsh-completions/src $fpath)
-    autoload -U compinit && compinit
+    autoload -Uz compinit
+    if [[ -n ~/.zcompdump(#qN.mh+24) || ! -f ~/.zcompdump ]]; then
+        compinit
+    else
+        compinit -C
+    fi
 }
 
 function __setup_path
 {
-    local d
+    typeset -gU path
+    local d dirs=()
 
     for d in \
-        /sbin \
-        /usr/sbin \
-        /bin \
-        /usr/bin \
-        /usr/local/bin \
-        /opt/homebrew/bin \
-        ~/.local/bin \
         ~/bin \
+        ~/.local/bin \
+        /opt/homebrew/bin \
+        /usr/local/bin \
+        /usr/bin \
+        /bin \
+        /usr/sbin \
+        /sbin \
     ; do
-        [[ -d $d ]] || continue
-
-        # Remove the directory from PATH if it already exists
-        PATH=":${PATH}:"
-        PATH="${PATH//:${d}:/:}"
-        PATH="${PATH#:}"
-        PATH="${PATH%:}"
-
-        # Prepend it to the front
-        [[ -z "$PATH" ]] && PATH="$d" || PATH="$d:$PATH"
+        [[ -d $d ]] && dirs+=("$d")
     done
 
+    path=($dirs $path)
     export PATH
 }
 
@@ -154,8 +162,11 @@ function __setup_environments
     HISTSIZE=10000
     SAVEHIST=10000
     export EDITOR=vi
-    ! type vim >& /dev/null || export EDITOR=vim
-    ! type nvim >& /dev/null || export EDITOR=nvim
+    if command -v nvim >& /dev/null; then
+        export EDITOR=nvim
+    elif command -v vim >& /dev/null; then
+        export EDITOR=vim
+    fi
 
     # Locale (LC_*) matters for ls and sort on Linux, see also
     # www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
@@ -179,8 +190,11 @@ function __setup_aliases
     alias ....='cd ../../..'
     alias .....='cd ../../../..'
     # Skip system wide vimrc to reduce startup time
-    ! type vim >& /dev/null || alias vi='vim -Xn -u ~/.vimrc'
-    ! type nvim >& /dev/null || alias vi='nvim'
+    if [[ $EDITOR == nvim ]]; then
+        alias vi='nvim'
+    elif [[ $EDITOR == vim ]]; then
+        alias vi='vim -Xn -u ~/.vimrc'
+    fi
     alias grep='grep --color=auto'
     alias ls="/bin/ls -F --color=auto"
     alias l="/bin/ls -lF --color=auto"
@@ -202,7 +216,7 @@ function __setup_dir_colors
 
     [[ $OSTYPE != darwin* ]] || prog=gdircolors
     if type $prog >& /dev/null && [[ -f ~/.dircolors ]]; then
-        eval $($prog -b ~/.dircolors)
+        eval "$($prog -b ~/.dircolors)"
     fi
 }
 
@@ -219,7 +233,7 @@ function __setup_ssh_agent
 
     local key=~/.ssh/$USER.key
 
-    [[ -f $key ]] || return 0
+    [[ -f $key && -S ${SSH_AUTH_SOCK:-} ]] || return 0
     # Modern OS should have a global ssh-agent set up already.
     ! /usr/bin/ssh-add -L | grep -q '^ssh' || return 0
     /usr/bin/ssh-add "$key" || {
@@ -239,19 +253,24 @@ function __setup_ssh_agent
 #
 function __setup_prompt
 {
-    local distro
+    local distro os_icon
 
     if [[ $OSTYPE == darwin* ]]; then
-        __OS_ICON=$'\uf179' # macOS
+        os_icon=$'\uf179' # macOS
     else
-        IFS='=' read -r _ distro < <(grep "^ID=" /etc/os-release 2>/dev/null)
+        if [[ -r /etc/os-release ]]; then
+            local k v
+            while IFS='=' read -r k v; do
+                [[ $k == ID ]] && { distro=${v//\"/}; break; }
+            done < /etc/os-release
+        fi
 
-        # Match the distro ID to a Nerd Font __OS_ICON
+        # Match the distro ID to a Nerd Font icon
         # Ref: https://www.nerdfonts.com/cheat-sheet
         case "$distro" in
-            debian) __OS_ICON=$'\uf306' ;;
-            ubuntu) __OS_ICON=$'\uf31b' ;;
-            *)      __OS_ICON=$'\uf31a' ;;  # Linux Tux
+            debian) os_icon=$'\uf306' ;;
+            ubuntu) os_icon=$'\uf31b' ;;
+            *)      os_icon=$'\uf31a' ;;  # Linux Tux
         esac
     fi
 
@@ -259,8 +278,11 @@ function __setup_prompt
     PROMPT+="%F{yellow}\$(_source_control_cwd)%f" # yellow cwd
     PROMPT+="\$(_source_control_info)"            # vcs info
     PROMPT+=" %F{cyan}"$'⤾%f\n'                   # cyan wrap char+NL
-    PROMPT+="%F{118}${__OS_ICON} "                # hilight OS icon
-    [[ $(sudo -nv 2>&1) =~ "^$|password" ]] || {
+    PROMPT+="%F{118}${os_icon} "                  # hilight OS icon
+    if [[ -z ${_IS_SUDOER:-} ]]; then
+        [[ $(sudo -nv 2>&1) =~ "^$|password" ]] && export _IS_SUDOER=1 || export _IS_SUDOER=0
+    fi
+    (( _IS_SUDOER )) || {
         PROMPT+="%F{yellow}%n@%F{118}"            # user (non sudoer)
     }
     PROMPT+="%m%f"                                # hostname

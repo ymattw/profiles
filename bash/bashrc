@@ -45,25 +45,35 @@ function _source_control_cwd
 #
 function _source_control_info
 {
-    if [[ $(GIT_CEILING_DIRECTORIES=$HOME git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
-        _git_active_branch
-    fi
+    local status_out
+
+    status_out=$(GIT_CEILING_DIRECTORIES=$HOME git status -sb 2>/dev/null) || return 0
+    _git_active_branch "$status_out"
 }
 
 function _git_active_branch
 {
-    local branch info age track
+    local status_out=${1:-$(GIT_CEILING_DIRECTORIES=$HOME git status -sb 2>/dev/null)}
+    local header=${status_out%%$'\n'*}
+    local info=${status_out#"$header"}
+    info=${info#$'\n'}
 
-    branch=$(git symbolic-ref HEAD 2>/dev/null)
-    branch=${branch#refs/heads/}
-    info=$(git status -s 2>/dev/null)
-    age=$(git log --pretty=format:'%cr' -1 refs/heads/$branch 2>/dev/null)
-    track=$(git status -sb 2>/dev/null | sed -n 's/^##.*\[\(.*\)\].*/, \1/p')
+    local branch=${header#\#\# }
+    branch=${branch#No commits yet on }
+    branch=${branch%%...*}
+    branch=${branch%% *}
 
+    local age track
+    [[ -z $branch || $branch == HEAD ]] || age=$(git log --pretty=format:'%cr' -1 "refs/heads/$branch" 2>/dev/null)
+    local track_re='\[(.*)\]'
+    # BASH_REMATCH[1] holds the first captured group from the =~ regex match
+    [[ $header =~ $track_re ]] && track=", ${BASH_REMATCH[1]}"
+
+    local untracked_re="(^|$'\n')([^?]|[?][^?])"
     # NOTE: have to use $'string' for ansi escape sequence here
     if [[ -z $info ]]; then
         echo -ne $'\e[32m'
-    elif [[ -z $(echo "$info" | grep -v '^??') ]]; then
+    elif [[ ! $info =~ $untracked_re ]]; then
         echo -ne $'\e[35m'
     else
         echo -ne $'\e[31m'
@@ -94,11 +104,6 @@ function __main
     ; do
         $fn; unset -f $fn
     done
-}
-
-function __prepend_path
-{
-    [[ :$PATH: == *:${1:?}:* ]] || PATH=$1:$PATH
 }
 
 function __setup_path
@@ -141,8 +146,11 @@ function __setup_environments
     HISTFILE=~/.bash_history     # In case switched from zsh temporally
     HISTSIZE=10000
     export EDITOR=vi
-    ! type vim >& /dev/null || export EDITOR=vim
-    ! type nvim >& /dev/null || export EDITOR=nvim
+    if command -v nvim >& /dev/null; then
+        export EDITOR=nvim
+    elif command -v vim >& /dev/null; then
+        export EDITOR=vim
+    fi
 
     # Locale (LC_*) matters for ls and sort on Linux, see also
     # www.gnu.org/software/coreutils/faq/#Sort-does-not-sort-in-normal-order_0021
@@ -164,8 +172,11 @@ function __setup_aliases
     alias ....='cd ../../..'
     alias .....='cd ../../../..'
     # Skip system wide vimrc to reduce startup time
-    ! type vim >& /dev/null || alias vi='vim -Xn -u ~/.vimrc'
-    ! type nvim >& /dev/null || alias vi='nvim'
+    if [[ $EDITOR == nvim ]]; then
+        alias vi='nvim'
+    elif [[ $EDITOR == vim ]]; then
+        alias vi='vim -Xn -u ~/.vimrc'
+    fi
     alias grep='grep --color=auto'
     alias ls="/bin/ls -F --color=auto"
     alias l="/bin/ls -lF --color=auto"
@@ -187,7 +198,7 @@ function __setup_dir_colors
 
     [[ $OSTYPE != darwin* ]] || prog=gdircolors
     if type $prog >& /dev/null && [[ -f ~/.dircolors ]]; then
-        eval $($prog -b ~/.dircolors)
+        eval "$($prog -b ~/.dircolors)"
     fi
 }
 
@@ -204,7 +215,7 @@ function __setup_ssh_agent
 
     local key=~/.ssh/$USER.key
 
-    [[ -f $key ]] || return 0
+    [[ -f $key && -S ${SSH_AUTH_SOCK:-} ]] || return 0
     # Modern OS should have a global ssh-agent set up already.
     ! /usr/bin/ssh-add -L | grep -q '^ssh' || return 0
     /usr/bin/ssh-add "$key" || {
@@ -231,19 +242,24 @@ function __setup_prompt
     local _NC="\[\e[0m\]"         # no color
     local _118="\[\e[38;5;118m\]" # color 118
 
-    local distro
+    local distro os_icon
 
     if [[ $OSTYPE == darwin* ]]; then
-        __OS_ICON=$'\uf179' # macOS
+        os_icon=$'\uf179' # macOS
     else
-        IFS='=' read -r _ distro < <(grep "^ID=" /etc/os-release 2>/dev/null)
+        if [[ -r /etc/os-release ]]; then
+            local k v
+            while IFS='=' read -r k v; do
+                [[ $k == ID ]] && { distro=${v//\"/}; break; }
+            done < /etc/os-release
+        fi
 
-        # Match the distro ID to a Nerd Font __OS_ICON
+        # Match the distro ID to a Nerd Font icon
         # Ref: https://www.nerdfonts.com/cheat-sheet
         case "$distro" in
-            debian) __OS_ICON=$'\uf306' ;;
-            ubuntu) __OS_ICON=$'\uf31b' ;;
-            *)      __OS_ICON=$'\uf31a' ;;  # Linux Tux
+            debian) os_icon=$'\uf306' ;;
+            ubuntu) os_icon=$'\uf31b' ;;
+            *)      os_icon=$'\uf31a' ;;  # Linux Tux
         esac
     fi
 
@@ -252,8 +268,11 @@ function __setup_prompt
     PS1+="${_DY}\$(_source_control_cwd)${_NC}"          # yellow cwd
     PS1+="\$(_source_control_info)"                     # vcs info
     PS1+=" ${_DC}⤾\n"                                   # cyan wrap char, NL
-    PS1+="${_118}${__OS_ICON} "                         # OS icon
-    [[ $(sudo -nv 2>&1) =~ ^$|password ]] || {
+    PS1+="${_118}${os_icon} "                           # OS icon
+    if [[ -z ${_IS_SUDOER:-} ]]; then
+        [[ $(sudo -nv 2>&1) =~ ^$|password ]] && export _IS_SUDOER=1 || export _IS_SUDOER=0
+    fi
+    (( _IS_SUDOER )) || {
         PS1+="${_DY}\u${_NC}@${_118}"                   # user (non sudoer)
     }
     PS1+="\h${_NC}"                                     # hostname
@@ -268,9 +287,8 @@ function __setup_custom_profiles
 {
     local p
 
-    ls ~/.profiles.d/*.sh >& /dev/null || return 0
-
     for p in ~/.profiles.d/*.sh; do
+        [[ -f $p ]] || continue
         source "$p"
     done
 }
