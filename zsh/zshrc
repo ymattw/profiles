@@ -14,7 +14,7 @@
 #   vif path [...] | xargs .. # pick files from path..., send to xargs cmd
 #   hg ls | vif               # pick files from commd output, send to vim
 function vif {
-    if type nvim >& /dev/null; then
+    if [[ $EDITOR == nvim ]]; then
         local arg=(--bind "enter:become(nvim -n {})")
     else
         local arg=(--bind "enter:become(vim -Xn -u ~/.vimrc {})")
@@ -45,13 +45,13 @@ function _source_control_info
 {
     local status_out
 
-    status_out=$(GIT_CEILING_DIRECTORIES=$HOME git status -sb 2>/dev/null) || return 0
+    status_out=$(GIT_CEILING_DIRECTORIES=$HOME git --no-optional-locks status -sb 2>/dev/null) || return 0
     _git_active_branch "$status_out"
 }
 
 function _git_active_branch
 {
-    local status_out=${1:-$(GIT_CEILING_DIRECTORIES=$HOME git status -sb 2>/dev/null)}
+    local status_out=${1:-$(GIT_CEILING_DIRECTORIES=$HOME git --no-optional-locks status -sb 2>/dev/null)}
     local header=${status_out%%$'\n'*}
     local info=${status_out#"$header"}
     info=${info#$'\n'}
@@ -62,7 +62,11 @@ function _git_active_branch
     branch=${branch%% *}
 
     local age track
-    [[ -z $branch || $branch == HEAD ]] || age=$(git log --pretty=format:'%cr' -1 "refs/heads/$branch" 2>/dev/null)
+    if [[ -n $branch && $branch != HEAD \
+        && $header != '## No commits yet on '* \
+        && $header != '## Initial commit on '* ]]; then
+        age=$(git log --pretty=format:'%cr' -1 "refs/heads/$branch" 2>/dev/null)
+    fi
     local track_re='\[(.*)\]'
     # match[1] holds the first captured group from zsh's =~ regex match
     [[ $header =~ $track_re ]] && track=", ${match[1]}"
@@ -77,7 +81,7 @@ function _git_active_branch
         print -nP "%F{red}"
     fi
 
-    print -n " ($branch) "  # No '-P' which does command expansion
+    print -n " (${branch//\%/%%}) "  # No '-P' and escape '%' for prompt_subst
     print -nP "%F{cyan}[${age}${track}]"
 }
 
