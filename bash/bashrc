@@ -219,14 +219,24 @@ function __setup_ssh_agent
     # fi
 
     local key=~/.ssh/$USER.key
+    local rc=~/.ssh-agent.rc
+    local start_new=true
 
-    [[ -f $key && -S ${SSH_AUTH_SOCK:-} ]] || return 0
-    # Modern OS should have a global ssh-agent set up already.
-    ! /usr/bin/ssh-add -L | grep -q '^ssh' || return 0
-    /usr/bin/ssh-add "$key" || {
-        echo -e "\e[31mError adding $key; check \$SSH_AUTH_SOCK and ssh-agent process!\e[0m" >&2
-        return 1
-    }
+    [[ -f $key ]] || return 0
+    if [[ -f $rc ]]; then
+        source "$rc"
+        /usr/bin/ssh-add -l >& /dev/null
+        [[ $? == 2 ]] || start_new=false
+    fi
+
+    if $start_new; then
+        echo $'\e[31mStarting a new ssh-agent process...\e[0m' >&2
+        rm -f ~/.ssh-agent.sock
+        /usr/bin/ssh-agent -s -a ~/.ssh-agent.sock | sed '/^echo/d' > "$rc"
+        source "$rc"
+    fi
+
+    /usr/bin/ssh-add -L 2>/dev/null | grep -q '^ssh' || /usr/bin/ssh-add "$key"
 }
 
 # Fancy PS1, prompt exit status of last command, currenet time, hostname, time,
