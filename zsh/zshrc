@@ -211,7 +211,7 @@ function __setup_aliases
             alias lsps='ps -ax -o user,pid,ppid,stime,tty,time,command | grep -vw grep | grep -i'
             ;;
         *)
-            alias lsps='ps -auf | grep -vw grep | grep -i'
+            alias lsps='ps -ef | grep -vw grep | grep -i'
             ;;
     esac
 }
