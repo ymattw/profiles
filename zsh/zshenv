@@ -1,0 +1,5 @@
+# Skip /etc/zsh/zshrc's global compinit (Debian/Ubuntu) so ~/.zshrc can
+# configure fpath and run a single cached compinit.
+skip_global_compinit=1
+
+# vim:set et sts=4 sw=4 ft=zsh:

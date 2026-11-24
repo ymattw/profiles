@@ -15,6 +15,7 @@ done
 
 rm -f ${ZSH_FILES[@]}
 
+cp $SELF_DIR/zshenv ~/.zshenv
 cp $SELF_DIR/zshrc ~/.zshrc
 
 [[ -d $ZSH_COMPLETION_DIR ]] || {

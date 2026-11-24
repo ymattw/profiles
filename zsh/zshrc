@@ -109,7 +109,8 @@ function __init_completion
 {
     [[ ! -d ~/.zsh-completions ]] || fpath=(~/.zsh-completions/src $fpath)
     autoload -Uz compinit
-    if [[ -n ~/.zcompdump(#qN.mh+24) || ! -f ~/.zcompdump ]]; then
+    local dump=(~/.zcompdump(N.mh+24))
+    if (( $#dump )) || [[ ! -f ~/.zcompdump ]]; then
         compinit
     else
         compinit -C
