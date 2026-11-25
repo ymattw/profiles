@@ -1,0 +1,37 @@
+#!/bin/bash
+# Symlink to ~/bin/ssh, ~/bin/scp, and ~/bin/sftp. Uses /usr/bin/<cmd> for
+# hosts with an IdentityAgent in ~/.ssh/config (see also ./config.sample) and
+# /usr/local/bin/<cmd> otherwise (corp hosts).
+
+has_identity_agent() {
+    local host="${1#*://}"
+    host="${host%%/*}"
+    host="${host%%:*}"
+    /usr/bin/ssh -G "$host" 2>/dev/null | grep -iq '^IdentityAgent '
+}
+
+main() {
+    local cmd="${0##*/}"
+    case "$cmd" in
+        ssh|scp|sftp) ;;
+        *)
+            echo "Unexpected use, expected to run as ssh, scp or sftp: $cmd" >&2
+            return 1
+            ;;
+    esac
+
+    local arg
+    for arg in "$@"; do
+        [[ "$arg" =~ ^-|=|^[0-9]+$ ]] && continue
+        [[ "$cmd" == "scp" && ! "$arg" =~ : ]] && continue
+
+        if has_identity_agent "$arg"; then
+            exec "/usr/bin/$cmd" "$@"
+        fi
+        break
+    done
+
+    exec "/usr/local/bin/$cmd" "$@"
+}
+
+main "$@"
