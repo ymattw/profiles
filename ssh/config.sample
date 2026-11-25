@@ -1,31 +1,62 @@
-# Example .ssh/config.  See ssh_config(5) for see all options.
+# Example ~/.ssh/config for a corp laptop with isolated personal/home-lab access.
+# See ssh_config(5) for all options and ./README.md for full setup instructions.
+#
+# Ordering matters: OpenSSH uses first-match-wins for single-value directives
+# (ForwardAgent, IdentityAgent, IdentitiesOnly, User, etc.), while IdentityFile
+# accumulates across matching blocks. Keep specific personal/corp hosts ABOVE
+# `Host *`, and keep `Host vps` ABOVE the shared personal block.
+
+# ------------------------------------------------------------------------------
+# Personal VPS & Home Lab (isolated personal ssh-agent; zero corp keys exposed)
+# ------------------------------------------------------------------------------
+
+Host vps
+    HostName <VPS_IP>
+    # Forward ONLY the isolated personal agent socket so git/GitHub works on VPS
+    ForwardAgent ~/.ssh/agent.sock
+    # Optional: local SOCKS5 proxy via VPS
+    # DynamicForward 7070
+
+Host pi
+    HostName 127.0.0.1
+    Port 2222
+    HostKeyAlias pi
+    ProxyJump vps
+    # Motion web example:
+    # LocalForward 60081 127.0.0.1:60081
+
+Host mini
+    HostName 10.0.0.7
+    ProxyJump pi
+    # Optional: Screen Sharing / VNC (or pass `ssh -L 5900:localhost:5900 mini`)
+    # LocalForward 5900 localhost:5900
+
+# Shared defaults for personal hosts (only `vps` above enables ForwardAgent).
+Host vps pi mini github.com
+    User ymattw
+    IdentityAgent ~/.ssh/agent.sock
+    IdentityFile ~/.ssh/%u.key
+    IdentitiesOnly yes
+    AddKeysToAgent 10h
+    PreferredAuthentications publickey
+
+# ------------------------------------------------------------------------------
+# Corp hosts (uses default corp $SSH_AUTH_SOCK; never place corp keys in Host *)
+# ------------------------------------------------------------------------------
+
+Host corp-machine *.corp.example.com
+    User <CORP_USER>
+    # Uncomment if your corp environment uses SSH certificates:
+    # PubkeyAcceptedAlgorithms ecdsa-sha2-nistp256-cert-v01@openssh.com
+    ControlMaster auto
+    ControlPath ~/.ssh/cm-%C
+    ControlPersist 10h
+
+# ------------------------------------------------------------------------------
+# Global defaults (always last)
+# ------------------------------------------------------------------------------
 
 Host *
     TCPKeepAlive yes
     ServerAliveInterval 30
     ServerAliveCountMax 5
-
-Host corp-machine
-    PubkeyAcceptedAlgorithms ecdsa-sha2-nistp256-cert-v01@openssh.com
-    ControlMaster auto
-    ControlPath ~/.ssh-%r-%h-%p.mux
-    ControlPersist 10h
-    User ymattw
-
-Host jumpbox
-    Port 2222
-    PreferredAuthentications publickey
-    ForwardAgent yes
-    DynamicForward 7070
-
-Host far
-    ProxyJump jumpbox
-    ExitOnForwardFailure yes
-    ProxyCommand ssh jumpbox -W %h:%p
-    LocalForward 5901 localhost:5901
-
-# Now you can jump in a chain like: ssh jumpbox/far/remote
-Host */*
-    ProxyCommand ssh $(dirname %h) -W $(basename %h):%p
-    PreferredAuthentications publickey
-    ForwardAgent yes
