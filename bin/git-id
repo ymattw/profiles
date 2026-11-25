@@ -3,8 +3,8 @@
 # List or switch git ids (user.name and user.email) defined in ~/.git-ids,
 # for example, define ~/.git-ids as below:
 #
-#   github ymattw@example.com Matthew Wang
-#   corp matt@example.org Matthew Y Wang
+#   github ymattw@example.com Matt Wang
+#   corp matt@example.org Matt Y Wang
 #
 # Then you can run 'git-id github' to setup user.name and user.email to your
 # github account and run 'git-id corp' to switch to your corp account.
@@ -50,9 +50,19 @@ if (( $(echo "$SIGNING_KEY" | wc -l) == 0 )); then
 elif (( $(echo "$SIGNING_KEY" | wc -l) > 1 )); then
     echo "User $ID has multiple ssh keys registered, skip setting up signing config"
 else
+    DOTGIT="$(cd "$(git rev-parse --git-dir)" && pwd)"
     git config user.signingkey "key::$SIGNING_KEY"
     git config gpg.format ssh
     git config commit.gpgsign true
-    git config gpg.ssh.allowedSignersFile $(git rev-parse --show-toplevel)/.git/allowed-signers
-    echo "$(git config --get user.email) namespaces=\"git\" $SIGNING_KEY" > $(git rev-parse --show-toplevel)/.git/allowed-signers
+    git config gpg.ssh.allowedSignersFile "$DOTGIT/allowed-signers"
+    echo "$(git config --get user.email) namespaces=\"git\" $SIGNING_KEY" > "$DOTGIT/allowed-signers"
+
+    AGENT="$(/usr/bin/ssh -G github.com | awk '$1 == "identityagent" {print $2}')"
+    if [[ -n "$AGENT" ]]; then
+        echo -e "#!/bin/sh\nSSH_AUTH_SOCK=\"$AGENT\" exec /usr/bin/ssh-keygen \"\$@\"" > "$DOTGIT/ssh-keygen"
+        chmod +x "$DOTGIT/ssh-keygen"
+        git config gpg.ssh.program "$DOTGIT/ssh-keygen"
+    else
+        git config --unset gpg.ssh.program 2>/dev/null || true
+    fi
 fi
